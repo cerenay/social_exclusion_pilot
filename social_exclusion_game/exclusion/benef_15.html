@@ -1,0 +1,269 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Round 15 of 20
+{% endblock %}
+
+
+
+{% block content %}
+ <div class="wrapper instructions">
+
+ <p>Previous beneficiary Player {{ prev }} has selected you as the beneficiary for this round and therefore you have earned 2 points.
+     You now have to choose who is going to be the beneficiary in the next round. </p>
+
+     <p>You can choose between:</p>
+    <div class='beneficiary'>
+        {% if player.id_in_group != 1 %}
+        <button class='button buttong1' onclick="myFunction(this)" id="1" >Player 1</button>
+        {% endif %}
+        {% if player.id_in_group != 2 %}
+        <button class='button buttonp1' onclick="myFunction(this)" id="2" >Player 2</button>
+        {% endif %}
+        {% if player.id_in_group != 3 %}
+        <button class='button buttong2' onclick="myFunction(this)" id="3" >Player 3</button>
+        {% endif %}
+        {% if player.id_in_group != 4 %}
+        <button class='button buttonp2' onclick="myFunction(this)" id="4" >Player 4</button>
+        {% endif %}
+   </div>
+    </div>
+    <div class="card">
+
+        <p>You can see the summary of the previous round in the table below. </p>
+
+          <table class="table"> <tr>
+        {% if player.id_in_group == 1 %}
+
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td><b>You-</b> {{ 1}}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+
+        {% if player.id_in_group == 2 %}
+
+        <table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+    {% if player.id_in_group == 3 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+    {% if player.id_in_group == 4 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td><b>You</b>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+
+    {% endif %}
+
+            </table>
+    </div>
+
+
+
+<input type="hidden" name="P1_15" value="0" id="P1_15" />
+<input type="hidden" name="P2_15" value="0" id="P2_15" />
+<input type="hidden" name="P3_15" value="0" id="P3_15" />
+<input type="hidden" name="P4_15" value="0" id="P4_15" />
+<input type="hidden" name="benef_16" value="0" id="benef_16"/>
+
+
+
+
+
+<script>
+    var count = 0;
+    var benef = 0;
+    function myFunction1 (num) {
+        count++;
+        benef= 1;
+        document.getElementById("P1_15").value = count;
+        document.getElementById("benef_16").value = benef;
+    }
+    function myFunction2 (num) {
+        count++;
+        benef= 2;
+        document.getElementById("P2_15").value = count;
+        document.getElementById("benef_16").value = benef;
+    }
+    function myFunction3 (num) {
+        count++;
+        benef= 3;
+        document.getElementById("P3_15").value = count;
+        document.getElementById("benef_16").value = benef;
+    }
+    function myFunction4 (num) {
+        count++;
+        benef= 4;
+        document.getElementById("P4_15").value = count;
+        document.getElementById("benef_16").value = benef;
+    }
+
+
+    function myFunction (button) {
+        var x = button.id;
+        switch (x) {
+            case '1':
+                myFunction1(x);
+                break;
+            case '2':
+                myFunction2(x);
+                break;
+            case '3':
+                myFunction3(x);
+                break;
+            case '4':
+                myFunction4(x);
+                break;
+            default:
+                return false;
+        }
+    }
+
+</script>
+
+   <script>
+    window.onload = function () {
+        setTimeout(function(){document.querySelector("#Next").style.visibility = "visible";}, 4500);
+           }
+    setTimeout(
+    function () {
+        alert("Please choose one of the 3 players as the beneficiary of the next round.");
+    },
+    4500*1 // 30/100 mins
+);
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,112 @@
+
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+
+{% block global_styles %}
+
+    <style>
+        .container1 {
+            border: 1px #f5f5f5;
+            outline-style: solid;
+            outline-width: thin;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 2px;
+            text-align: center;
+        }
+         .test {
+            width: 20%;
+            margin-bottom: 10px;
+            background-color: white;
+        }
+        .margins {
+          margin-bottom: 20px;
+          margin-top: 20px;
+        }
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+    </style>
+
+
+{% endblock %}
+
+{% block content %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<h4>Welcome!</h4>
+<div class="container1">
+    <div class="col-12">
+        <p>
+
+        We, as a group of researchers, would like to invite you to take part in an study which studies decision-making.
+            If you agree to take part, the entire study will last about 30 minutes.
+            </p>
+
+        <li>
+           There are no risks for participating in this study beyond those associated with normal computer use.
+            All the information collected in this study is for academic purposes only and will be kept strictly anonymous.
+            The collected data will be shared in anonymized form in open science repositories.
+        </li>
+        <li>
+        You will receive a $2 show up fee for the study.
+            The study consists of three stages. First, you complete an online task that will take about 10 minutes.
+            The payment for this task is up to $2.
+            Second, after completing the task, you will have an opportunity to engage in a decision problem in which <b>your payoff from the first stage will be determined.</b>
+            Third, in the final stage of the study you will again be asked to make a decision and given the chance to earn additional money.
+            Your final payment will be the sum of show-up fee, your earnings from the online task and earnings from the last stage of the study.
+            Minimum total payment is therefore $2, and maximum total payment is $7. Payment to you will be made through Prolific .
+        </li>
+
+        Please understand that participation in this study is completely voluntary.
+        You can decline to answer any questions and are free to stop taking part in the study at any time.
+        If you withdraw from the study, you will be paid the $2 show up fee but no additional payment.
+
+        <li>
+             If you have any questions about this study, please feel free to contact …....  .
+
+        </li>
+
+        <br>
+                                <p> <b>If you agree to take part in the study, please check the box below.</b> You will not be able to navigate back once you have proceeded to a next page. </p>
+        <p>
+        <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" onclick="myFunction()" id="defaultCheck0">
+          <label class="form-check-label" for="defaultCheck0">
+            I certify that I am 18 years or older. I have read this consent form and I agree to take part in this research.
+          </label>
+      </div>
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit" id="nextbutton" onclick="check()" disabled="disabled"> Start the study </button>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block scripts %}
+
+<script>
+
+    function myFunction() {
+       if (document.getElementById('defaultCheck0').checked) {
+           document.getElementById('nextbutton').disabled = false;
+          } else {document.getElementById('nextbutton').disabled=true;
+       }
+    }
+
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Round 1 of 20
+{% endblock %}
+
+{% block content %}
+ <div class="wrapper instructions">
+
+                     <p>Your ID is <strong>Player {{ player.id_in_group }}</strong> and your group is <strong>{{ player.colour }}</strong>.</p>
+
+
+ <p>You have been <strong>randomly</strong> chosen to be the Beneficiary for this first round and therefore you have earned 2 points.
+     You now have to choose who is going to be the beneficiary in the next round. </p>
+
+        <p>You can choose between:  </p>
+    <div class='beneficiary'>
+        {% if player.id_in_group != 1 %}
+        <button class='button buttong1' onclick="myFunction(this)" id="1" >Player 1</button>
+        {% endif %}
+        {% if player.id_in_group != 2 %}
+        <button class='button buttonp1' onclick="myFunction(this)" id="2" >Player 2</button>
+        {% endif %}
+        {% if player.id_in_group != 3 %}
+        <button class='button buttong2' onclick="myFunction(this)" id="3" >Player 3</button>
+        {% endif %}
+        {% if player.id_in_group != 4 %}
+        <button class='button buttonp2' onclick="myFunction(this)" id="4" >Player 4</button>
+        {% endif %}
+   </div>
+    </div>
+      <div class="card">
+
+        <p>In the table below you can see the information about your team members' colours and total payoff so far. </p>
+
+ <div class="card">
+
+<table class="table">
+    <tr>
+        <th>Player ID</th>
+        <th>Role in first round</th>
+        <th>Payoff</th>
+        <th>Colour</th>
+    </tr>
+            {% for p in my_partners %}
+    <tr>
+
+
+        <td>{{ p.id_in_subsession }}</td>
+        <td>{{ p.position }}</td>
+        <td>{{ p.first_income }}</td>
+        <td>{{ p.colour }}</td>
+
+
+
+
+    </tr>
+      {%  endfor %}
+
+</table>
+    </div>
+
+    <input type="hidden" name="P1_1" value="0" id="P1_1" />
+    <input type="hidden" name="P2_1" value="0" id="P2_1" />
+    <input type="hidden" name="P3_1" value="0" id="P3_1" />
+    <input type="hidden" name="P4_1" value="0" id="P4_1" />
+    <input type="hidden" name="benef_2" value="0" id="benef_2"/>
+
+
+
+
+
+<script>
+    $('.beneficiary').html($('.beneficiary .button').sort(function(){
+        return Math.random()-0.5;
+    }));
+</script>
+
+
+<script>
+    var count = 0;
+    var benef = 0;
+    function myFunction1 (num) {
+        count++;
+        benef= 1;
+        document.getElementById("P1_1").value = count;
+        document.getElementById("benef_2").value = benef;
+    }
+    function myFunction2 (num) {
+        count++;
+        benef= 2;
+        document.getElementById("P2_1").value = count;
+        document.getElementById("benef_2").value = benef;
+    }
+    function myFunction3 (num) {
+        count++;
+        benef= 3;
+        document.getElementById("P3_1").value = count;
+        document.getElementById("benef_2").value = benef;
+    }
+    function myFunction4 (num) {
+        count++;
+        benef= 4;
+        document.getElementById("P4_1").value = count;
+        document.getElementById("benef_2").value = benef;
+    }
+
+
+    function myFunction (button) {
+        var x = button.id;
+        switch (x) {
+            case '1':
+                myFunction1(x);
+                break;
+            case '2':
+                myFunction2(x);
+                break;
+            case '3':
+                myFunction3(x);
+                break;
+            case '4':
+                myFunction4(x);
+                break;
+            default:
+                return false;
+        }
+    }
+
+</script>
+       <script>
+    window.onload = function () {
+        setTimeout(function(){document.querySelector("#Next").style.visibility = "visible";}, 4500);
+           }
+    setTimeout(
+    function () {
+        alert("Please choose one of the 3 players as the beneficiary of the next round.");
+    },
+    4500*1 // 30/100 mins
+);
+</script>
+
+
+{% endblock %}
+

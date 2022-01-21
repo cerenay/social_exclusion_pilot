@@ -1,0 +1,53 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+
+{% endblock %}
+
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Final Questions" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+        <div class="wrapper instructions">
+
+        <p>Please answer the following questions about yourself.</p>
+            {% formfield player.age  %}
+            {% formfield player.gender %}
+            {% formfield player.edu %}
+
+
+
+    <p>Please answer the following questions considering the all 3 stages of this study.</p>
+
+         {% formfield player.easy label='How difficult did you find the study?' %}
+        {% formfield player.comments label='Do you have any general comments on the study?' %}
+
+
+    </div>
+  <p>
+                                Please click the "Complete" button to finish the experiment and submit your work in Prolific. </p>
+                            <p>                        <a href="{{link}}" class="btn btn-primary">Complete</a>
+
+{% endblock   %}

@@ -1,0 +1,65 @@
+
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Test your understanding" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>Before starting Stage 1 of the study, we want to test your understanding of the rules of the game.</p>
+
+
+         {% formfield player.Instr1 label='You can skip Stage 1 without completing 30 CAPTCHAs.' %}
+         {% formfield player.Instr2 label='This study will contain three stages.' %}
+        {% formfield player.Instr3 label='Your final payoff will be determined after completing Stage 1' %}
+         {% formfield player.Instr4 label='There is a chance to increase your final payoffs in the last stage. ' %}
+    </div>
+
+          </div>
+            <div class="col-12">
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit" id="nextbutton" onclick="onClick()"> Next </button>
+    </div>
+</div>
+            <input type="hidden" name="comp_clicks" value="0" id="comp_clicks" />
+
+{% endblock   %}
+
+{% block scripts %}
+
+<script>
+    var clicks = 0;
+
+    function onClick() {
+      clicks += 1;
+      document.getElementById("comp_clicks").value = clicks;
+    };
+</script>
+{% endblock   %}

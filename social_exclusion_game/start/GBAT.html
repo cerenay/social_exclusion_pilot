@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{%  extends 'otree/WaitPage.html' %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    {% trans "Please Wait!" %}
+{% endblock %}
+
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>We are now checking the number of available participants for this stage.</p>
+    <p>If we cannot reach a certain number within 3 minutes, you will be redirected to another page. </p>
+
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Test your understanding" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>Before starting the second stage of the experiment, we want to test your understanding of the rules of the game.</p>
+
+
+
+         {% formfield player.Instr1 label='This experiment will contain three stages.' %}
+        {% formfield player.Instr2 label='Your final payoff will be determined after completing the first stage' %}
+         {% formfield player.Instr3 label="Points you and three other participants earned together in Stage 1 will be distributed amongst you and the other three participants in Stage 2. " %}
+         {% formfield player.Instr4 label='There is a chance to increase your final payoffs in the last stage. ' %}
+    </div>
+
+          </div>
+            <button type="button" onClick="onClick()">Next</button>
+            <input type="hidden" name="comp_clicks" value="0" id="comp_clicks" />
+
+{% endblock   %}
+
+<script>
+    var clicks = 0;
+
+    function onClick() {
+      clicks += 1;
+      document.getElementById("comp_clicks").value = clicks;
+    };
+</script>

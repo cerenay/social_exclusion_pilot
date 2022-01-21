@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+    <p>
+
+        {% if player.id_in_group == 1 %}
+            You are assigned to the role of Player A.
+            You decided to send <strong>{{ group.sent }}</strong> to Player B.
+            Your payoff from this stage is {{ payoff1}} points, which means {{ curr_payoff1 }}$. Your payoff from the previous stage is {{ points }} points, which means {{ curr_points }}$.
+        {% else %}
+            You are assigned to the role of Player B.
+
+            Player A decided to send <strong>{{ group.sent }}</strong>, so
+            you got <strong>{{ offer }}</strong>.
+            Your payoff from this stage is {{ payoff1}} points, which means {{ curr_payoff1 }}$. Your payoff from the previous stage is {{ points }} points, which means {{ curr_points }}$.
+        {% endif %}
+
+        The total of your payments will be transferred to you through Prolific.
+
+        Please continue to the next page to submit your work on Prolific.
+
+        {% next_button %}
+    </p>
+{% endblock %}

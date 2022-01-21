@@ -1,0 +1,29 @@
+{%  extends 'otree/WaitPage.html' %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    {% trans "Please wait!" %}
+{% endblock %}
+
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>Please wait while the payoffs are being calculated.</p>
+            <p>You will continue within a minute.</p>
+
+
+
+
+    </div>
+
+{% endblock %}

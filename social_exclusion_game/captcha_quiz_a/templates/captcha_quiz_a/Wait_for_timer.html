@@ -1,0 +1,30 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+
+{% block title %}
+    Please wait!
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+            <table class="table">
+                <tr>
+                    <th>
+                        <p>
+        Congratulations! You have finished the task well on time. Please wait until the time runs out,then you will be directed to Stage 2.
+ </p>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}

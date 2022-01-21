@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{%  extends 'otree/WaitPage.html' %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    Round 1 of 20
+{% endblock %}
+
+
+{% block content %}
+
+        <div class="wrapper instructions">
+          {% if player.colour == "Purple" %}
+
+<p>Your ID is <strong>Player {{ player.id_in_group }}</strong> and your group is <strong><span style="color: #7a0c72">Purple</span></strong>.</p>
+
+       {% endif %}
+
+
+          {% if player.colour == "Green" %}
+
+    <p>Your ID is <strong>Player {{ player.id_in_group }}</strong> and your group is <strong><span style="color: #4CAF50"> Green</span></strong>.</p>
+
+       {% endif %}
+
+    <p>You are not chosen as the beneficiary this round, Player {{ benef_start }} is the beneficiary.</p>
+    <p>Please wait while Player {{ benef_start }} is making their decision. </p>
+
+
+
+
+    </div>
+
+        <p>In the table below you can see the information about your team members' colours and total payoff so far. </p>
+
+ <div class="card">
+
+<table class="table">
+    <tr>
+        <th>Player ID</th>
+        <th>Role in first round</th>
+        <th>Payoff</th>
+        <th>Colour</th>
+    </tr>
+            {% for p in my_partners %}
+    <tr>
+
+
+        <td>{{ p.id_in_subsession }}</td>
+        <td>{{ p.position }}</td>
+        <td>{{ p.first_income }}</td>
+        <td>{{ p.colour }}</td>
+
+
+
+
+    </tr>
+      {%  endfor %}
+
+</table>
+    </div>
+{% endblock   %}

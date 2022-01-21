@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{%  extends 'otree/WaitPage.html' %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+    {% trans "Please wait!" %}
+{% endblock %}
+
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>You are not chosen as the beneficiary this round, Player {{ benef_2 }} is the beneficiary.</p>
+    <p>Please wait while Player {{ benef_2 }} is making their decision. </p>
+
+
+
+
+    </div>
+   <div class="card">
+
+        <p>You can see the summary of the previous in the table below. </p>
+
+  <table class="table"> <tr>
+        {% if player.id_in_group == 1 %}
+
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td><b>You-</b> {{ 1}}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+
+        {% if player.id_in_group == 2 %}
+
+        <table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+    {% if player.id_in_group == 3 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+    {% endif %}
+
+    {% if player.id_in_group == 4 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+            <th>Colour</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+                <td style="color:#4CAF50"> Green </td>
+            </tr>
+            <tr>
+                <td><b>You</b>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+                <td style="color:#7a0c72"> Purple </td>
+            </tr>
+
+
+    {% endif %}
+
+            </table>
+          </div>
+{% endblock   %}

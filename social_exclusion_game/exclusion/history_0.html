@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Information for the first round" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper">
+
+        {% if player.position == "Beneficiary" %}
+    You are randomly chosen as the beneficiary for the first round. You will continue to the decision screen after this one.
+        {% else%}
+    You are not chosen as the beneficiary this round. Please wait while the beneficiary is making a decision.
+    {% endif %}
+
+
+        <p>In the table below you can see the information about your team members' colours and total payoff so far. </p>
+
+        <div class="card">
+
+<table class="table">
+    <tr>
+        <th>Player ID</th>
+        <th>Role in first round</th>
+        <th>Payoff</th>
+        <th>Colour</th>
+    </tr>
+            {% for p in my_partners %}
+    <tr>
+
+
+        <td>{{ p.id_in_subsession }}</td>
+        <td>{{ p.position }}</td>
+        <td>{{ p.initial }}</td>
+        <td>{{ p.colour }}</td>
+
+
+
+
+    </tr>
+      {%  endfor %}
+
+</table>
+    </div>
+          </div>
+{% next_button %}
+{% endblock   %}

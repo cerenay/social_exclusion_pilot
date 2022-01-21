@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{% block content %}
+
+{% block title %}
+    {% trans "Welcome!" %}
+{% endblock %}
+
+<div class="wrapper instructions">
+     Welcome! Please press next.
+        You will be assigned to the study.
+        We need a certain number of participants to proceed. If we cannot reach that number within
+    <strong>3 minutes</strong>, you will proceed to a different page.
+</div>
+
+ {% next_button %}
+
+
+{% endblock %}
+

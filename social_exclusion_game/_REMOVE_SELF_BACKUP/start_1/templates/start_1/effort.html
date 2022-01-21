@@ -1,0 +1,64 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Stage 1: Information" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p>
+            {% blocktrans  %}
+               For the next 10 minutes, you are asked to complete a series of tasks by recoding a different combination of letters in each page.
+                The task is similar to CAPTCHA checks that can be seen in various websites.
+
+
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+             <h5>
+             Instructions for the task:
+             </h5>
+                <li>
+                You will be shown distorted letters and numbers in an image box. We ask you to identify and are asked to copy these into a separate box
+                </li>
+                <li>
+                To complete each task, you have to interpret the distorted text, type the correct letters into a form field, and submit the form
+                </li>
+                <li>
+                If the letters you enter don't match those displayed, you will be prompted to try again.
+                </li>
+            {% endblocktrans %}
+        </p>
+        <p>
+            {% blocktrans %}
+               You must complete 30 of these tasks. After completing Stage 1, you will continue to Stage 2 of the experiment.
+                For this task the expected average earning is 10 points.
+            {% endblocktrans %}
+
+        </p>
+
+    </div>
+
+    {% next_button %}
+
+{% endblock %}

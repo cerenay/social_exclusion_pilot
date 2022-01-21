@@ -1,0 +1,83 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Stage 2: Instructions" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p>
+            Starting this second stage, the 10 points you earned from working on the task in the previous stage and the 10 points three other participants earned each are pooled together.
+            During this stage you and the other three participants will determine how this total of <strong>40 earned points</strong> are going to be distributed amongst the four of you.
+
+
+            Moreover each participant will be assigned a player number and an identifying color group which is either  <span style="color: #4CAF50">Green</span> group or  <span style="color: #7a0c72"> Purple</span> group.
+        </p>
+    <p>
+            {% if player.colour == "Green" %}
+            <strong>You have been assigned to the colour: <span style="color: #4CAF50"> Green</span>.</strong>
+                In this stage, you are matched with 3 other players, 2 of them are in the other <span style="color: #7a0c72">Purple</span> group and 1 is in the same gorup as you, <span style="color: #4CAF50"> Green</span> group.
+        {% endif %}
+
+        {% if player.colour == "Purple" %}
+            <strong>You have been assigned to the colour: <span style="color: #7a0c72"> Purple</span>.</strong>
+            In this stage, you are matched with 3 other players, 2 of them are in the other <span style="color: #4CAF50"> Green</span> group and 1 is in the same group as you, <span style="color: #7a0c72">Purple</span> Group.
+        {% endif %}
+
+            You are now going to make some decisions for 20 rounds with the <strong>same 3 players</strong>.
+The stage will consist of 20 periods where in each period (except the last) one player will make a decision.
+</p>
+
+
+
+
+
+        <p>
+            In each round, one player is assigned the role of “Beneficiary”.
+            The player who is assigned to be a Beneficiary of a round will:
+        <li>Receive 2 out of 40 points, which will be added to their individual bonus point total. </li>
+         <li> Select who of the 3 other players gets to have the role of “Beneficiary” in the next round. </li>
+        <li>For the first round it will be randomly  determined who becomes the Beneficiary, and the Beneficiary in the last round (round 20) will not get to choose any next Beneficiary. </li>
+
+
+        </p>
+
+    </div>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    function sayReady() {
+        let msg = new SpeechSynthesisUtterance();
+        msg.language = 'en-US';
+    msg.text = "Stage 2 is ready to go, Please continue.";
+    window.speechSynthesis.speak(msg);
+    }
+    if (document.hidden){
+        sayReady()
+    }
+    </script>
+
+{% endblock %}

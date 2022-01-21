@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Stage 2: Instructions" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p>
+               In this stage, the payment from your task in the 1st Stage will be determined.
+            Everyone who performed the task in Stage 1 has been assigned to either a Green group or a Purple group.
+        </p>
+    <p>
+            {% if player.colour == "Green" %}
+            <strong>You have been assigned to the colour: <span style="color: #4CAF50"> Green</span>.</strong>
+                In this stage, you are matched with 3 other players, 2 of them are in the other <span style="color: #7a0c72">Purple</span> group and 1 is in the same gorup as you, <span style="color: #4CAF50"> Green</span> group.
+        {% endif %}
+
+        {% if player.colour == "Purple" %}
+            <strong>You have been assigned to the colour: <span style="color: #7a0c72"> Purple</span>.</strong>
+            In this stage, you are matched with 3 other players, 2 of them are in the other <span style="color: #4CAF50"> Green</span> group and 1 is in the same group as you, <span style="color: #7a0c72">Purple</span> Group.
+        {% endif %}
+
+        You are now going to make some decisions for 20 rounds with the <strong>same 3 players</strong>.
+</p>
+
+
+
+
+        <p>
+               Your earnings from Stage 1 have been added to the earnings produced by the other 3 players to make the combined earnings.
+            The combined earnings are <strong>40 points</strong>.
+                You are going to interact with the other 3 players for 20 rounds and this interaction will determine how the combined earnings from the previously completed task will be distributed to all 4 players.
+        </p>
+        <p>
+            In each round, one player of the team is assigned the role of “Beneficiary”.
+            The player who is assigned to be a Beneficiary of a round will:
+        <li>Receive 2 out of 40 points, which will be added to their individual bonus point total. </li>
+         <li> Select who of the 3 other players gets to have the role of “Beneficiary” in the next round. </li>
+        <li>For the first round it will be randomly  determined who becomes the Beneficiary, and the Beneficiary in the last round (round 20) will not get to choose any next Beneficiary. </li>
+
+
+        </p>
+
+    </div>
+
+    {% next_button %}
+
+{% endblock %}
+
+</html>
