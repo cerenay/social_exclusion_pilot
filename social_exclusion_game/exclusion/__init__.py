@@ -287,111 +287,9 @@ class Player(BasePlayer):
     first_role = models.IntegerField()
 
 
+
 ####2nd round
 # FUNCTIONS
-def creating_session(subsession):
-    colours = itertools.cycle(['Green', 'Purple', 'Green', 'Purple'])
-    for g in subsession.get_groups():
-        players = g.get_players()
-        for p in players:
-            p.position = "Non-beneficiary"
-            p.first_income = 0
-            p.colour = next(colours)
-        rich_player = random.choice(players)
-        rich_player.position = "Beneficiary"
-        rich_player.first_income = 1
-
-        p1 = g.get_player_by_id(1)
-        p2 = g.get_player_by_id(2)
-        p3 = g.get_player_by_id(3)
-        p4 = g.get_player_by_id(4)
-        if p1.position == 'Beneficiary':
-            p1.first_benef = 1
-            p2.first_benef = 1
-            p3.first_benef = 1
-            p4.first_benef = 1
-            p1.P1_initial = 2
-            p2.P1_initial = 2
-            p3.P1_initial = 2
-            p4.P1_initial = 2
-            p1.P2_initial = 0
-            p2.P2_initial = 0
-            p3.P2_initial = 0
-            p4.P2_initial = 0
-            p1.P3_initial = 0
-            p2.P3_initial = 0
-            p3.P3_initial = 0
-            p4.P3_initial = 0
-            p1.P4_initial = 0
-            p2.P4_initial = 0
-            p3.P4_initial = 0
-            p4.P4_initial = 0
-        else:
-            if p2.position == 'Beneficiary':
-                p1.first_benef = 2
-                p2.first_benef = 2
-                p3.first_benef = 2
-                p4.first_benef = 2
-                p1.P2_initial = 2
-                p2.P2_initial = 2
-                p3.P2_initial = 2
-                p4.P2_initial = 2
-                p1.P1_initial = 0
-                p2.P1_initial = 0
-                p3.P1_initial = 0
-                p4.P1_initial = 0
-                p1.P3_initial = 0
-                p2.P3_initial = 0
-                p3.P3_initial = 0
-                p4.P3_initial = 0
-                p1.P4_initial = 0
-                p2.P4_initial = 0
-                p3.P4_initial = 0
-                p4.P4_initial = 0
-            else:
-                if p3.position == 'Beneficiary':
-                    p1.first_benef = 3
-                    p2.first_benef = 3
-                    p3.first_benef = 3
-                    p4.first_benef = 3
-                    p1.P3_initial = 2
-                    p2.P3_initial = 2
-                    p3.P3_initial = 2
-                    p4.P3_initial = 2
-                    p1.P1_initial = 0
-                    p2.P1_initial = 0
-                    p3.P1_initial = 0
-                    p4.P1_initial = 0
-                    p1.P4_initial = 0
-                    p2.P4_initial = 0
-                    p3.P4_initial = 0
-                    p4.P4_initial = 0
-                    p1.P2_initial = 0
-                    p2.P2_initial = 0
-                    p3.P2_initial = 0
-                    p4.P2_initial = 0
-                else:
-                    if p4.position == 'Beneficiary':
-                        p1.first_benef = 4
-                        p2.first_benef = 4
-                        p3.first_benef = 4
-                        p4.first_benef = 4
-                        p1.P4_initial = 2
-                        p2.P4_initial = 2
-                        p3.P4_initial = 2
-                        p4.P4_initial = 2
-                        p1.P2_initial = 0
-                        p2.P2_initial = 0
-                        p3.P2_initial = 0
-                        p4.P2_initial = 0
-                        p1.P1_initial = 0
-                        p2.P1_initial = 0
-                        p3.P1_initial = 0
-                        p4.P1_initial = 0
-                        p1.P3_initial = 0
-                        p2.P3_initial = 0
-                        p3.P3_initial = 0
-                        p4.P3_initial = 0
 
 
 def set_points(group: Group):
@@ -611,6 +509,113 @@ def get_partner(player: Player):
 # PAGES
 class Wait_start(WaitPage):
     template_name = 'exclusion/Wait_start.html'
+    group_by_arrival_time = True
+
+
+class Wait_start_2(WaitPage):
+    template_name = 'exclusion/Wait_start_2.html'
+
+    def after_all_players_arrive(group):
+        colours = itertools.cycle(['Green', 'Purple', 'Green', 'Purple'])
+        players = group.get_players()
+        for p in players:
+            p.position = "Non-beneficiary"
+            p.first_income = 0
+            p.colour = next(colours)
+        rich_player = random.choice(players)
+        rich_player.position = "Beneficiary"
+        rich_player.first_income = 1
+        p1 = group.get_player_by_id(1)
+        p2 = group.get_player_by_id(2)
+        p3 = group.get_player_by_id(3)
+        p4 = group.get_player_by_id(4)
+        if p1.position == 'Beneficiary':
+                p1.first_benef = 1
+                p2.first_benef = 1
+                p3.first_benef = 1
+                p4.first_benef = 1
+                p1.P1_initial = 2
+                p2.P1_initial = 2
+                p3.P1_initial = 2
+                p4.P1_initial = 2
+                p1.P2_initial = 0
+                p2.P2_initial = 0
+                p3.P2_initial = 0
+                p4.P2_initial = 0
+                p1.P3_initial = 0
+                p2.P3_initial = 0
+                p3.P3_initial = 0
+                p4.P3_initial = 0
+                p1.P4_initial = 0
+                p2.P4_initial = 0
+                p3.P4_initial = 0
+                p4.P4_initial = 0
+        else:
+            if p2.position == 'Beneficiary':
+                    p1.first_benef = 2
+                    p2.first_benef = 2
+                    p3.first_benef = 2
+                    p4.first_benef = 2
+                    p1.P2_initial = 2
+                    p2.P2_initial = 2
+                    p3.P2_initial = 2
+                    p4.P2_initial = 2
+                    p1.P1_initial = 0
+                    p2.P1_initial = 0
+                    p3.P1_initial = 0
+                    p4.P1_initial = 0
+                    p1.P3_initial = 0
+                    p2.P3_initial = 0
+                    p3.P3_initial = 0
+                    p4.P3_initial = 0
+                    p1.P4_initial = 0
+                    p2.P4_initial = 0
+                    p3.P4_initial = 0
+                    p4.P4_initial = 0
+            else:
+                if p3.position == 'Beneficiary':
+                        p1.first_benef = 3
+                        p2.first_benef = 3
+                        p3.first_benef = 3
+                        p4.first_benef = 3
+                        p1.P3_initial = 2
+                        p2.P3_initial = 2
+                        p3.P3_initial = 2
+                        p4.P3_initial = 2
+                        p1.P1_initial = 0
+                        p2.P1_initial = 0
+                        p3.P1_initial = 0
+                        p4.P1_initial = 0
+                        p1.P4_initial = 0
+                        p2.P4_initial = 0
+                        p3.P4_initial = 0
+                        p4.P4_initial = 0
+                        p1.P2_initial = 0
+                        p2.P2_initial = 0
+                        p3.P2_initial = 0
+                        p4.P2_initial = 0
+                else:
+                    if p4.position == 'Beneficiary':
+                            p1.first_benef = 4
+                            p2.first_benef = 4
+                            p3.first_benef = 4
+                            p4.first_benef = 4
+                            p1.P4_initial = 2
+                            p2.P4_initial = 2
+                            p3.P4_initial = 2
+                            p4.P4_initial = 2
+                            p1.P2_initial = 0
+                            p2.P2_initial = 0
+                            p3.P2_initial = 0
+                            p4.P2_initial = 0
+                            p1.P1_initial = 0
+                            p2.P1_initial = 0
+                            p3.P1_initial = 0
+                            p4.P1_initial = 0
+                            p1.P3_initial = 0
+                            p2.P3_initial = 0
+                            p3.P3_initial = 0
+                            p4.P3_initial = 0
 
 
 class Introduction(Page):
@@ -5289,12 +5294,15 @@ class survey(Page):
         'happy',
         'well_being',
     ]
+
+
     # def app_after_this_page(self, upcoming_apps):
     #   return "dictator"
 
 
 page_sequence = [
     Wait_start,
+    Wait_start_2,
     Introduction,
     benef_start,
     wait_for_benef_1,

@@ -54,13 +54,13 @@ class Player(BasePlayer):
         ],
     )
     comments = models.StringField(blank=True)
-    age = models.IntegerField(label='How old are you?', min=10, max=90)
-    gender = models.StringField(
+    age = models.IntegerField(blank=False,label='How old are you?', min=10, max=90)
+    gender = models.StringField(blank=False,
         choices=['I do not want to report my gender', 'Male', 'Female', 'Other'],
         label='What is your gender?',
         widget=widgets.RadioSelect,
     )
-    edu = models.StringField(
+    edu = models.StringField(blank=False,
         choices=[
             'Less than high school',
             'High school graduate',
@@ -119,6 +119,10 @@ class offer_proxy(Page):
     def is_displayed(player: Player):
         return player.id_in_group == 2
 
+class Wait_start_1(WaitPage):
+    template_name = 'dictator/Wait_start_1.html'
+    group_by_arrival_time = True
+
 
 class Wait_start(WaitPage):
     template_name = 'dictator/Wait_start.html'
@@ -130,11 +134,7 @@ class survey_end(Page):
     form_model = 'player'
     form_fields = ['easy', 'comments', 'age', 'gender', 'edu']
 
-    @staticmethod
-    def vars_for_template(player: Player):
-        prolific_id = player.participant.label
-        link = "https://app.prolific.co/submissions/complete?cc=3FD1BF2D"
-        return {'link': link}
+
 
 
 class Results(Page):
@@ -149,5 +149,14 @@ class Results(Page):
             curr_payoff1=player.payoff1 / 10
         )
 
+class submission_prolific(Page):
 
-page_sequence = [Introduction, Offer, offer_proxy, Wait_start, Results, survey_end]
+    @staticmethod
+    def vars_for_template(player: Player):
+        prolific_id = player.participant.label
+        link = "https://app.prolific.co/submissions/complete?cc=3FD1BF2D"
+        return {'link': link}
+
+
+
+page_sequence = [Wait_start_1, Introduction, Offer, offer_proxy, Wait_start, Results, survey_end, submission_prolific]

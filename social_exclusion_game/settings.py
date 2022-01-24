@@ -17,7 +17,7 @@ SESSION_CONFIGS = [
     dict(
         name='exclusion',
         display_name='Prolific_treatment',
-        num_demo_participants=12,
+        num_demo_participants=8,
         app_sequence=['start_1', 'start','start_cont','captcha_quiz_a','exclusion','dictator', 'solo'],
     ),
 ]
@@ -31,7 +31,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=0.1, participation_fee=1.00, doc=""
 )
 
-PARTICIPANT_FIELDS = ['points', 'first_income', 'wait_page_arrival', 'timeout_captcha']
+PARTICIPANT_FIELDS = ['points', 'first_income', 'wait_page_arrival', 'timeout_captcha', 'wait_page_arrival_2']
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans

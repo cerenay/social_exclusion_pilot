@@ -138,7 +138,7 @@ class Transcribe(Page):
         participant = player.participant
         import time
         if 'timeout_captcha' not in participant.vars:
-            participant.timeout_captcha = time.time() + 240
+            participant.timeout_captcha = time.time() + 60*4
         return participant.timeout_captcha - time.time()
 
     @staticmethod
@@ -146,8 +146,9 @@ class Transcribe(Page):
         participant = player.participant
         import time
         if 'timeout_captcha' not in participant.vars:
-            participant.timeout_captcha = time.time() + 240
+            participant.timeout_captcha = time.time() + 60*4
         return participant.timeout_captcha - time.time() > 1
+
 
 
     # def app_after_this_page(self, upcoming_apps):
@@ -210,5 +211,6 @@ class Wait_for_timer(Page):
         return (participant.timeout_captcha - time.time() > 1) and (
                     player.round_number == 30
         )
+
 
 page_sequence = [Transcribe, Wait_for_timer]

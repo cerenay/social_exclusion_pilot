@@ -1,11 +1,21 @@
 {% extends "global/Page.html" %}
-{% load otree %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
 
 {% block title %}
     Results
 {% endblock %}
 
 {% block content %}
+
+       <div class="wrapper instructions">
     <p>
 
         {% if player.id_in_group == 1 %}
@@ -22,8 +32,10 @@
 
         The total of your payments will be transferred to you through Prolific.
 
-        <strong>Please continue to the next page to submit your work on Prolific.</strong>
+        <strong>Please continue to the next page to finish the study and submit your work to Prolific.</strong>
+       </p>
+     </div>
 
         {% next_button %}
-    </p>
+
 {% endblock %}
