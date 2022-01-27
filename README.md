@@ -1,5 +1,5 @@
 # Social exclusion experiment
-In this repository, ou can find the experiment for the social exclusion pilot and the data with analyses will come in separate folders. 
+In this repository, you can find the experiment for the social exclusion pilot and the data with analyses will come in separate folders. 
 
 ## How to work with the files?
 You can download the files and manuanlly upload to the repository again, just like in GDrive and DB. Or you can use Github Desktop and first add the repository to your local computer. 
