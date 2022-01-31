@@ -1,0 +1,100 @@
+---
+title: "social_exclusion_pilot"
+author: "cerenay"
+date: "1/31/2022"
+output:
+    html_document: 
+        toc: true
+        toc_float: true
+        code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	cache = TRUE
+)
+options(scipen = 999)  
+```
+
+
+
+```{r packages, include=FALSE}
+library(foreign)
+library(ggplot2)
+library(ggpubr)
+library(stargazer)
+library(compareGroups)
+library(boot)
+library(expss)
+library(plyr)
+library(reshape2)
+library(compareGroups)
+library(data.table)
+library(broom)
+library(xtable)
+library(margins)
+library(wesanderson)
+library(showtext)
+library(dplyr)
+showtext_auto()
+library(tidyverse)
+library(here)
+library(readxl)
+library(fs)
+library(janitor)
+library(ggrepel)
+library(widyr)
+library(fixest)
+library(broom)
+library(igraph)
+library(ggraph)
+library(tidytext)
+library(lubridate)
+library(glue)
+library(tidytext)
+library(MultinomialCI)
+library(tidymodels)
+library(fuzzyjoin)
+theme_set(theme_light())
+```
+
+
+```{r loading data, include=FALSE}
+treatment<-read_csv2("treatment_pilot.csv")
+control<-read_csv2("control_pilot.csv")
+```
+
+```{r average_sent}
+my_comparisons <- list( c("excluders", "excluded"))
+
+
+
+rbind(treatment, control)%>%
+  filter(condition=="treatment")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "fair", y = "dg", add = "mean_se",fill="gray") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(4,4))
+
+rbind(treatment, control)%>%
+  filter(condition=="control")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "fair", y = "dg", add = "mean_se",fill="gray") +labs(x="Control",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(0.93))
+
+
+
+
+my_comparisons <- list( c("treatment","control"))
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "dg", add = "mean_se",fill="gray") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
+  
+  
+```
+
+
