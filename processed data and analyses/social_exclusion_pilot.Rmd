@@ -36,10 +36,7 @@ library(data.table)
 library(broom)
 library(xtable)
 library(margins)
-library(wesanderson)
-library(showtext)
 library(dplyr)
-showtext_auto()
 library(tidyverse)
 library(here)
 library(readxl)
@@ -127,6 +124,82 @@ rbind(treatment, control)%>%
   mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
   ggbarplot(x = "condition", y = "dg", add = "mean_se", lab.nb.digits = 2,label = TRUE, label.pos = "in",fill="gray") +labs(x="Fair Players",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
   
+
+
 ```
 
+
+
+
+## Survey Questions
+
+
+
+```{r}
+rbind(treatment, control)%>%
+  filter(condition=="treatment")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "fair", y = "exclusion", add = "mean_se", lab.nb.digits = 2, label.pos = "in",fill="gray",label = TRUE, lab.pos = "in", lab.col="white") +labs(x="Treatment",y="Mean Feeling excluded \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons_1, label = "p.format", label.y = c(5,4.5,5.5))
+
+
+rbind(treatment, control)%>%
+  filter(condition=="control")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "fair", y = "exclusion", add = "mean_se", lab.nb.digits = 2, label.pos = "in",fill="gray",label = TRUE, lab.pos = "in", lab.col="white") +labs(x="Control",y="Mean Feeling excluded \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons_1, label = "p.format", label.y = c(5,4.5,5.5))
+
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="excluded") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "exclusion", add = "mean_se", lab.nb.digits = 2,label = TRUE, label.pos = "in",fill="gray") +labs(x="Excluded Players",y="Mean Feeling Excluded \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
+
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="excluder") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "exclusion", add = "mean_se", lab.nb.digits = 2,label = TRUE, label.pos = "in",fill="gray") +labs(x="Excluders",y="Mean Feeling Excluded \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(3))
+
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="fair") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "exclusion", add = "mean_se", lab.nb.digits = 2,label = TRUE, label.pos = "in",fill="gray") +labs(x="Fair Players",y="Mean Feeling Excluded \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(3))
+
+
+
+```
+
+
+
+
+
+## Regressions
+
+
+
+
+```{r regressions, results='asis'}
+ols_dg = rbind(treatment, control)%>% 
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  mutate(sex= ifelse(gender=="Female", "Female", "Not-Female"))
+
+ols_c=ols_dg%>%
+  filter(condition=="control") %>%
+  lm(dg~fair+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
+
+ols_t=ols_dg%>%
+  filter(condition=="treatment") %>%
+ lm(dg~fair+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
+
+stargazer::stargazer(ols_c,ols_t, type ="html",
+                               dep.var.labels = c("Sent in DG"),
+                               column.labels = c("Control","Treatment")
+)
+```
 
