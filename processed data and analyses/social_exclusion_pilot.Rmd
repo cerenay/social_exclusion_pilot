@@ -61,6 +61,19 @@ library(fuzzyjoin)
 theme_set(theme_light())
 ```
 
+# Average sent amount in the dictator game
+
+Below the figures show different splits to see the differences between the dictator game decisions. 
+
+Below players are separated into 3 groups based on their earnings in the beneficiary rounds in comparison with the fair expected payoff which is 10points:
+
+*Excluder:* Those who earned more than 10 points
+
+*Excluded:* Those with lower than 10 points
+
+*Fair:* Those who end up with 10 points
+
+Preliminary results: We observe that those who were excluded in the beneficiary rounds tend to send lower amounts in DG in the treatment condition. The difference is not statistically significant. When we compare the treatment and control we see that the biggest difference is between the Fair players, they tend to send less in the control condition where they had random assignment to beneficiary positions instead of players choosing. 
 
 ```{r loading data, include=FALSE}
 treatment<-read_csv2("treatment_pilot.csv")
@@ -68,32 +81,51 @@ control<-read_csv2("control_pilot.csv")
 ```
 
 ```{r average_sent}
-my_comparisons <- list( c("excluders", "excluded"))
-
+my_comparisons_1 <- list( c("excluder","excluded"), c("fair", "excluder"),c("fair", "excluded"))
+my_comparisons <- list( c("treatment","control"))
 
 
 rbind(treatment, control)%>%
   filter(condition=="treatment")%>%
   mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
   mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
-  ggbarplot(x = "fair", y = "dg", add = "mean_se",fill="gray") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(4,4))
+  ggbarplot(x = "fair", y = "dg", add = "mean_se", lab.nb.digits = 2, label.pos = "in",fill="gray",label = TRUE, lab.pos = "in", lab.col="white") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons_1, label = "p.format", label.y = c(5,4.5,5.5))
 
 rbind(treatment, control)%>%
   filter(condition=="control")%>%
   mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
   mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
-  ggbarplot(x = "fair", y = "dg", add = "mean_se",fill="gray") +labs(x="Control",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(0.93))
+  ggbarplot(x = "fair", y = "dg", add = "mean_se", lab.nb.digits = 2, label.pos = "in",label = TRUE,fill="gray") +labs(x="Control",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(0.93))+stat_compare_means(method = "t.test", comparisons = my_comparisons_1, label = "p.format", label.y = c(5,4.5,5.5))
 
 
 
 
-my_comparisons <- list( c("treatment","control"))
 
 rbind(treatment, control)%>%
   mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
   mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
-  ggbarplot(x = "condition", y = "dg", add = "mean_se",fill="gray") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
+  ggbarplot(x = "condition", y = "dg", add = "mean_se", lab.nb.digits = 2, label.pos = "in",label = TRUE,fill="gray") +labs(x="Treatment",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
   
+  
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="excluded") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "dg", add = "mean_se", lab.nb.digits = 2, label.pos = "in",label = TRUE,fill="gray") +labs(x="Excluded Players",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
+  
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="excluder") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "dg", add = "mean_se", lab.nb.digits = 2, label.pos = "in",label = TRUE,fill="gray") +labs(x="Excluders",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
+  
+
+rbind(treatment, control)%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  filter(fair=="fair") %>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  ggbarplot(x = "condition", y = "dg", add = "mean_se", lab.nb.digits = 2,label = TRUE, label.pos = "in",fill="gray") +labs(x="Fair Players",y="Average Sent Amount in DG \u00B1s.e")+stat_compare_means(method = "t.test", comparisons = my_comparisons, label = "p.format", label.y = c(5))
   
 ```
 
