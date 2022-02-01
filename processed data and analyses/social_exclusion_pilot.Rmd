@@ -55,7 +55,8 @@ library(tidytext)
 library(MultinomialCI)
 library(tidymodels)
 library(fuzzyjoin)
-theme_set(theme_light())
+theme_set(theme_classic())
+library(DescTools)
 ```
 
 # Average sent amount in the dictator game
@@ -174,6 +175,34 @@ rbind(treatment, control)%>%
 
 ```
 
+## Gini for groups
+
+```{r}
+treatment %>% 
+  group_by(id_group_beneficiary) %>%
+  mutate(gini = Gini(payoff_beneficiary))
+treatment %>% 
+  group_by(id_group_beneficiary) %>%
+  summarise(gini = Gini(payoff_beneficiary)) %>%
+  ggplot(aes(x=gini)) + 
+  geom_histogram(colour="black", fill="white") +
+  geom_vline(aes(xintercept=mean(gini)),
+            color="black", linetype="dashed", size=1)+
+  labs(title= "Gini coefficients for all groups",
+       subtitle = "54 groups in total, dashed line is mean gini")+
+  xlab("Gini Coeff.")+ylab("Number of groups")
+  
+
+treatment %>% 
+  group_by(id_group_beneficiary) %>%
+  summarise(gini = Gini(payoff_beneficiary)) %>%
+  ggplot(aes(x=gini)) + 
+  geom_histogram(aes(y=..density..), colour="black", fill="white")+
+  geom_density(alpha=.2, fill="#FF6666") +
+  xlab("Gini Coeff.")+ylab("Density")
+  
+```
+
 
 
 
@@ -187,15 +216,17 @@ rbind(treatment, control)%>%
 ols_dg = rbind(treatment, control)%>% 
   mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
   mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
-  mutate(sex= ifelse(gender=="Female", "Female", "Not-Female"))
+  mutate(sex= ifelse(gender=="Female", "Female", "Not-Female"))%>% 
+  group_by(id_group_beneficiary) %>%
+  mutate(gini = Gini(payoff_beneficiary))
 
 ols_c=ols_dg%>%
   filter(condition=="control") %>%
-  lm(dg~fair+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
+  lm(dg~fair+gini+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
 
 ols_t=ols_dg%>%
   filter(condition=="treatment") %>%
- lm(dg~fair+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
+ lm(dg~fair+gini+payoff_beneficiary+exclusion+inclusion+age+sex,data =.)
 
 stargazer::stargazer(ols_c,ols_t, type ="html",
                                dep.var.labels = c("Sent in DG"),
