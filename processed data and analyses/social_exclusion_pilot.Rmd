@@ -57,6 +57,8 @@ library(tidymodels)
 library(fuzzyjoin)
 theme_set(theme_classic())
 library(DescTools)
+library(highcharter)
+
 ```
 
 # Average sent amount in the dictator game
@@ -76,6 +78,33 @@ Preliminary results: We observe that those who were excluded in the beneficiary 
 ```{r loading data, include=FALSE}
 treatment<-read_csv2("treatment_pilot.csv")
 control<-read_csv2("control_pilot.csv")
+```
+
+```{r}
+sankey_dg<-rbind(treatment, control)%>%
+  mutate(all="All")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  mutate(dict=ifelse(dg<5, "<5", ifelse(dg==5, "5", ">5")))%>%
+  dplyr::select(all, condition, dict )
+
+hchart(data_to_sankey(sankey_dg), "sankey")%>%
+hc_title(text= "Sent amounts in DG by treatment") %>%
+hc_caption(text = "<b>Prolific sample for both treatment and control.<b>")%>%
+hc_add_theme(hc_theme_economist())
+
+
+sankey_dg<-rbind(treatment, control)%>%
+  mutate(all="All")%>%
+  mutate(fair=ifelse(payoff_beneficiary==10, "fair", ifelse(payoff_beneficiary>10,"excluder", ifelse(payoff_beneficiary<10, "excluded", 0))))%>%
+  mutate(dg=ifelse(role_dg==1, group_sent, send_proxy))%>%
+  mutate(dict=ifelse(dg<5, "<5", ifelse(dg==5, "5", ">5")))%>%
+  dplyr::select(all, condition,fair, dict )
+
+hchart(data_to_sankey(sankey_dg), "sankey")%>%
+hc_title(text= "Sent amounts in DG by treatment and group distribution") %>%
+hc_caption(text = "<b>Prolific sample for both treatment and control.<b>")%>%
+hc_add_theme(hc_theme_economist())
 ```
 
 ```{r average_sent}
