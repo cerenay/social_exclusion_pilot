@@ -20,6 +20,12 @@ SESSION_CONFIGS = [
         num_demo_participants=8,
         app_sequence=['start_1', 'start','start_cont','captcha_quiz_a','exclusion','dictator', 'solo'],
     ),
+    dict(
+        name='exclusion_control',
+        display_name='Prolific_treatment_cont',
+        num_demo_participants=8,
+        app_sequence=['start_cont','captcha_quiz_a','exclusion_control','dictator', 'solo'],
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

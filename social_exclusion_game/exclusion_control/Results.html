@@ -1,0 +1,147 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Results" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p>
+            You have earned {{ points }} points in this stage.
+
+            Now before you continue to Stage 3, you will be asked some questions about Stage 2 in the next page.
+
+            Below you can see the colours and the total points of other 3 players:
+
+
+        </p>
+
+    </div>
+
+        <div class="card">
+        {% if player.id_in_group == 1 %}
+<table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Total Points</th>
+        </tr>
+     <tr>
+                <td><b>You-</b>{{ 1}}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+        </table>
+
+        {% endif %}
+
+
+         {% if player.id_in_group == 2 %}
+<table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Total Points</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+    <tr>
+                <td><b>You- </b>{{ 2}}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+        </table>
+
+        {% endif %}
+
+         {% if player.id_in_group == 3 %}
+<table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Total Points</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+      <tr>
+                <td><b>You-</b>{{ 3}}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+        </table>
+
+        {% endif %}
+
+ {% if player.id_in_group == 4 %}
+<table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Total Points</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+ <tr>
+                <td><b>You- </b>{{ 4}}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+        </table>
+
+        {% endif %}
+          </div>
+
+    {% next_button %}
+
+{% endblock %}
+

@@ -1,0 +1,166 @@
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block title %}
+    Round 20 of 20
+{% endblock %}
+
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>The computer has not chosen you as the beneficiary this round, Player {{ benef_20 }} is the beneficiary.</p>
+
+    </div>
+   <div class="card">
+
+        <p>You can see the summary of the previous in the table below. </p>
+
+  <table class="table"> <tr>
+        {% if player.number == 1 %}
+
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td><b>You-</b> {{ 1}}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+
+            </tr>
+
+    {% endif %}
+
+
+        {% if player.number == 2 %}
+
+        <table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+
+            </tr>
+
+    {% endif %}
+
+    {% if player.number == 3 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+
+            </tr>
+
+    {% endif %}
+
+    {% if player.number == 4 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td><b>You</b>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+
+
+    {% endif %}
+
+            </table>
+   </div>
+          {% next_button %}
+{% endblock   %}

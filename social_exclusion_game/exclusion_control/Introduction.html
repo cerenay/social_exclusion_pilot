@@ -1,0 +1,73 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Stage 2: Instructions" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+    <div class="wrapper instructions">
+        <p>
+            Starting this second stage, the 10 points you earned from working on the task in the previous stage and the 10 points three other players earned each are pooled together.
+            During this stage the computer will determine how this total of <strong>40 earned points</strong> are going to be distributed amongst the four of you.
+
+
+            Moreover each participant will be assigned a player number from 1 to 4.
+        </p>
+    <p>
+
+            You are now going to be in Stage 2 for 20 rounds with the <strong>same 3 players</strong>.
+The stage will consist of 20 periods where in each period one player is <strong>randomly</strong> selected as the "Beneficiary" by the computer.
+
+        In each stage, computer will reveal the random choice when you click the "Next" button.
+</p>
+
+
+
+
+
+        <p>
+            In each round, one player is assigned the role of “Beneficiary”.
+            The player who is assigned to be a Beneficiary of a round will:
+        <li>Receive 2 out of 40 points, which will be added to their individual bonus point total. </li>
+
+        </p>
+
+    </div>
+
+    {% next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+    function sayReady() {
+        let msg = new SpeechSynthesisUtterance();
+        msg.language = 'en-US';
+    msg.text = "Stage 2 is ready to go, Please continue.";
+    window.speechSynthesis.speak(msg);
+    }
+    if (document.hidden){
+        sayReady()
+    }
+    </script>
+
+{% endblock %}

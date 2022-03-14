@@ -1,0 +1,246 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    Round 13 of 20
+{% endblock %}
+
+
+
+{% block content %}
+ <div class="wrapper instructions">
+
+
+                    <p>Your ID is <strong>Player {{ player.number }}</strong>.</p>
+
+
+     <p>The computer has randomly selected you as the beneficiary for this round and therefore you have earned 2 points.
+
+
+    </div>
+
+
+        <p>You can see the summary of the previous round in the table below. </p>
+
+          <table class="table"> <tr>
+        {% if player.number == 1 %}
+
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td><b>You-</b> {{ 1}}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+
+            </tr>
+
+    {% endif %}
+
+
+        {% if player.number == 2 %}
+
+        <table class="table"> <tr>
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+
+            </tr>
+
+    {% endif %}
+
+    {% if player.number == 3 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+
+            </tr>
+            <tr>
+                <td><b>You-</b> {{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+
+    {% endif %}
+
+    {% if player.number == 4 %}
+
+            <th>Player ID</th>
+            <th>Times Beneficiary</th>
+            <th>Payoff</th>
+        </tr>
+            <tr>
+                <td>{{ 1 }}</td>
+                <td>{{ P1 }}</td>
+                <td>{{ P1_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 2}}</td>
+                <td>{{ P2 }}</td>
+                <td>{{ P2_p }}</td>
+            </tr>
+            <tr>
+                <td>{{ 3}}</td>
+                <td>{{ P3 }}</td>
+                <td>{{ P3_p }}</td>
+            </tr>
+            <tr>
+                <td><b>You</b>{{ 4}}</td>
+                <td>{{ P4 }}</td>
+                <td>{{ P4_p }}</td>
+            </tr>
+
+
+    {% endif %}
+
+            </table>
+
+    </div>
+
+  {% next_button %}
+
+
+{% endblock %}
+{% block script%}
+
+<script>
+    var count = 0;
+    var benef = 0;
+    function myFunction1 (num) {
+        count++;
+        benef= 1;
+        document.getElementById("P1_13").value = count;
+        document.getElementById("benef_14").value = benef;
+    }
+    function myFunction2 (num) {
+        count++;
+        benef= 2;
+        document.getElementById("P2_13").value = count;
+        document.getElementById("benef_14").value = benef;
+    }
+    function myFunction3 (num) {
+        count++;
+        benef= 3;
+        document.getElementById("P3_13").value = count;
+        document.getElementById("benef_14").value = benef;
+    }
+    function myFunction4 (num) {
+        count++;
+        benef= 4;
+        document.getElementById("P4_13").value = count;
+        document.getElementById("benef_14").value = benef;
+    }
+
+
+    function myFunction (button) {
+        var x = button.id;
+        switch (x) {
+            case '1':
+                myFunction1(x);
+                break;
+            case '2':
+                myFunction2(x);
+                break;
+            case '3':
+                myFunction3(x);
+                break;
+            case '4':
+                myFunction4(x);
+                break;
+            default:
+                return false;
+        }
+    }
+
+</script>
+
+   <script>
+    window.onload = function () {
+        setTimeout(function(){document.querySelector("#Next").style.visibility = "visible";}, 4500);
+           }
+    setTimeout(
+    function () {
+        alert("Please click next to continue.");
+    },
+    4500*1 // 30/100 mins
+);
+</script>
+
+{% endblock %}
+

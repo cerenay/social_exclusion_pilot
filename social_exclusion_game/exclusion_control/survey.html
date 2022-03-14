@@ -1,0 +1,55 @@
+{% extends "global/Page.html" %}
+{% load staticfiles otree %}
+{% load i18n %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** STYLES *** #}
+{# ****************************************************************************************************************** #}
+{% block styles %}
+    <link href="{% static 'custom.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+{# ****************************************************************************************************************** #}
+{# *** SCRIPTS *** #}
+{# ****************************************************************************************************************** #}
+
+
+{# ****************************************************************************************************************** #}
+{# *** TITLE *** #}
+{# ****************************************************************************************************************** #}
+{% block title %}
+    {% trans "Questions about Stage 2" %}
+{% endblock %}
+
+
+{# ****************************************************************************************************************** #}
+{# *** CONTENT *** #}
+{# ****************************************************************************************************************** #}
+{% block content %}
+
+        <div class="wrapper instructions">
+
+    <p>Please choose the extent to which you agree with the following statements.</p>
+
+         {% formfield player.exclusion label='I felt excluded during the game.' %}
+        {% formfield player.inclusion label='I felt included during the game.' %}
+
+                 {% formfield player.fair label='Overall, the beneficiary game in Stage 2 was fair.' %}
+
+    <p>Please state your own thoughts about the following statements.</p>
+                     {% formfield player.fair_benef label='How fair do you perceive the procedure for appointing the beneficiary?' %}
+
+                {%formfield player.rejected label='During the 20 rounds of Stage 2 you participated in, how often did you feel rejected?' %}
+    <p>Please answer the questions below considering your general state during and after Stage 2.</p>
+
+        {% formfield player.happy label='In general, on a scale from 0 to 10, how happy do you feel right now?' %}
+                {% formfield player.well_being label='How would you rate your well-being right now, compared to before you took part in Stage 2 of the experiment (-5 meaning much lower and +5 meaning much higher)?' %}
+
+    </div>
+
+          </div>
+{% next_button %}
+{% endblock   %}

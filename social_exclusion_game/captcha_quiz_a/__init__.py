@@ -53,7 +53,7 @@ def transcribed_text_error_message(player: Player, transcribed_text):
 
 class Constants(BaseConstants):
     name_in_url = 'stage_1'
-    players_per_group = 4
+    players_per_group = None
     progress_bar = True
     reference_texts = [
         "W93BX",
