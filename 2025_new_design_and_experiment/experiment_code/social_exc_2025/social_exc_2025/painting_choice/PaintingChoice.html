@@ -1,0 +1,23 @@
+{{ block title }}
+    Which painting do you prefer?
+{{ endblock }}
+
+{{ block content }}
+
+<h3>Please look at the two paintings below and then select your preferred one.</h3>
+
+<div style="display: flex; justify-content: center; gap: 40px; margin-bottom: 20px;">
+    <div style="text-align: center;">
+        <img src="{% static 'painting_choice/klee.jpg' %}" width="300">
+        <p><strong>Paul Klee</strong></p>
+    </div>
+    <div style="text-align: center;">
+        <img src="{% static 'painting_choice/kandinsky.jpg' %}" width="300">
+        <p><strong>Wassily Kandinsky</strong></p>
+    </div>
+</div>
+
+{{ formfields }}
+{{ next_button }}
+
+{{ endblock }}

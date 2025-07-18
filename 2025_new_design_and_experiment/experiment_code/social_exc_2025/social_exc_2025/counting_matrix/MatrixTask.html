@@ -1,0 +1,26 @@
+{{ block title }}
+    Matrix Counting Task
+{{ endblock }}
+
+{{ block content }}
+
+<p>Count how many <strong>0s</strong> are in the matrix below. Then enter your answer in the box.</p>
+
+<table style="border-collapse: collapse;">
+    {% for row in matrix %}
+        <tr>
+        {% for cell in row %}
+            <td style="border: 1px solid #000; width: 40px; height: 40px; text-align: center;">
+                {{ cell }}
+            </td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+{{ formfields }}
+{{ next_button }}
+
+{{ endblock }}
