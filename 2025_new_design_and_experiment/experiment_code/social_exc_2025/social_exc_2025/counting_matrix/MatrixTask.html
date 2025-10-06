@@ -1,32 +1,74 @@
-{{ block title }}
-    Estimation Task
-{{ endblock }}
+{% extends "global/Page.html" %}
 
-{{ block content }}
+{% block title %}
+    Estimation Task
+{% endblock %}
+
+{% block content %}
 
 <p>Please use the sliders below to make your estimates.
 Once you move a slider, you won’t be able to change it again.</p>
 
 <p><strong>Valid answer range:</strong> {{ min_val }}–{{ max_val }}</p>
 
-<form method="post">
-    {% for i in range(1, 6) %}
-        <div style="margin-bottom: 25px;">
-            <label for="slider{{ i }}">Slider {{ i }}:</label><br>
-            <input type="range"
-                   name="slider{{ i }}"
-                   id="slider{{ i }}"
-                   min="0"
-                   max="100"
-                   value="0"
-                   style="width: 400px;"
-                   oninput="updateSlider(this, 'value{{ i }}')"
-                   onchange="lockSlider(this)">
-            <span id="value{{ i }}">100</span>
-        </div>
-    {% endfor %}
+<form method="post" id="sliderForm">
 
-    <button class="btn btn-primary">Next</button>
+    <!-- Slider 1 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider1">Slider 1:</label><br>
+        <input type="range" id="slider1" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val1')"
+               onchange="lockSlider(this)">
+        <span id="val1">0</span>
+        <input type="hidden" name="slider1" id="hidden1">
+    </div>
+
+    <!-- Slider 2 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider2">Slider 2:</label><br>
+        <input type="range" id="slider2" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val2')"
+               onchange="lockSlider(this)">
+        <span id="val2">0</span>
+        <input type="hidden" name="slider2" id="hidden2">
+    </div>
+
+    <!-- Slider 3 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider3">Slider 3:</label><br>
+        <input type="range" id="slider3" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val3')"
+               onchange="lockSlider(this)">
+        <span id="val3">0</span>
+        <input type="hidden" name="slider3" id="hidden3">
+    </div>
+
+    <!-- Slider 4 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider4">Slider 4:</label><br>
+        <input type="range" id="slider4" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val4')"
+               onchange="lockSlider(this)">
+        <span id="val4">0</span>
+        <input type="hidden" name="slider4" id="hidden4">
+    </div>
+
+    <!-- Slider 5 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider5">Slider 5:</label><br>
+        <input type="range" id="slider5" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val5')"
+               onchange="lockSlider(this)">
+        <span id="val5">0</span>
+        <input type="hidden" name="slider5" id="hidden5">
+    </div>
+
+    <button class="btn btn-primary" onclick="beforeSubmit()">Next</button>
 </form>
 
 <script>
@@ -35,9 +77,17 @@ Once you move a slider, you won’t be able to change it again.</p>
     }
 
     function lockSlider(slider) {
-        // Disable the current slider ONLY after user finishes interaction
         slider.disabled = true;
+    }
+
+    function beforeSubmit() {
+        // Copy slider values into hidden inputs just before form is submitted
+        for (let i = 1; i <= 5; i++) {
+            let slider = document.getElementById('slider' + i);
+            let hidden = document.getElementById('hidden' + i);
+            hidden.value = slider.value;
+        }
     }
 </script>
 
-{{ endblock }}
+{% endblock %}

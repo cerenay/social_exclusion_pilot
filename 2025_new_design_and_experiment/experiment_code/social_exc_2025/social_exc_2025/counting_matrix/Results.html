@@ -1,10 +1,15 @@
-{{ block title }}
-    Page title
-{{ endblock }}
+{% extends "global/Page.html" %}
 
-{{ block content }}
+{% block title %}
+    Your Results
+{% endblock %}
 
-    {{ next_button }}
-{{ endblock }}
+{% block content %}
 
+<p>You gave the following answers:</p>
 
+<p><strong>Correct answers:</strong> {{ correct_count }} out of 5 sliders</p>
+
+{{ next_button }}
+
+{% endblock %}

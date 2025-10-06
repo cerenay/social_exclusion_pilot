@@ -61,7 +61,6 @@ class MatrixTask(Page):
             lower, upper = 40, 60
         else:
             lower, upper = 50, 55
-
         sliders = [player.slider1, player.slider2, player.slider3, player.slider4, player.slider5]
         correct = sum(lower <= val <= upper for val in sliders)
         player.correct_zeros = correct
@@ -69,9 +68,31 @@ class MatrixTask(Page):
 class ResultsWaitPage(WaitPage):
     pass
 
-
 class Results(Page):
-    pass
+    @staticmethod
+    def vars_for_template(player: Player):
+        # Define correct range based on difficulty
+        if player.task_difficulty == 'easy':
+            min_val, max_val = 40, 60
+        else:
+            min_val, max_val = 50, 55
 
+        # Count how many sliders are within the range
+        values = [
+            player.slider1,
+            player.slider2,
+            player.slider3,
+            player.slider4,
+            player.slider5,
+        ]
 
-page_sequence = [Instructions, MatrixTask]
+        correct_count = sum(min_val <= val <= max_val for val in values)
+
+        return dict(
+            values=values,
+            correct_count=correct_count,
+            min_val=min_val,
+            max_val=max_val,
+            difficulty=player.task_difficulty,
+        )
+page_sequence = [Instructions, MatrixTask, Results]
