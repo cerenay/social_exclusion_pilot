@@ -45,8 +45,8 @@ class Player(BasePlayer):
     choice_round_1 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How much do you want to send?")
     choice_round_2 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group / other group")
     choice_round_3 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient did easy / hard task")
-    choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
-    choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
+    #choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
+    #choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
 
     def role(self):
         return "allocator" if self.id_in_group == 1 else "recipient"
