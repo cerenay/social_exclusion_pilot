@@ -16,3 +16,13 @@ In *dictator*, there is a variable called "player.send_proxy" this if for the pl
 When working with raw data, you should filter all datasets to "player.page=="submission_prolific" to have data from those who completed the game.
 
 In the "processed data" you can find datasets reformulated and cleaned form extra variables and filtered to the ones who finished the game. 
+
+
+# Updated design and analysis from Summer 2025 
+## Folders 
+Literature: Papers 
+
+Design: Docs for the design 
+
+## Experiemnt structure and files 
+
