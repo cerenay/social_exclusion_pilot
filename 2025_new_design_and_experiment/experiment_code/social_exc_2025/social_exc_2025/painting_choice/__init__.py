@@ -17,16 +17,24 @@ class Group(BaseGroup):
     pass
 
 class Player(BasePlayer):
-    painting_choice = models.StringField(
-        choices=[
-            ['klee', 'Paul Klee'],
-            ['kandinsky', 'Wassily Kandinsky'],
-        ],
-        label="Which painting do you prefer?",
-        widget=widgets.RadioSelectHorizontal,
-    )
+    # Each choice is either 'A' or 'B'
+    painting_choice_1 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #1")
+    painting_choice_2 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #2")
+    painting_choice_3 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #3")
+    painting_choice_4 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #4")
+    painting_choice_5 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #5")
 
-    explanation= models.StringField( label=" ")
+    def count_klee_choices(self):
+        return sum([
+            self.painting_choice_1 == 'A',
+            self.painting_choice_2 == 'A',
+            self.painting_choice_3 == 'A',
+            self.painting_choice_4 == 'A',
+            self.painting_choice_5 == 'A',
+        ])
+
+    def count_kandinsky_choices(self):
+        return 5 - self.count_klee_choices()
 
 
 class Welcome(Page):
@@ -34,7 +42,18 @@ class Welcome(Page):
 
 class PaintingChoice(Page):
     form_model = 'player'
-    form_fields = ['painting_choice']
+    form_fields = [
+        'painting_choice_1',
+        'painting_choice_2',
+        'painting_choice_3',
+        'painting_choice_4',
+        'painting_choice_5',
+    ]
+
+    def vars_for_template(player):
+        # Optional: Define who is A or B for each pair if needed
+        # For example, randomly assign Klee/Kandinsky to A/B
+        return {}
 
 
 class Explanation(Page):
@@ -42,6 +61,12 @@ class Explanation(Page):
     form_fields = ['explanation']
 
 class Transition(Page):
-    pass
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        num_klee = player.count_klee_choices()
+        if num_klee >= 3:
+            player.participant.vars['painting_group'] = 'Klee'
+        else:
+            player.participant.vars['painting_group'] = 'Kandinsky'
 
-page_sequence = [Welcome, PaintingChoice, Explanation, Transition]
+page_sequence = [Welcome, PaintingChoice, Transition]

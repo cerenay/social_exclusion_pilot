@@ -1,15 +1,24 @@
-{{ block title }}Results{{ endblock }}
-{{ block content }}
-    <p>
+{% extends "global/Page.html" %}
 
-        {{ if player.id_in_group == 1 }}
-            You decided to keep <strong>{{ group.kept }}</strong> for yourself.
-        {{ else }}
-            Participant 1 decided to keep <strong>{{ group.kept }}</strong>, so
-            you got <strong>{{ offer }}</strong>.
-        {{ endif }}
+{% block title %}
+    Results
+{% endblock %}
 
-        {{ next_button }}
-    </p>
-    {{ include_sibling 'instructions.html' }}
-{{ endblock }}
+{% block content %}
+
+<p><strong>One of your decisions was randomly selected for payment.</strong></p>
+
+<p>Selected round: <strong>Round {{ selected_round }}</strong></p>
+
+{% if role == 'allocator' %}
+    <p>You decided to send: <strong>{{ sent }}</strong> EMUs</p>
+    <p>You kept: <strong>{{ kept }}</strong> EMUs</p>
+{% else %}
+    <p>The allocator decided to send you: <strong>{{ sent }}</strong> EMUs</p>
+{% endif %}
+
+<p>Your total payoff from this task: <strong>{{ my_payoff }}</strong> EMUs</p>
+
+{{ next_button }}
+
+{% endblock %}

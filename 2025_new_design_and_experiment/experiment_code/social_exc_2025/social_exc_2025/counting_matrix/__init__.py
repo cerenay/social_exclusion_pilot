@@ -60,7 +60,7 @@ class MatrixTask(Page):
         if player.task_difficulty == 'easy':
             lower, upper = 40, 60
         else:
-            lower, upper = 50, 55
+            lower, upper = 50, 55 #make it more difficult with point?
         sliders = [player.slider1, player.slider2, player.slider3, player.slider4, player.slider5]
         correct = sum(lower <= val <= upper for val in sliders)
         player.correct_zeros = correct

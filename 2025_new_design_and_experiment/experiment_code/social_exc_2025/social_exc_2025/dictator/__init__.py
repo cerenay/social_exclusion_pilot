@@ -1,22 +1,20 @@
 from otree.api import *
 
 
-
 doc = """
-One player decides how to divide a certain amount between himself and the other
-player.
-See: Kahneman, Daniel, Jack L. Knetsch, and Richard H. Thaler. "Fairness
-and the assumptions of economics." Journal of business (1986):
-S285-S300.
+Dictator Game - Strategy Method Version
+Participants make allocation decisions in 5 rounds with varying context.
+All decisions are made up front using the strategy method.
+One round is randomly selected for payment.
 """
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'dictator'
+    NAME_IN_URL = 'dictator_strategy'
     PLAYERS_PER_GROUP = 2
     NUM_ROUNDS = 1
-    # Initial amount allocated to the dictator
-    ENDOWMENT = cu(100)
+    ENDOWMENT = cu(20)
+    ROUNDS = 5
 
 
 class Subsession(BaseSubsession):
@@ -24,50 +22,83 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    kept = models.CurrencyField(
-        doc="""Amount dictator decided to keep for himself""",
-        min=0,
-        max=C.ENDOWMENT,
-        label="I will keep",
-    )
+    selected_round = models.IntegerField()
+    treatment = models.StringField()  # for potential use later
+
+    def set_payoffs(self):
+        allocator = self.get_player_by_role("allocator")
+        recipient = self.get_player_by_role("recipient")
+
+        # Select random round
+        import random
+        self.selected_round = random.randint(1, C.ROUNDS)
+
+        # Get allocator's choice for that round
+        selected_amount = getattr(allocator, f'choice_round_{self.selected_round}')
+
+        allocator.payoff = C.ENDOWMENT - selected_amount
+        recipient.payoff = selected_amount
 
 
 class Player(BasePlayer):
-    pass
+    # One field per round
+    choice_round_1 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How much do you want to send?")
+    choice_round_2 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group / other group")
+    choice_round_3 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient did easy / hard task")
+    choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
+    choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
 
-
-# FUNCTIONS
-def set_payoffs(group: Group):
-    p1 = group.get_player_by_id(1)
-    p2 = group.get_player_by_id(2)
-    p1.payoff = group.kept
-    p2.payoff = C.ENDOWMENT - group.kept
+    def role(self):
+        return "allocator" if self.id_in_group == 1 else "recipient"
 
 
 # PAGES
 class Introduction(Page):
-    pass
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
 
 
 class Offer(Page):
-    form_model = 'group'
-    form_fields = ['kept']
+    form_model = 'player'
+    form_fields = [
+        'choice_round_1',
+        'choice_round_2',
+        'choice_round_3',
+        'choice_round_4',
+        'choice_round_5',
+    ]
 
     @staticmethod
-    def is_displayed(player: Player):
-        return player.id_in_group == 1
+    def is_displayed(player):
+        return player.role() == "allocator"
 
 
-class ResultsWaitPage(WaitPage):
-    after_all_players_arrive = set_payoffs
+class WaitForAll(WaitPage):
+    after_all_players_arrive = Group.set_payoffs
 
 
 class Results(Page):
     @staticmethod
-    def vars_for_template(player: Player):
+    def vars_for_template(player):
         group = player.group
+        allocator = group.get_player_by_role("allocator")
+        selected = group.selected_round
+        sent = getattr(allocator, f'choice_round_{selected}')
+        kept = C.ENDOWMENT - sent
 
-        return dict(offer=C.ENDOWMENT - group.kept)
+        return dict(
+            selected_round=selected,
+            sent=sent,
+            kept=kept,
+            role=player.role(),
+            my_payoff=player.payoff
+        )
 
+page_sequence = [
+    Introduction,
+    Offer,
+    WaitForAll,
+    Results
+]
 
-page_sequence = [Introduction, Offer, ResultsWaitPage, Results]
