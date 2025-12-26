@@ -64,9 +64,7 @@ class Offer(Page):
     form_fields = [
         'choice_round_1',
         'choice_round_2',
-        'choice_round_3',
-        'choice_round_4',
-        'choice_round_5',
+        'choice_round_3'
     ]
 
     @staticmethod

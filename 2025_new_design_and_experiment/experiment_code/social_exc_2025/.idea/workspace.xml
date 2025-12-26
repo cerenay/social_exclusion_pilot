@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="" />
+    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="94" column="35" lean-forward="true" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
+            <state relative-caret-position="330">
+              <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -49,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/Offer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="34" column="14" lean-forward="true" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+            <state relative-caret-position="435">
+              <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
@@ -147,17 +149,16 @@
         <option value="$PROJECT_DIR$/social_exc_2025/dictator/Introduction.html" />
         <option value="$PROJECT_DIR$/social_exc_2025/dictator/Results.html" />
         <option value="$PROJECT_DIR$/social_exc_2025/counting_matrix/Instructions.html" />
-        <option value="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" />
         <option value="$PROJECT_DIR$/social_exc_2025/dictator/Offer.html" />
         <option value="$PROJECT_DIR$/social_exc_2025/dictator/Postexp_quest.html" />
+        <option value="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="152" />
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="38" />
-    <option name="width" value="1333" />
-    <option name="height" value="781" />
+    <option name="width" value="1512" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -260,12 +261,12 @@
       <option name="presentableId" value="Default" />
       <updated>1752828119411</updated>
       <workItem from="1752828121210" duration="10963000" />
-      <workItem from="1758870618035" duration="25943000" />
+      <workItem from="1758870618035" duration="26268000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36906000" />
+    <option name="totallyTimeSpent" value="37231000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="38" width="1512" height="876" extended-state="6" />
@@ -417,18 +418,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/Offer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="34" column="14" lean-forward="true" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/Postexp_quest.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -450,10 +439,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/Offer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="6" lean-forward="true" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/social_exc_2025/dictator/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="94" column="35" lean-forward="true" selection-start-line="94" selection-start-column="35" selection-end-line="94" selection-end-column="35" />
+        <state relative-caret-position="330">
+          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
         </state>
       </provider>
     </entry>
