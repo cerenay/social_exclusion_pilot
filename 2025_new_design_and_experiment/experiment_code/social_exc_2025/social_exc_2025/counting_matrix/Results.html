@@ -1,8 +1,8 @@
 {% extends "global/Page.html" %}
 
-{% block title %}
+{{ block title }}
     Your Results
-{% endblock %}
+{{ endblock }}
 
 {% block content %}
 
@@ -10,10 +10,10 @@
 
 <p><strong>Correct answers:</strong> {{ correct_count }} out of 5 sliders</p>
 
-<p><strong> Your gain from this round is: </strong> .......... ECU   </p>
-<p><strong> Everybody received X ECU in this woung. </strong>  </p>
+<p><strong> Your gain from this round is: </strong> .......... EMU   </p>
+<p><strong> Everybody received X EMU in this woung. </strong>  </p>
 
-<p>Now you can continue to the next stage. </p>
+<p>Click "Next" to continue to Part 3 of the study.  </p>
 {{ next_button }}
 
 {% endblock %}
