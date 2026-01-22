@@ -42,6 +42,9 @@ class Player(BasePlayer):
 class Instructions(Page):
     pass
 
+class SliderExample(Page):
+    pass
+
 import random
 
 class MatrixTask(Page):
@@ -95,4 +98,4 @@ class Results(Page):
             max_val=max_val,
             difficulty=player.task_difficulty,
         )
-page_sequence = [Instructions, MatrixTask, Results]
+page_sequence = [Instructions, SliderExample, MatrixTask, Results]
