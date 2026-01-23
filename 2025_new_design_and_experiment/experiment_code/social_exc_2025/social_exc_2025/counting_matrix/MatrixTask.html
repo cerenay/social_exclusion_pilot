@@ -6,12 +6,14 @@
 
 {% block content %}
 
-<p> You have been assigned to the easy/difficult task. The other player in your team has been assigned to the difficult/easy task. <p>
+<p> You have been assigned to the <strong>easy/hard</strong> version of the slider task.</p>
 
-<p>Please use the sliders below to make your estimates.
-Once you move a slider, you won’t be able to change it again.</p>
+ <p>   The other participant in your team has been assigned to the <strong>hard/easy</strong> version. </p>
 
-<p><strong>Valid answer range:</strong> {{ min_val }}–{{ max_val }}</p>
+<p>Please use the sliders below to indicate your answers.</p>
+<p> Once you move a slider, your choice will be recorded and cannot be changed.</p>
+
+<p>The valid answer range for each slider is {{ min_val }}–{{ max_val }}.</p>
 
 <form method="post" id="sliderForm">
 
