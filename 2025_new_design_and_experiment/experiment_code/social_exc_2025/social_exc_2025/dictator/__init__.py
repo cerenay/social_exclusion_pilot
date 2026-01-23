@@ -100,7 +100,7 @@ class Results(Page):
 page_sequence = [
     Introduction,
     Offer,
-    #WaitForAll,
+    WaitForAll,
     Results
 ]
 
