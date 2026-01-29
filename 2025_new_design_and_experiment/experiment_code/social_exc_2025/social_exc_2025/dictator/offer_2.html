@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+Scenario 2
+{% endblock %}
+
+{% block content %}
+
+
+<hr>
+
+<p> <strong>Scenario 2</strong> </p>
+<p> The other participant is from <em> your painting group </em> .  </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.choice_round_2a.label }}</label><br>
+    {{ form.choice_round_2a }}
+</div>
+<p> The other participant is from a <em> different painting group </em>.  </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.choice_round_2b.label }}</label><br>
+    {{ form.choice_round_2b }}
+</div>
+
+
+{{ next_button }}
+
+{% endblock %}

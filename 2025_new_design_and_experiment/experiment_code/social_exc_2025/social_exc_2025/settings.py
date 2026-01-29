@@ -6,8 +6,11 @@ SESSION_CONFIGS = [
         name='survey', app_sequence=['survey', 'payment_info'], num_demo_participants=1
     ),
 dict(
-        name='painting_choice', app_sequence=['painting_choice', 'counting_matrix', 'dictator'], num_demo_participants=4
+        name='painting_choice', app_sequence=['painting_choice', 'counting_matrix', 'dictator', 'postExp_survey'], num_demo_participants=4
     ),
+    dict(
+    name = 'postExp_survey', app_sequence = ['postExp_survey'], num_demo_participants = 1
+),
 
 ]
 

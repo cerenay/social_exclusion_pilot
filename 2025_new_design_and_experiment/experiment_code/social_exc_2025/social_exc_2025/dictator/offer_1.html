@@ -1,0 +1,19 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+   Scenario 1
+{% endblock %}
+
+{% block content %}
+
+<hr>
+<p> <strong>Scenario 1</strong> </p>
+<p> No additional information is provided about the other participant. </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.choice_round_1.label }}</label><br>
+    {{ form.choice_round_1 }}
+</div>
+
+{{ next_button }}
+
+{% endblock %}

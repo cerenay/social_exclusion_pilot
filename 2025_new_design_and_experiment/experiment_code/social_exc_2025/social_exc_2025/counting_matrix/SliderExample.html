@@ -9,7 +9,40 @@ Slider Task Examples
 
 <p>The examples illustrate the two versions of the task.</p>
     <p> <em> Easy </em> task: in this version, the target number range is relatively low. <p>
+
+
+<form method="post" id="sliderForm">
+
+    <!-- Slider 1 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider_exp1">Slider 1:</label><br>
+        <input type="range" id="slider_exp1" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val1')"
+               onchange="lockSlider(this)">
+        <span id="val1">0</span>
+        <input type="hidden" name="slider_exp1" id="hidden_exp1">
+    </div>
+</form>
+
+
     <p> <em> Hard </em> task: in this version, the target number range is larger. <p>
+
+
+<form method="post" id="sliderForm">
+
+    <!-- Slider 1 -->
+    <div style="margin-bottom: 25px;">
+        <label for="slider_exp2">Slider 2:</label><br>
+        <input type="range" id="slider_exp2" min="0" max="100" value="0"
+               style="width: 400px;"
+               oninput="updateSlider(this, 'val2')"
+               onchange="lockSlider(this)">
+        <span id="val2">0</span>
+        <input type="hidden" name="slider_exp2" id="hidden_exp2">
+    </div>
+</form>
+
 
 <p> These examples are for practice only and do not affect your earnings. </p>
 
@@ -17,6 +50,27 @@ Slider Task Examples
 
 
 
+
+
 {{ next_button }}
+
+<script>
+    function updateSlider(slider, valueId) {
+        document.getElementById(valueId).textContent = slider.value;
+    }
+
+    function lockSlider(slider) {
+        slider.disabled = true;
+    }
+
+    function beforeSubmit() {
+        // Copy slider values into hidden inputs just before form is submitted
+        for (let i = 1; i <= 2; i++) {
+            let slider = document.getElementById('slider_exp' + i);
+            let hidden = document.getElementById('hidden_exp' + i);
+            hidden.value = slider.value;
+        }
+    }
+</script>
 
 {{ endblock }}

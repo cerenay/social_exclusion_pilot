@@ -62,18 +62,42 @@ class Introduction(Page):
 
 
 class Offer(Page):
+    pass
+
+
+
+
+class offer_1(Page):
     form_model = 'player'
     form_fields = [
         'choice_round_1',
-        'choice_round_2a',
-        'choice_round_2b',
-        'choice_round_3a',
-        'choice_round_3b'
     ]
-
     @staticmethod
     def is_displayed(player):
         return player.role() == "allocator"
+
+
+class offer_2(Page):
+    form_model = 'player'
+    form_fields = [
+        'choice_round_2a',
+        'choice_round_2b'
+    ]
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == "allocator"
+
+
+class offer_3(Page):
+    form_model = 'player'
+    form_fields = [
+        'choice_round_3a',
+        'choice_round_3b'
+    ]
+    @staticmethod
+    def is_displayed(player):
+        return player.role() == "allocator"
+
 
 
 class WaitForAll(WaitPage):
@@ -85,21 +109,23 @@ class Results(Page):
     def vars_for_template(player):
         group = player.group
         allocator = group.get_player_by_role("allocator")
-        selected = group.selected_round
+        selected = group.selected_round  # now it's set
         sent = getattr(allocator, f'choice_round_{selected}')
         kept = C.ENDOWMENT - sent
-
         return dict(
             selected_round=selected,
             sent=sent,
             kept=kept,
             role=player.role(),
-            my_payoff=player.payoff
+            my_payoff=player.payoff,
         )
 
 page_sequence = [
     Introduction,
     Offer,
+    offer_1,
+    offer_2,
+    offer_3,
     WaitForAll,
     Results
 ]

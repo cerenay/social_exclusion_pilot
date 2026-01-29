@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+Scenario 3
+{% endblock %}
+
+{% block content %}
+
+<hr>
+<p> <strong>Scenario 3</strong> </p>
+<p> The other participant previously completed the <em> easy </em> version of the slider task. </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.choice_round_3a.label }}</label><br>
+    {{ form.choice_round_3a }}
+</div>
+<p> The other participant previously completed the <em> hard </em> version of the slider task. </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.choice_round_3b.label }}</label><br>
+    {{ form.choice_round_3b }}
+</div>
+
+
+{{ next_button }}
+
+{% endblock %}
