@@ -1,5 +1,6 @@
 from otree.api import *
 
+from survey import Demographics
 
 doc = """
 Your app description
@@ -8,7 +9,8 @@ Your app description
 
 class C(BaseConstants):
     NAME_IN_URL = 'quest'
-
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
 
 
 class Subsession(BaseSubsession):
@@ -20,12 +22,25 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    # One field per round
-    choice_round_1 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_2a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_2b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_3a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_3b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    #choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
-    #choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
+    question_1 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="The task I was assigned was easy")
+    question_2 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="I felt like I belonged to my group")
+    question_3 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="I felt valued by the person that assigned the version of the task")
+    question_4 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="I felt left out because of my group")
+    question_5 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="The decision about my task was unfair")
+    question_6 = models.StringField(choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'], widget=widgets.RadioSelectHorizontal, label="The person who assigned the version of the task favored their own group")
+    age = models.IntegerField(label='What is your age?', min=13, max=125)
+    gender = models.StringField(
+        choices=[['Male', 'Male'], ['Female', 'Female']],
+        label='What is your gender?',
+        widget=widgets.RadioSelect,
+    )
 
+    class Postexp_surv(Page):
+      form_model = 'player'
+        form_fields = ['question_1', 'question_2', 'question_3', 'question_4', 'question_5', 'question_6']
+
+    class Demo(Page):
+        form_model = 'player'
+        form_fields = ['age', 'gender']
+
+page_sequence = [Postexp_surv, Demo]
