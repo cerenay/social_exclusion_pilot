@@ -1,20 +1,33 @@
 {% extends "global/Page.html" %}
 
 {% block title %}
-    Questionnaire
+    Some Questions About You
 {% endblock %}
 
 
 {% block content %}
 
-Please indicate how you feel right now about the task assignment you performed in Part 2 of this study.
 <div style="margin-bottom: 20px;">
     <label>{{ form.age.label }}</label><br>
     {{ form.age }}
 </div>
 
+<div style="margin-bottom: 20px;">
+    <label>{{ form.gender.label }}</label><br>
+    {{ form.gender }}
+</div>
 
+<div style="margin-bottom: 20px;">
+    <label>{{ form.education.label }}</label><br>
+    {{ form.education }}
+</div>
 
+<div style="margin-bottom: 20px;">
+    <label>{{ form.donation.label }}</label><br>
+    {{ form.donation }}
+</div>
+
+<p>[COMMENT: The list of questions and some questions are not finished. Will tailor it to the country in which we decide to run the experiment.]</p>
 
 
 {{ next_button }}

@@ -1,0 +1,47 @@
+{% block title %}
+    Questions about the Painting Group and the Slider Task
+{% endblock %}
+
+
+{% block content %}
+<p>Please indicate how you feel right now about the painting group indicated in Part 1 and the task assignment you performed in Part 2 of this study.</p>
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_3.label }}</label><br>
+    {{ form.question_3 }}
+</div>
+
+
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_4.label }}</label><br>
+    {{ form.question_4 }}
+</div>
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_5.label }}</label><br>
+    {{ form.question_5 }}
+</div>
+
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_6.label }}</label><br>
+    {{ form.question_6 }}
+</div>
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_7.label }}</label><br>
+    {{ form.question_7 }}
+</div>
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_8.label }}</label><br>
+    {{ form.question_8 }}
+</div>
+
+
+
+
+{{ next_button }}
+
+{% endblock %}
