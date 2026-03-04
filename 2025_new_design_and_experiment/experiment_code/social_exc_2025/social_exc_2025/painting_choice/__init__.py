@@ -40,6 +40,9 @@ class Player(BasePlayer):
 class Welcome(Page):
     pass
 
+class Intro(Page):
+    pass
+
 class PaintingChoice(Page):
     form_model = 'player'
     form_fields = [
@@ -57,8 +60,8 @@ class PaintingChoice(Page):
 
 
 class Explanation(Page):
-    form_model = 'player'
-    form_fields = ['explanation']
+    #form_model = 'player'
+    #form_fields = ['explanation']
 
 class Transition(Page):
     @staticmethod
@@ -69,4 +72,4 @@ class Transition(Page):
         else:
             player.participant.vars['painting_group'] = 'Kandinsky'
 
-page_sequence = [Welcome, PaintingChoice, Transition]
+page_sequence = [Welcome, Intro, PaintingChoice, Transition, Explanation]

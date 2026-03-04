@@ -119,6 +119,8 @@ class Results(Page):
             role=player.role(),
             my_payoff=player.payoff,
         )
+class Offer(Page):
+    pass
 
 page_sequence = [
     Introduction,
@@ -127,6 +129,7 @@ page_sequence = [
     offer_2,
     offer_3,
     WaitForAll,
-    Results
+    Results,
+    totPayoffs
 ]
 

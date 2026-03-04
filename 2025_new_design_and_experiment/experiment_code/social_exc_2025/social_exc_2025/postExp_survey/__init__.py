@@ -39,47 +39,70 @@ class Player(BasePlayer):
     question_3 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="I felt like I belonged to my group throughout the study")
+        label="I felt very attached to my own group throughout the study.")
     question_4 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="I felt left out because of my group")
+        label="I felt valued by the person/system that assigned the task.")
     question_5 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="The task I was assigned to was easy")
+        label="I felt included in this activity.")
     question_6 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="The decision about the version of my task was unfair")
+        label="I felt left out because of my group.")
     question_7 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="I felt valued by the person who assigned the version of my task")
+        label="I felt my group was devalued in this interaction.")
     question_8 = models.StringField(
         choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
         widget=widgets.RadioSelectHorizontal,
-        label="The person who assigned the version of my task favored their own group")
+        label="The decision about my task was unfair.")
     question_9 = models.StringField(
+        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
+        widget=widgets.RadioSelectHorizontal,
+        label="The spectator/System favoured their own group.")
+    question_10 = models.StringField(
+        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
+        widget=widgets.RadioSelectHorizontal,
+        label="I was given this task because of my group.")
+    question_11 = models.StringField(
+        choices=['Upset', 'Angry', 'Sad', 'Anxious', 'Frustrated', 'Discouraged'],
+        widget=widgets.RadioSelectHorizontal,
+        label="Right now, to what extent do you feel each emotion? ")
+
+    question_12 = models.StringField(
         choices=['Try to allocate money equally between us','Try to allocate more money to myself', 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and another participant, how would you describe the strategy you used?")
-    question_10a = models.StringField(
+    question_13 = models.StringField(
+        choices=['Yes', 'No'],
+        widget=widgets.RadioSelect,
+        label="In Part 3, when you were asked to allocate money between yourself and other participant, did it affect your decision in any way which group the other participant came from? Your group or Other group?")
+
+    question_14a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant from your own group, how would you describe the strategy you used?")
-    question_10b = models.StringField(
+    question_14b = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant from the other group, how would you describe the strategy you used?")
-    question_11a = models.StringField(
+    question_15 = models.StringField(
+        choices=['Yes', 'No'],
+        widget=widgets.RadioSelect,
+        label="In Part 3, when you were asked to allocate money between yourself and other participant, did it affect your decision in any way which task the other participant performed? Easy or Hard task?")
+
+    question_16a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the easy task, how would you describe the strategy you used?")
-    question_11b = models.StringField(
+    question_16b = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
@@ -94,6 +117,12 @@ class Player(BasePlayer):
     education = models.StringField(
         choices=[['Completed some high school', 'Completed some high school'], ['High school graduate', 'High school graduate']],
         label='What is the highest level of education you have completed?',
+        widget=widgets.RadioSelect,
+    )
+    sibling = models.StringField(
+        choices=[['0 siblings', '0 siblings'], ['0 siblings', '1-2 siblings']
+                 ['3 or more siblings', '3 or more siblings']],
+        label='How many siblings do you have?',
         widget=widgets.RadioSelect,
     )
     donation = models.StringField(
