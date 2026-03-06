@@ -70,7 +70,7 @@ class Player(BasePlayer):
     question_13 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
-        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which group the other participant came from? Your group or other group?")
+        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which group the other participant came from?")
     question_14a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
@@ -84,7 +84,7 @@ class Player(BasePlayer):
     question_15 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
-        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which task the other participant performed? Easy or hard task?")
+        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which task the other participant performed?")
     question_16a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
