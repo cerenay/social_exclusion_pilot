@@ -42,11 +42,16 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     # One field per round
-    choice_round_1 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_2a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_2b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_3a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
-    choice_round_3b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="How many EMUs out of 20 do you want to send to the other participant?")
+    choice_round_1a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="You")
+    choice_round_1b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="Other participant")
+    choice_round_2_1a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="You")
+    choice_round_2_1b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="Other participant")
+    choice_round_2_2a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="You")
+    choice_round_2_2b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="Other participant")
+    choice_round_3_1a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="You")
+    choice_round_3_1b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="Other participant")
+    choice_round_3_2a = models.CurrencyField(min=0, max=C.ENDOWMENT, label="You")
+    choice_round_3_2b = models.CurrencyField(min=0, max=C.ENDOWMENT, label="Other participant")
     #choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
     #choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
 
@@ -70,7 +75,8 @@ class Offer(Page):
 class offer_1(Page):
     form_model = 'player'
     form_fields = [
-        'choice_round_1',
+        'choice_round_1a',
+        'choice_round_1b',
     ]
     @staticmethod
     def is_displayed(player):
@@ -80,8 +86,10 @@ class offer_1(Page):
 class offer_2(Page):
     form_model = 'player'
     form_fields = [
-        'choice_round_2a',
-        'choice_round_2b'
+        'choice_round_2_1a',
+        'choice_round_2_1b',
+        'choice_round_2_2a',
+        'choice_round_2_2b'
     ]
     @staticmethod
     def is_displayed(player):
@@ -91,8 +99,10 @@ class offer_2(Page):
 class offer_3(Page):
     form_model = 'player'
     form_fields = [
-        'choice_round_3a',
-        'choice_round_3b'
+        'choice_round_3_1a',
+        'choice_round_3_1b',
+        'choice_round_3_2a',
+        'choice_round_3_2b'
     ]
     @staticmethod
     def is_displayed(player):
@@ -120,6 +130,9 @@ class Results(Page):
             my_payoff=player.payoff,
         )
 class Offer(Page):
+    pass
+
+class totPayoffs(Page):
     pass
 
 page_sequence = [

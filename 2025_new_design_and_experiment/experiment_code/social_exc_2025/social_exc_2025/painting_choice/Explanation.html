@@ -1,11 +1,14 @@
 {{ block title }}
-Reason for choice
+Reasons for choice
 {{ endblock }}
 
 {{ block content }}
-<p> Thank you for indicating your choice. Now after you made your choice, we want to know about the reason you selected the painting you chose. </p>
+<p> Thank you for indicating your choice. </p>
 
-<p> Can you briefly describe the reason behind your choice? </p>
+<div style="margin-bottom: 20px;">
+    <label>{{ form.explanation.label }}</label><br>
+    {{ form.explanation }}
+</div>
 
 
 {{ next_button }}

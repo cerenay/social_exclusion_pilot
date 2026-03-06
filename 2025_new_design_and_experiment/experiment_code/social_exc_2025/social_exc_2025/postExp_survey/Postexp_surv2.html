@@ -6,41 +6,73 @@
 {% block content %}
 <p>Please indicate how you feel right now about your group and the task assignment you just received.</p>
 
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_3.label }}</label><br>
-    {{ form.question_3 }}
-</div>
+<table style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <th style="width: 350px;"></th>
+        <th>Strongly disagree</th>
+        <th>Disagree</th>
+        <th>Neither disagree nor agree</th>
+        <th>Agree</th>
+        <th>Strongly agree</th>
+    </tr>
+
+    {% for field_name, label in agree_fields %}
+    <tr style="border-top: 1px solid #ddd;">
+        <td style="padding: 10px;"><strong>{{ label }}</strong></td>
+        {% for choice in agree_choices %}
+        <td style="text-align: center; padding: 10px;">
+            <input type="radio" name="{{ field_name }}" value="{{ choice }}">
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<div style="margin-top: 40px;"></div>
+
+<p>Right now, to what extent do you feel each emotion?</p>
+
+<table style="border-collapse: collapse; width: 100%;">
+    <!-- Header row with column labels -->
+    <tr>
+        <th style="width: 150px;"></th>
+        <th>Not at all</th>
+        <th>To some extent</th>
+        <th>Moderately</th>
+        <th>Very much</th>
+        <th>Extremely</th>
+    </tr>
+
+    <!-- One row per emotion -->
+    {% for field_name, label in emotion_fields %}
+    <tr>
+        <td><strong>{{ label }}</strong></td>
+        {% for choice in choices %}
+        <td style="text-align: center;">
+            <input type="radio" name="{{ field_name }}" value="{{ choice }}"
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{{ formfield_errors 'question_3' }}
+{{ formfield_errors 'question_4' }}
+{{ formfield_errors 'question_5' }}
+{{ formfield_errors 'question_6' }}
+{{ formfield_errors 'question_7' }}
+{{ formfield_errors 'question_8' }}
+{{ formfield_errors 'question_9' }}
+{{ formfield_errors 'question_10' }}
+{{ formfield_errors 'question_11_upset' }}
+{{ formfield_errors 'question_11_angry' }}
+{{ formfield_errors 'question_11_sad' }}
+{{ formfield_errors 'question_11_anxious' }}
+{{ formfield_errors 'question_11_frustrated' }}
+{{ formfield_errors 'question_11_discouraged' }}
 
 
-
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_4.label }}</label><br>
-    {{ form.question_4 }}
-</div>
-
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_5.label }}</label><br>
-    {{ form.question_5 }}
-</div>
-
-
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_6.label }}</label><br>
-    {{ form.question_6 }}
-</div>
-
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_7.label }}</label><br>
-    {{ form.question_7 }}
-</div>
-
-<div style="margin-bottom: 20px;">
-    <label>{{ form.question_8.label }}</label><br>
-    {{ form.question_8 }}
-</div>
-
-
-
+<div style="margin-top: 40px;"></div>
 
 {{ next_button }}
 

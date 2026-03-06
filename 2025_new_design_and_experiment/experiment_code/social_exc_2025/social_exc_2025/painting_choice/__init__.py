@@ -1,6 +1,5 @@
 from otree.api import *
 
-
 class C(BaseConstants):
     NAME_IN_URL = 'painting_choice'
     PLAYERS_PER_GROUP = None
@@ -23,6 +22,7 @@ class Player(BasePlayer):
     painting_choice_3 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #3")
     painting_choice_4 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #4")
     painting_choice_5 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #5")
+    explanation = models.StringField(choices=['I liked the colours', 'I liked the shapes', 'It calmed me down'],  widget=widgets.RadioSelect, label="Can you briefly describe the reason behind your choice?")
 
     def count_klee_choices(self):
         return sum([
@@ -58,11 +58,6 @@ class PaintingChoice(Page):
         # For example, randomly assign Klee/Kandinsky to A/B
         return {}
 
-
-class Explanation(Page):
-    #form_model = 'player'
-    #form_fields = ['explanation']
-
 class Transition(Page):
     @staticmethod
     def before_next_page(player, timeout_happened):
@@ -71,5 +66,10 @@ class Transition(Page):
             player.participant.vars['painting_group'] = 'Klee'
         else:
             player.participant.vars['painting_group'] = 'Kandinsky'
+
+class Explanation(Page):
+    form_model = 'player'
+    form_fields = ['explanation']
+
 
 page_sequence = [Welcome, Intro, PaintingChoice, Transition, Explanation]

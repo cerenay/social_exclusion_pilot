@@ -1,7 +1,6 @@
 from random import choices
 
 from otree.api import *
-
 from survey import Demographics
 
 doc = """
@@ -36,42 +35,33 @@ class Player(BasePlayer):
         choices=['Very unfamiliar', 'Unfamiliar', 'Neither unfamiliar nor familiar', 'Familiar', 'Very familiar'],
         widget=widgets.RadioSelect,
         label="How familiar were you with paintings made by Kandisky before this study?")
-    question_3 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I felt very attached to my own group throughout the study.")
-    question_4 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I felt valued by the person/system that assigned the task.")
-    question_5 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I felt included in this activity.")
-    question_6 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I felt left out because of my group.")
-    question_7 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I felt my group was devalued in this interaction.")
-    question_8 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="The decision about my task was unfair.")
-    question_9 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="The spectator/System favoured their own group.")
-    question_10 = models.StringField(
-        choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree'],
-        widget=widgets.RadioSelectHorizontal,
-        label="I was given this task because of my group.")
-    question_11 = models.StringField(
-        choices=['Upset', 'Angry', 'Sad', 'Anxious', 'Frustrated', 'Discouraged'],
-        widget=widgets.RadioSelectHorizontal,
-        label="Right now, to what extent do you feel each emotion? ")
+
+    AGREE_CHOICES = ['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree']
+
+    question_3 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt very attached to my own group throughout the study.")
+    question_4 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt valued by the person/system that assigned the task.")
+    question_5 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt included in this activity.")
+    question_6 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt left out because of my group.")
+    question_7 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt my group was devalued in this interaction.")
+    question_8 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="The decision about my task was unfair.")
+    question_9 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="The person assigning the task favoured their own group.")
+    question_10 = models.StringField(choices=AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                     label="I was given this task because of my group.")
+
+    EMOTION_CHOICES = ['Not at all', 'To some extent', 'Moderately', 'Very much', 'Extremely']
+    question_11_upset = models.StringField(choices=EMOTION_CHOICES, label="Upset", widget=widgets.RadioSelectHorizontal)
+    question_11_angry = models.StringField(choices=EMOTION_CHOICES, label="Angry", widget=widgets.RadioSelectHorizontal)
+    question_11_sad = models.StringField(choices=EMOTION_CHOICES, label="Sad", widget=widgets.RadioSelectHorizontal)
+    question_11_anxious = models.StringField(choices=EMOTION_CHOICES, label="Anxious", widget=widgets.RadioSelectHorizontal)
+    question_11_frustrated = models.StringField(choices=EMOTION_CHOICES, label="Frustrated", widget=widgets.RadioSelectHorizontal)
+    question_11_discouraged = models.StringField(choices=EMOTION_CHOICES, label="Discouraged", widget=widgets.RadioSelectHorizontal)
 
     question_12 = models.StringField(
         choices=['Try to allocate money equally between us','Try to allocate more money to myself', 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
@@ -81,7 +71,6 @@ class Player(BasePlayer):
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
         label="In Part 3, when you were asked to allocate money between yourself and other participant, did it affect your decision in any way which group the other participant came from? Your group or Other group?")
-
     question_14a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
@@ -96,7 +85,6 @@ class Player(BasePlayer):
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
         label="In Part 3, when you were asked to allocate money between yourself and other participant, did it affect your decision in any way which task the other participant performed? Easy or Hard task?")
-
     question_16a = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
@@ -120,13 +108,23 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
     )
     sibling = models.StringField(
-        choices=[['0 siblings', '0 siblings'], ['0 siblings', '1-2 siblings']
-                 ['3 or more siblings', '3 or more siblings']],
+        choices=[['0', '0 siblings'], ['1-2', '1-2 siblings'],
+                 ['3', '3 or more siblings']],
         label='How many siblings do you have?',
         widget=widgets.RadioSelect,
     )
+    economics = models.StringField(
+        choices=[['Yes', 'Yes - please specify'], ['No', 'No']],
+        label='Have you ever participated in any economics or psychology experimental studies before?',
+        widget=widgets.RadioSelect,
+    )
+    background = models.StringField(
+        choices=[['White', 'White'], ['Black', 'Black'], ['Hispanic', 'Hispanic'], ['Asian', 'Asian'], ['Other', 'Other - please specify']],
+        label='What do you consider your racial or ethnic background to be?',
+        widget=widgets.RadioSelect,
+    )
     donation = models.StringField(
-        choices=[['Yes', 'Yes'], ['No', 'No']],
+        choices=[['Yes', 'Yes - please specify'], ['Amount', 'Amount donated'], ['Hours', 'Number of hours volunteered'], ['No', 'No']],
         label='In the past twelve months, have you donated money to or done volunteer work for charities or other nonprofit organizations?',
         widget=widgets.RadioSelect,
     )
@@ -139,16 +137,42 @@ class Postexp_surv1(Page):
 class Postexp_surv2(Page):
     form_model = 'player'
     form_fields = ['question_3', 'question_4', 'question_5', 'question_6',
-                   'question_7', 'question_8']
+                   'question_7', 'question_8', 'question_9', 'question_10', 'question_11_upset', 'question_11_angry', 'question_11_sad',
+                    'question_11_anxious', 'question_11_frustrated', 'question_11_discouraged']
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            emotion_fields=[
+                ('question_11_upset', 'Upset'),
+                ('question_11_angry', 'Angry'),
+                ('question_11_sad', 'Sad'),
+                ('question_11_anxious', 'Anxious'),
+                ('question_11_frustrated', 'Frustrated'),
+                ('question_11_discouraged', 'Discouraged'),
+            ],
+            choices=['Not at all', 'To some extent', 'Moderately', 'Very much', 'Extremely'],
+            agree_fields=[
+                ('question_3', 'I felt very attached to my own group throughout the study.'),
+                ('question_4', 'I felt valued by the person/system that assigned the task.'),
+                ('question_5', 'I felt included in this activity.'),
+                ('question_6', 'I felt left out because of my group.'),
+                ('question_7', 'I felt my group was devalued in this interaction.'),
+                ('question_8', 'The decision about my task was unfair.'),
+                ('question_9', 'The person assigning the task favoured their own group.'),
+                ('question_10', 'I was given this task because of my group.'),
+            ],
+            agree_choices=['Strongly disagree', 'Disagree', 'Neither disagree nor agree', 'Agree', 'Strongly agree']
+        )
 
 class Postexp_surv3(Page):
     form_model = 'player'
-    form_fields = ['question_9', 'question_10a', 'question_10b', 'question_11a',
-                   'question_11b']
+    form_fields = ['question_12', 'question_13', 'question_14a', 'question_14b',
+                   'question_15', 'question_16a', 'question_16b']
 
 class Demo(Page):
         form_model = 'player'
-        form_fields = ['age', 'gender', 'education', 'donation']
+        form_fields = ['age', 'gender', 'education', 'sibling', 'economics', 'background', 'donation']
 
 class EndSurvey(Page):
     pass
