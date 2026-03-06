@@ -130,17 +130,18 @@ class Player(BasePlayer):
     )
 
 class Postexp_surv1(Page):
-        form_model = 'player'
-        form_fields = ['question_1', 'question_2a', 'question_2b']
-
+    form_model = 'player'
+    form_fields = ['question_1', 'question_2a', 'question_2b']
 
     @staticmethod
     def vars_for_template(player):
         return dict(
-            emotion_fields=[
-                ('question_11_upset', 'Upset'),
-                ('question_11_angry', 'Angry'),
-        ],
+            familiar_fields=[
+                ('question_2a', 'Klee'),
+                ('question_2b', 'Kandinsky'),
+            ],
+            familiar_choices=C.FAMILIAR_CHOICES,
+        )
 
 class Postexp_surv2(Page):
     form_model = 'player'
@@ -162,12 +163,12 @@ class Postexp_surv2(Page):
             choices=C.EMOTION_CHOICES,
             agree_fields=[
                 ('question_3', 'I felt very attached to my own group throughout the study.'),
-                ('question_4', 'I felt valued by the person/system that assigned the task.'),
+                ('question_4', 'I felt valued by the independent participant/system that assigned the task.'),
                 ('question_5', 'I felt included in this activity.'),
                 ('question_6', 'I felt left out because of my group.'),
                 ('question_7', 'I felt my group was devalued in this interaction.'),
                 ('question_8', 'The decision about my task was unfair.'),
-                ('question_9', 'The person assigning the task favoured their own group.'),
+                ('question_9', 'The independent participant assigning the task favoured their own group.'),
                 ('question_10', 'I was given this task because of my group.'),
             ],
             agree_choices=C.AGREE_CHOICES,

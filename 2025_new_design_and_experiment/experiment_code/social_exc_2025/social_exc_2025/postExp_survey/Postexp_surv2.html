@@ -8,17 +8,17 @@
 
 <table style="border-collapse: collapse; width: 100%;">
     <tr>
-        <th style="width: 350px;"></th>
-        <th>Strongly disagree</th>
-        <th>Disagree</th>
-        <th>Neither disagree nor agree</th>
-        <th>Agree</th>
-        <th>Strongly agree</th>
+        <td style="width: 350px;"></td>
+        <td>Strongly disagree</td>
+        <td>Disagree</td>
+        <td>Neither disagree nor agree</td>
+        <td>Agree</td>
+        <td>Strongly agree</td>
     </tr>
 
     {% for field_name, label in agree_fields %}
     <tr style="border-top: 1px solid #ddd;">
-        <td style="padding: 10px;"><strong>{{ label }}</strong></td>
+        <td style="padding: 10px;">{{ label }}</td>
         {% for choice in agree_choices %}
         <td style="text-align: center; padding: 10px;">
             <input type="radio" name="{{ field_name }}" value="{{ choice }}">
@@ -35,18 +35,18 @@
 <table style="border-collapse: collapse; width: 100%;">
     <!-- Header row with column labels -->
     <tr>
-        <th style="width: 150px;"></th>
-        <th>Not at all</th>
-        <th>To some extent</th>
-        <th>Moderately</th>
-        <th>Very much</th>
-        <th>Extremely</th>
+        <td style="width: 150px;"></td>
+        <td>Not at all</td>
+        <td>To some extent</td>
+        <td>Moderately</td>
+        <td>Very much</td>
+        <td>Extremely</td>
     </tr>
 
     <!-- One row per emotion -->
     {% for field_name, label in emotion_fields %}
     <tr>
-        <td><strong>{{ label }}</strong></td>
+        <td>{{ label }}</td>
         {% for choice in choices %}
         <td style="text-align: center;">
             <input type="radio" name="{{ field_name }}" value="{{ choice }}"
