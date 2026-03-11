@@ -1,21 +1,22 @@
 {{ block title }}
-Slider Task Examples
+Slider Task Practice Round
 {{ endblock }}
 
 
 {{ block content }}
 
-<p> Before completing the actual task, you will see two practice examples to become familiar with the slider task. <p>
+<p> This is a practice round for the slider task before completing the actual task. </p>
+<p> In this round you can move the slider as many times as you need to become familiar with the slider. Note that in the actual task, you can only move the slider once. </p>
 
-<p>The examples illustrate the two versions of the task.</p>
-    <p> <em> Easy </em> task: in this version, the target number range is relatively large: 40-60. You need to click on the slider inside this range. <p>
+<p> Please position the slider in the range: 40-60. </p>
+
 
 
 <form method="post" id="sliderForm">
 
     <!-- Slider 1 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider_exp1">Slider 1:</label><br>
+        <label for="slider_exp1">Practice slider</label><br>
         <input type="range" id="slider_exp1" min="0" max="100" value="0"
            style="width: 400px;"
            oninput="updateSlider(this, 'val1')"
@@ -25,21 +26,7 @@ Slider Task Examples
     </div>
 
 
-    <p> <em> Hard </em> task: in this version, the target number range is smaller: 50-55. You need to click on the slider inside this range. <p>
-
-
-    <!-- Slider 2 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider_exp2">Slider 2:</label><br>
-        <input type="range" id="slider_exp2" min="0" max="100" value="0"
-           style="width: 400px;"
-           oninput="updateSlider(this, 'val2')"
-           onchange="lockSlider(this)">
-        <span id="val2">0</span>
-        <input type="hidden" name="slider_exp2" id="hidden_exp2">
-    </div>
-
-<p> These examples are for practice only and do not affect your earnings. </p>
+  <p>  Recall that the two versions of the task (easy/hard) differ in the size of the number range you need to position the slider. </p>
 
 <button class="btn btn-primary" onclick="beforeSubmit()">Next</button>  <!-- ✅ -->
 </form>

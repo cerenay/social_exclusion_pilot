@@ -36,8 +36,8 @@ class Player(BasePlayer):
     slider4 = models.IntegerField(min=0, max=100, label="Slider 4")
     slider5 = models.IntegerField(min=0, max=100, label="Slider 5")
     task_difficulty=models.StringField()
-    slider_exp1 = models.IntegerField(min=0, max=100, label="Slider 1")
-    slider_exp2 = models.IntegerField(min=0, max=100, label="Slider 2")
+    slider_exp1 = models.IntegerField(min=0, max=100, label="Slider practice")
+    #slider_exp2 = models.IntegerField(min=0, max=100, label="Slider 2")
 
 # PAGES
 class Instructions(Page): #It is just a text page so you just introduce the page and say "pass" for the rest
@@ -45,7 +45,7 @@ class Instructions(Page): #It is just a text page so you just introduce the page
 
 class SliderExample(Page):
     form_model = 'player'
-    form_fields = ['slider_exp1', 'slider_exp2']
+    form_fields = ['slider_exp1']
 
 import random
 

@@ -10,16 +10,15 @@
 
  <p>   The other participant in your pair has been assigned to the <strong>hard/easy</strong> version. </p>
 
-<p>Please use the sliders below to indicate your answers.</p>
-<p> Once you move a slider, your choice will be recorded and cannot be changed.</p>
+<p>Please use the sliders below to indicate your answers. Once you move a slider, your choice will be recorded and cannot be changed.</p>
 
-<p>The valid answer range for each slider is {{ min_val }}–{{ max_val }}.</p>
+<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
 
 <form method="post" id="sliderForm">
 
     <!-- Slider 1 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider1">Slider 1:</label><br>
+        <label for="slider1">Slider 1</label><br>
         <input type="range" id="slider1" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val1')"
@@ -27,10 +26,10 @@
         <span id="val1">0</span>
         <input type="hidden" name="slider1" id="hidden1">
     </div>
-
+<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
     <!-- Slider 2 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider2">Slider 2:</label><br>
+        <label for="slider2">Slider 2</label><br>
         <input type="range" id="slider2" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val2')"
@@ -38,10 +37,10 @@
         <span id="val2">0</span>
         <input type="hidden" name="slider2" id="hidden2">
     </div>
-
+<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
     <!-- Slider 3 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider3">Slider 3:</label><br>
+        <label for="slider3">Slider 3</label><br>
         <input type="range" id="slider3" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val3')"
@@ -49,10 +48,10 @@
         <span id="val3">0</span>
         <input type="hidden" name="slider3" id="hidden3">
     </div>
-
+<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
     <!-- Slider 4 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider4">Slider 4:</label><br>
+        <label for="slider4">Slider 4</label><br>
         <input type="range" id="slider4" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val4')"
@@ -60,10 +59,10 @@
         <span id="val4">0</span>
         <input type="hidden" name="slider4" id="hidden4">
     </div>
-
+<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
     <!-- Slider 5 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider5">Slider 5:</label><br>
+        <label for="slider5">Slider 5</label><br>
         <input type="range" id="slider5" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val5')"

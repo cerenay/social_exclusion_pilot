@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<p><strong>One of your decisions was randomly selected for payment.</strong></p>
+<p>In Part 3, round X and scenario (1 or 2) were randomly selected to compute the payoffs. </p>
 
 <p>Selected round: <strong>Round {{ selected_round }}</strong></p>
 
@@ -17,7 +17,11 @@
     <p>The allocator decided to send you: <strong>{{ sent }}</strong> EMUs</p>
 {% endif %}
 
-<p>Your total payoff from this task: <strong>{{ my_payoff }}</strong> EMUs</p>
+<p>You were randomly assigned to be Player A (The Allocator). Therefore, the choice you submitted was XX to yourself. </p>
+<p>You were randomly assigned to be Player B (The Recipient). Therefore, your payoff was determined by the choices the allocator you are paired with made, which was XX EMUs to the recipient. </p>
+
+
+<p>Your payoff from Part 3 is <strong>{{ my_payoff }}</strong> EMUs</p>
 
 {{ next_button }}
 

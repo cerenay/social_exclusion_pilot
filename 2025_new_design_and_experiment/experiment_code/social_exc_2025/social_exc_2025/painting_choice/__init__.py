@@ -22,7 +22,8 @@ class Player(BasePlayer):
     painting_choice_3 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #3")
     painting_choice_4 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #4")
     painting_choice_5 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #5")
-    explanation = models.StringField(choices=['I liked the colours', 'I liked the shapes', 'It calmed me down'],  widget=widgets.RadioSelect, label="Can you briefly describe the reason behind your choice?")
+    explanation = models.StringField(choices=['I liked the colours', 'I liked the shapes', 'The paintings calmed me down', 'I identify myself with the paintings', 'It was a random choice', 'Other - please specify'],  widget=widgets.RadioSelect, label="Before you continue to Part 2, can you briefly describe the reason behind your choice of the paintings?")
+    consent = models.StringField(choices=[['Yes', 'Do not proceed'], ['No', 'Accept and proceed']],label='By selecting the “Accept and proceed” option, you indicate that you are 18 years of age or older, that you understand the above information and that you voluntarily agree to participate in this study.',widget=widgets.RadioSelect)
 
     def count_klee_choices(self):
         return sum([
@@ -38,7 +39,8 @@ class Player(BasePlayer):
 
 
 class Welcome(Page):
-    pass
+    form_model = 'player'
+    form_fields = ['consent']
 
 class Intro(Page):
     pass
