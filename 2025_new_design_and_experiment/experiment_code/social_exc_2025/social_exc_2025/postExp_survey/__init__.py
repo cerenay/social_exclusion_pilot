@@ -39,21 +39,21 @@ class Player(BasePlayer):
         label="Kandisky")
 
     question_3 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt very attached to my own group throughout the study.")
+                                    label="I felt attached to my own group throughout the study.")
     question_4 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt valued by the independent participant/system that assigned the task.")
-    question_5 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt included in this activity.")
-    question_6 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
                                     label="I felt left out because of my group.")
-    question_7 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+    question_5 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
                                     label="I felt my group was devalued in this interaction.")
-    question_8 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="The decision about my task was unfair.")
-    question_9 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+    question_6 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I felt valued by the independent participant/system that assigned the task.")
+    question_7 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
                                     label="The independent participant assigning the task favoured their own group.")
+    question_8 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="I was given this task because of my group.")
+    question_9 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
+                                    label="The decision about my task was unfair.")
     question_10 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                     label="I was given this task because of my group.")
+                                     label="The task I was assigned to was easy.")
 
 
     question_11_upset = models.StringField(choices=C.EMOTION_CHOICES, label="Upset", widget=widgets.RadioSelectHorizontal)
@@ -146,7 +146,27 @@ class Postexp_surv1(Page):
 class Postexp_surv2(Page):
     form_model = 'player'
     form_fields = ['question_3', 'question_4', 'question_5', 'question_6',
-                   'question_7', 'question_8', 'question_9', 'question_10', 'question_11_upset', 'question_11_angry', 'question_11_sad',
+                   'question_7', 'question_8', 'question_9', 'question_10']
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            agree_fields=[
+                ('question_3', 'I felt attached to my own group throughout the study.'),
+                ('question_4', 'I felt left out because of my group.'),
+                ('question_5', 'I felt my group was devalued in this interaction.'),
+                ('question_6', 'I felt valued by the independent participant/system that assigned the task.'),
+                ('question_7', 'The independent participant assigning the task favoured their own group.'),
+                ('question_8', 'I was given this task because of my group.'),
+                ('question_9', 'The decision about my task was unfair.'),
+                ('question_10', 'The task I was assigned to was easy.'),
+            ],
+            agree_choices=C.AGREE_CHOICES,
+        )
+
+class Postexp_surv2b(Page):
+    form_model = 'player'
+    form_fields = ['question_11_upset', 'question_11_angry', 'question_11_sad',
                     'question_11_anxious', 'question_11_frustrated', 'question_11_discouraged']
 
     @staticmethod
@@ -161,17 +181,6 @@ class Postexp_surv2(Page):
                 ('question_11_discouraged', 'Discouraged'),
             ],
             choices=C.EMOTION_CHOICES,
-            agree_fields=[
-                ('question_3', 'I felt very attached to my own group throughout the study.'),
-                ('question_4', 'I felt valued by the independent participant/system that assigned the task.'),
-                ('question_5', 'I felt included in this activity.'),
-                ('question_6', 'I felt left out because of my group.'),
-                ('question_7', 'I felt my group was devalued in this interaction.'),
-                ('question_8', 'The decision about my task was unfair.'),
-                ('question_9', 'The independent participant assigning the task favoured their own group.'),
-                ('question_10', 'I was given this task because of my group.'),
-            ],
-            agree_choices=C.AGREE_CHOICES,
         )
 
 class Postexp_surv3(Page):
@@ -186,4 +195,4 @@ class Demo(Page):
 class EndSurvey(Page):
     pass
 
-page_sequence = [Postexp_surv1, Postexp_surv2, Postexp_surv3, Demo, EndSurvey]
+page_sequence = [Postexp_surv1, Postexp_surv2, Postexp_surv2b, Postexp_surv3, Demo, EndSurvey]
