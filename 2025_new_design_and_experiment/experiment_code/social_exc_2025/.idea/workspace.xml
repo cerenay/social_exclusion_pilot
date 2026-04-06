@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/social_exc_2025/dictator/offer_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/social_exc_2025/dictator/offer_2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/social_exc_2025/dictator/offer_3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Postexp_surv.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/SliderExample.html" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/counting_matrix/SliderExample.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/counting_matrix/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/Offer.html" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/dictator/Offer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/postExp_survey/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/social_exc_2025/settings.py" afterDir="false" />
-    </list>
+    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,12 +253,12 @@
       <updated>1752828119411</updated>
       <workItem from="1752828121210" duration="10963000" />
       <workItem from="1758870618035" duration="26268000" />
-      <workItem from="1767724393023" duration="4453000" />
+      <workItem from="1767724393023" duration="5048000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41684000" />
+    <option name="totallyTimeSpent" value="42279000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="152" y="38" width="1333" height="781" extended-state="0" />
