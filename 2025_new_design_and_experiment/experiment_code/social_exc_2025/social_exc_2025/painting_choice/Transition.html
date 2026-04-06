@@ -4,13 +4,14 @@ Your Painting Group
 
 {{ block content }}
 
-
-
 <p>
-Based on your choices, you prefer the paintings by <span style="color: red;">Kandisky</span> or <span style="color: green;">Klee</span>. </p>
+Based on your choices, you prefer the paintings by
+<span style="color: {% if painting_group == 'Klee' %}green{% else %}red{% endif %};">{{ painting_group }}</span>.
+</p>
 
-<p> You are assigned to the <span style="color: red;">Kandisky</span> or <span style="color: green;">Klee</span> group.</p>
-
+<p>You are assigned to the
+<span style="color: {% if painting_group == 'Klee' %}green{% else %}red{% endif %};">{{ painting_group }}</span> group.
+</p>
 
 {{ next_button }}
 

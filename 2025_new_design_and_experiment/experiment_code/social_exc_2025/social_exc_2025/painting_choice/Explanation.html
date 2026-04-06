@@ -4,12 +4,59 @@ Reasons for choice
 
 {{ block content }}
 
-<div style="margin-bottom: 20px;">
-    <label>{{ form.explanation.label }}</label><br>
-    {{ form.explanation }}
+<p>{{ form.explanation.label }}</p>
+<p><em>You may select more than one option.</em></p>
+
+<!-- Hidden inputs that oTree reads on form submit -->
+<input type="hidden" name="explanation" id="explanation_hidden">
+<input type="hidden" name="explanation_other_text" id="explanation_other_hidden">
+
+<div id="explanation-options" style="margin-bottom: 20px;">
+    {% for option in options %}
+    <div style="margin-bottom: 10px;">
+        <input type="checkbox" id="exp_option_{{ forloop.counter }}" value="{{ option }}" onchange="updateExplanation()">
+        <label for="exp_option_{{ forloop.counter }}">{{ option }}</label>
+        {% if option == 'Other' %}
+        <br>
+        <input type="text" id="other_text_input" placeholder="Please specify..."
+               style="display:none; margin-top: 5px; width: 300px; padding: 4px 8px;">
+        {% endif %}
+    </div>
+    {% endfor %}
 </div>
 
-
 {{ next_button }}
+
+<script>
+function updateExplanation() {
+    var checkboxes = document.querySelectorAll('#explanation-options input[type="checkbox"]');
+    var selected = [];
+    var hasOther = false;
+
+    checkboxes.forEach(function(cb) {
+        if (cb.checked) {
+            selected.push(cb.value);
+            if (cb.value === 'Other') hasOther = true;
+        }
+    });
+
+    document.getElementById('explanation_hidden').value = selected.join('; ');
+
+    var otherInput = document.getElementById('other_text_input');
+    if (otherInput) {
+        otherInput.style.display = hasOther ? 'inline-block' : 'none';
+        document.getElementById('explanation_other_hidden').value = hasOther ? otherInput.value : '';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var otherInput = document.getElementById('other_text_input');
+    if (otherInput) {
+        otherInput.addEventListener('input', function() {
+            document.getElementById('explanation_other_hidden').value = this.value;
+        });
+    }
+});
+</script>
 
 {{ endblock }}

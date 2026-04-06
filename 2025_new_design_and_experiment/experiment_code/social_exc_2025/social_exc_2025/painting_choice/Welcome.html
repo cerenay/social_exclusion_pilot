@@ -21,6 +21,27 @@ Welcome!
     {{ form.consent }}
 </div>
 
-{{ next_button }}
+<div id="not-proceed-message" style="display:none; margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #6c757d;">
+    <p>You have selected not to proceed with this study. We appreciate your consideration!</p>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var radios = document.querySelectorAll('input[name="consent"]');
+    radios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.value === 'accept') {
+                document.querySelector('form').submit();
+            } else if (this.value === 'decline') {
+                document.getElementById('not-proceed-message').style.display = 'block';
+                // Lock out the accept option — decision is final
+                radios.forEach(function(r) {
+                    if (r.value === 'accept') r.disabled = true;
+                });
+            }
+        });
+    });
+});
+</script>
 
 {{ endblock }}
