@@ -1,7 +1,5 @@
-from random import choices
-
 from otree.api import *
-from survey import Demographics
+import random
 
 doc = """
 Your app description
@@ -64,9 +62,11 @@ class Player(BasePlayer):
     question_11_discouraged = models.StringField(choices=C.EMOTION_CHOICES, label="Discouraged", widget=widgets.RadioSelectHorizontal)
 
     question_12 = models.StringField(
-        choices=['Try to allocate money equally between us','Try to allocate more money to myself', 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
+                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and another participant, how would you describe the strategy you used?")
+    question_12_other = models.StringField(blank=True, label="")
     question_13 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
@@ -76,11 +76,13 @@ class Player(BasePlayer):
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant from your own group, how would you describe the strategy you used?")
+    question_14a_other = models.StringField(blank=True, label="")
     question_14b = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant from the other group, how would you describe the strategy you used?")
+    question_14b_other = models.StringField(blank=True, label="")
     question_15 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
@@ -90,11 +92,13 @@ class Player(BasePlayer):
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the easy task, how would you describe the strategy you used?")
+    question_16a_other = models.StringField(blank=True, label="")
     question_16b = models.StringField(
         choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
                  'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
         label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the difficult task, how would you describe the strategy you used?")
+    question_16b_other = models.StringField(blank=True, label="")
 
     age = models.IntegerField(label='What is your age?', min=13, max=125)
     gender = models.StringField(
@@ -118,16 +122,19 @@ class Player(BasePlayer):
         label='Have you ever participated in any economics or psychology experimental studies before?',
         widget=widgets.RadioSelect,
     )
+    economics_specify = models.StringField(blank=True, label="")
     background = models.StringField(
         choices=[['White', 'White'], ['Black', 'Black'], ['Hispanic', 'Hispanic'], ['Asian', 'Asian'], ['Other', 'Other - please specify']],
         label='What do you consider your racial or ethnic background to be?',
         widget=widgets.RadioSelect,
     )
+    background_specify = models.StringField(blank=True, label="")
     donation = models.StringField(
         choices=[['Yes', 'Yes - please specify'], ['Amount', 'Amount donated'], ['Hours', 'Number of hours volunteered'], ['No', 'No']],
         label='In the past twelve months, have you donated money to or done volunteer work for charities or other nonprofit organizations?',
         widget=widgets.RadioSelect,
     )
+    donation_specify = models.StringField(blank=True, label="")
 
 class Postexp_surv1(Page):
     form_model = 'player'
@@ -150,19 +157,18 @@ class Postexp_surv2(Page):
 
     @staticmethod
     def vars_for_template(player):
-        return dict(
-            agree_fields=[
-                ('question_3', 'I felt attached to my own group throughout the study.'),
-                ('question_4', 'I felt left out because of my group.'),
-                ('question_5', 'I felt my group was devalued in this interaction.'),
-                ('question_6', 'I felt valued by the independent participant/system that assigned the task.'),
-                ('question_7', 'The independent participant assigning the task favoured their own group.'),
-                ('question_8', 'I was given this task because of my group.'),
-                ('question_9', 'The decision about my task was unfair.'),
-                ('question_10', 'The task I was assigned to was easy.'),
-            ],
-            agree_choices=C.AGREE_CHOICES,
-        )
+        agree_fields = [
+            ('question_3',  'I felt attached to my own group throughout the study.'),
+            ('question_4',  'I felt left out because of my group.'),
+            ('question_5',  'I felt my group was devalued in this interaction.'),
+            ('question_6',  'I felt valued by the independent participant/system that assigned the task.'),
+            ('question_7',  'The independent participant assigning the task favoured their own group.'),
+            ('question_8',  'I was given this task because of my group.'),
+            ('question_9',  'The decision about my task was unfair.'),
+            ('question_10', 'The task I was assigned to was easy.'),
+        ]
+        random.shuffle(agree_fields)
+        return dict(agree_fields=agree_fields, agree_choices=C.AGREE_CHOICES)
 
 class Postexp_surv2b(Page):
     form_model = 'player'
@@ -185,12 +191,20 @@ class Postexp_surv2b(Page):
 
 class Postexp_surv3(Page):
     form_model = 'player'
-    form_fields = ['question_12', 'question_13', 'question_14a', 'question_14b',
-                   'question_15', 'question_16a', 'question_16b']
+    form_fields = ['question_12', 'question_12_other',
+                   'question_13',
+                   'question_14a', 'question_14a_other',
+                   'question_14b', 'question_14b_other',
+                   'question_15',
+                   'question_16a', 'question_16a_other',
+                   'question_16b', 'question_16b_other']
 
 class Demo(Page):
-        form_model = 'player'
-        form_fields = ['age', 'gender', 'education', 'sibling', 'economics', 'background', 'donation']
+    form_model = 'player'
+    form_fields = ['age', 'gender', 'education', 'sibling',
+                   'economics', 'economics_specify',
+                   'background', 'background_specify',
+                   'donation', 'donation_specify']
 
 class EndSurvey(Page):
     pass

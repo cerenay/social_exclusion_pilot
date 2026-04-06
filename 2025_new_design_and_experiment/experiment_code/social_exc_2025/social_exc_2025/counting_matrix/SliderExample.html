@@ -6,7 +6,7 @@ Slider Task Practice Round
 {{ block content }}
 
 <p> This is a practice round for the slider task before completing the actual task. </p>
-<p> In this round you can move the slider as many times as you need to become familiar with the slider. Note that in the actual task, you can only move the slider once. </p>
+<p> In this round you can move the slider as many times as you need to become familiar with it. Note that in the actual task, you can only move each slider once. </p>
 
 <p> Please position the slider in the range: 40-60. </p>
 
@@ -19,8 +19,7 @@ Slider Task Practice Round
         <label for="slider_exp1">Practice slider</label><br>
         <input type="range" id="slider_exp1" min="0" max="100" value="0"
            style="width: 400px;"
-           oninput="updateSlider(this, 'val1')"
-           onchange="lockSlider(this)">
+           oninput="updateSlider(this, 'val1')">
         <span id="val1">0</span>
         <input type="hidden" name="slider_exp1" id="hidden_exp1">
     </div>
@@ -36,16 +35,10 @@ Slider Task Practice Round
         document.getElementById(valueId).textContent = slider.value;
     }
 
-    function lockSlider(slider) {
-        slider.disabled = true;
-    }
-
     function beforeSubmit() {
-        for (let i = 1; i <= 2; i++) {
-            let slider = document.getElementById('slider_exp' + i);
-            let hidden = document.getElementById('hidden_exp' + i);
-            hidden.value = slider.value;
-        }
+        let slider = document.getElementById('slider_exp1');
+        let hidden = document.getElementById('hidden_exp1');
+        hidden.value = slider.value;
     }
 </script>
 

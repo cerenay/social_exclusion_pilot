@@ -4,46 +4,92 @@
 
 
 {% block content %}
-<p>Please answers these questions about the allocation task you performed in Part 3 of this study.</p>
+<p>Please answer these questions about the allocation task you performed in Part 3 of this study.</p>
 
+<!-- Question 12 -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_12.label }}</label><br>
     {{ form.question_12 }}
+    <div id="q12_other_box" style="display:none; margin-top:6px;">
+        <input type="text" name="question_12_other" id="question_12_other"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
-
+<!-- Question 13 -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_13.label }}</label><br>
     {{ form.question_13 }}
 </div>
 
+<!-- Question 14a -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_14a.label }}</label><br>
     {{ form.question_14a }}
+    <div id="q14a_other_box" style="display:none; margin-top:6px;">
+        <input type="text" name="question_14a_other" id="question_14a_other"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
+<!-- Question 14b -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_14b.label }}</label><br>
     {{ form.question_14b }}
+    <div id="q14b_other_box" style="display:none; margin-top:6px;">
+        <input type="text" name="question_14b_other" id="question_14b_other"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
+<!-- Question 15 -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_15.label }}</label><br>
     {{ form.question_15 }}
 </div>
 
+<!-- Question 16a -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_16a.label }}</label><br>
     {{ form.question_16a }}
+    <div id="q16a_other_box" style="display:none; margin-top:6px;">
+        <input type="text" name="question_16a_other" id="question_16a_other"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
+<!-- Question 16b -->
 <div style="margin-bottom: 20px;">
     <label>{{ form.question_16b.label }}</label><br>
     {{ form.question_16b }}
+    <div id="q16b_other_box" style="display:none; margin-top:6px;">
+        <input type="text" name="question_16b_other" id="question_16b_other"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
-
-
 {{ next_button }}
+
+<script>
+const otherBoxes = {
+    'question_12':  'q12_other_box',
+    'question_14a': 'q14a_other_box',
+    'question_14b': 'q14b_other_box',
+    'question_16a': 'q16a_other_box',
+    'question_16b': 'q16b_other_box',
+};
+document.addEventListener('DOMContentLoaded', function() {
+    Object.keys(otherBoxes).forEach(function(fieldName) {
+        document.querySelectorAll('input[name="' + fieldName + '"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const box = document.getElementById(otherBoxes[fieldName]);
+                const isOther = this.value === 'Other - Please specify:';
+                box.style.display = isOther ? 'block' : 'none';
+                if (!isOther) document.getElementById(fieldName + '_other').value = '';
+            });
+        });
+    });
+});
+</script>
 
 {% endblock %}

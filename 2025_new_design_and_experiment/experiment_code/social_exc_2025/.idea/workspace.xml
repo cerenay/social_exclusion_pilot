@@ -1,75 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/Procfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_rooms/econ101.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/global/empty.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/kandinsky.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/klee.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair1_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair1_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair2_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair2_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair3_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair3_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair4_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair4_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair5_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_static/painting_choice/pair5_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/_templates/global/Page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/Instructions.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/MatrixTask.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/Results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/SliderExample.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/counting_matrix/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/Introduction.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/Offer.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/Results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/offer_1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/offer_2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/offer_3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/dictator/totPayoffs.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/Explanation.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/Intro.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/PaintingChoice.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/Transition.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/Welcome.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/global/empty.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/kandinsky.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/klee.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair1_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair1_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair2_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair2_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair3_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair3_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair4_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair4_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair5_A.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/painting_choice/static/painting_choice/pair5_B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/payment_info/PaymentInfo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/payment_info/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Demo.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/EndSurvey.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Postexp_surv1.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Postexp_surv2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Postexp_surv2b.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/Postexp_surv3.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/postExp_survey/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/requirements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/social_ex_pilot/Results.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/social_ex_pilot/Welcome.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/social_ex_pilot/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/survey/CognitiveReflectionTest.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/survey/Demographics.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/social_exc_2025/survey/__init__.py" beforeDir="false" />
-    </list>
+    <list default="true" id="0e051b6a-ed54-4fed-992a-eafceb57f46e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,6 +133,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="152" y="38" width="1333" height="781" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4978166" visible="true" weight="0.22850503" />
       <window_info id="Structure" order="1" sideWeight="0.5021834" side_tool="true" weight="0.25329202" />

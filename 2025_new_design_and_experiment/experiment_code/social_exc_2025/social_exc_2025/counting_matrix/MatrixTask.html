@@ -6,89 +6,63 @@
 
 {% block content %}
 
-<p> You have been assigned to the <strong>easy/hard</strong> version of the slider task.</p>
-
- <p>   The other participant in your pair has been assigned to the <strong>hard/easy</strong> version. </p>
+<p>You have been assigned to the <strong>{{ difficulty }}</strong> version of the slider task.</p>
 
 <p>Please use the sliders below to indicate your answers. Once you move a slider, your choice will be recorded and cannot be changed.</p>
-
-<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
+<p>Each slider has its own valid range, shown below it.</p>
 
 <form method="post" id="sliderForm">
 
-    <!-- Slider 1 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider1">Slider 1</label><br>
-        <input type="range" id="slider1" min="0" max="100" value="0"
+    {% for s in slider_ranges %}
+    <div style="margin-bottom: 30px;">
+        <label for="slider{{ s.num }}"><strong>Slider {{ s.num }}</strong></label><br>
+        <input type="range" id="slider{{ s.num }}" min="0" max="100" value="50"
                style="width: 400px;"
-               oninput="updateSlider(this, 'val1')"
+               oninput="updateSlider(this, 'val{{ s.num }}')"
                onchange="lockSlider(this)">
-        <span id="val1">0</span>
-        <input type="hidden" name="slider1" id="hidden1">
+        <span id="val{{ s.num }}"></span>
+        <br>
+        <small>Valid range: {{ s.min_val }}–{{ s.max_val }}</small>
+        <input type="hidden" name="slider{{ s.num }}" id="hidden{{ s.num }}">
     </div>
-<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
-    <!-- Slider 2 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider2">Slider 2</label><br>
-        <input type="range" id="slider2" min="0" max="100" value="0"
-               style="width: 400px;"
-               oninput="updateSlider(this, 'val2')"
-               onchange="lockSlider(this)">
-        <span id="val2">0</span>
-        <input type="hidden" name="slider2" id="hidden2">
-    </div>
-<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
-    <!-- Slider 3 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider3">Slider 3</label><br>
-        <input type="range" id="slider3" min="0" max="100" value="0"
-               style="width: 400px;"
-               oninput="updateSlider(this, 'val3')"
-               onchange="lockSlider(this)">
-        <span id="val3">0</span>
-        <input type="hidden" name="slider3" id="hidden3">
-    </div>
-<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
-    <!-- Slider 4 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider4">Slider 4</label><br>
-        <input type="range" id="slider4" min="0" max="100" value="0"
-               style="width: 400px;"
-               oninput="updateSlider(this, 'val4')"
-               onchange="lockSlider(this)">
-        <span id="val4">0</span>
-        <input type="hidden" name="slider4" id="hidden4">
-    </div>
-<p>The valid answer range for this slider is {{ min_val }}–{{ max_val }}.</p>
-    <!-- Slider 5 -->
-    <div style="margin-bottom: 25px;">
-        <label for="slider5">Slider 5</label><br>
-        <input type="range" id="slider5" min="0" max="100" value="0"
-               style="width: 400px;"
-               oninput="updateSlider(this, 'val5')"
-               onchange="lockSlider(this)">
-        <span id="val5">0</span>
-        <input type="hidden" name="slider5" id="hidden5">
-    </div>
+    {% endfor %}
 
-    <button class="btn btn-primary" onclick="beforeSubmit()">Next</button>
+    <button class="btn btn-primary" id="nextBtn" onclick="beforeSubmit()" disabled
+            style="opacity: 0.5; cursor: not-allowed;">Next</button>
+    <span id="nextHint" style="margin-left: 10px; color: grey; font-size: 0.9em;">
+        Please move all 5 sliders before continuing.
+    </span>
 </form>
 
 <script>
+    const touched = new Set();
+
     function updateSlider(slider, valueId) {
         document.getElementById(valueId).textContent = slider.value;
+        touched.add(slider.id);
+        checkAllTouched();
     }
 
     function lockSlider(slider) {
         slider.disabled = true;
     }
 
+    function checkAllTouched() {
+        const btn = document.getElementById('nextBtn');
+        const hint = document.getElementById('nextHint');
+        if (touched.size >= 5) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.cursor = 'pointer';
+            hint.style.display = 'none';
+        }
+    }
+
     function beforeSubmit() {
-        // Copy slider values into hidden inputs just before form is submitted
         for (let i = 1; i <= 5; i++) {
             let slider = document.getElementById('slider' + i);
             let hidden = document.getElementById('hidden' + i);
-            hidden.value = slider.value;
+            if (slider) hidden.value = slider.value;
         }
     }
 </script>

@@ -30,20 +30,50 @@
 <div style="margin-bottom: 20px;">
     <label>{{ form.economics.label }}</label><br>
     {{ form.economics }}
+    <div id="economics_specify_box" style="display:none; margin-top:6px;">
+        <input type="text" name="economics_specify" id="economics_specify"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
 <div style="margin-bottom: 20px;">
     <label>{{ form.background.label }}</label><br>
     {{ form.background }}
+    <div id="background_specify_box" style="display:none; margin-top:6px;">
+        <input type="text" name="background_specify" id="background_specify"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
 <div style="margin-bottom: 20px;">
     <label>{{ form.donation.label }}</label><br>
     {{ form.donation }}
+    <div id="donation_specify_box" style="display:none; margin-top:6px;">
+        <input type="text" name="donation_specify" id="donation_specify"
+               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+    </div>
 </div>
 
-
-
 {{ next_button }}
+
+<script>
+const specifyTriggers = {
+    'economics': { box: 'economics_specify_box', field: 'economics_specify', triggerValue: 'Yes' },
+    'background': { box: 'background_specify_box', field: 'background_specify', triggerValue: 'Other' },
+    'donation':  { box: 'donation_specify_box',  field: 'donation_specify',  triggerValue: 'Yes' },
+};
+document.addEventListener('DOMContentLoaded', function() {
+    Object.keys(specifyTriggers).forEach(function(fieldName) {
+        const cfg = specifyTriggers[fieldName];
+        document.querySelectorAll('input[name="' + fieldName + '"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                const show = this.value === cfg.triggerValue;
+                document.getElementById(cfg.box).style.display = show ? 'block' : 'none';
+                if (!show) document.getElementById(cfg.field).value = '';
+            });
+        });
+    });
+});
+</script>
 
 {% endblock %}
