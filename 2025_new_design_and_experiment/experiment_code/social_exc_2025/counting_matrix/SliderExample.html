@@ -1,16 +1,17 @@
+{{ extends "global/Page.html" }}
+
 {{ block title }}
 Slider Task Practice Round
 {{ endblock }}
 
 
 {{ block content }}
+<div class="content-card">
 
 <p> This is a practice round for the slider task before completing the actual task. </p>
 <p> In this round you can move the slider as many times as you need to become familiar with it. Note that in the actual task, you can only move each slider once. </p>
 
 <p> Please position the slider in the range: 40-60. </p>
-
-
 
 <form method="post" id="sliderForm">
 
@@ -20,15 +21,16 @@ Slider Task Practice Round
         <input type="range" id="slider_exp1" min="0" max="100" value="0"
            style="width: 400px;"
            oninput="updateSlider(this, 'val1')">
-        <span id="val1">0</span>
+        <span id="val1" class="slider-value">0</span>
         <input type="hidden" name="slider_exp1" id="hidden_exp1">
     </div>
 
-
   <p>  Recall that the two versions of the task (easy/hard) differ in the size of the number range you need to position the slider. </p>
 
-<button class="btn btn-primary" onclick="beforeSubmit()">Next</button>  <!-- ✅ -->
+<button class="btn btn-primary" onclick="beforeSubmit()">Next</button>
 </form>
+
+</div>
 
 <script>
     function updateSlider(slider, valueId) {
@@ -41,8 +43,5 @@ Slider Task Practice Round
         hidden.value = slider.value;
     }
 </script>
-
-
-
 
 {{ endblock }}

@@ -1,8 +1,11 @@
+{{ extends "global/Page.html" }}
+
 {{ block title }}
 Welcome!
 {{ endblock }}
 
 {{ block content }}
+<div class="content-card">
 
 <p>Thank you for participating in this study on decision-making.</p>
 
@@ -23,6 +26,8 @@ Welcome!
 
 <div id="not-proceed-message" style="display:none; margin-top: 20px; padding: 15px; background-color: #f8f9fa; border-left: 4px solid #6c757d;">
     <p>You have selected not to proceed with this study. We appreciate your consideration!</p>
+</div>
+
 </div>
 
 <script>

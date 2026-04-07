@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Final survey
+{% endblock %}
+
+
+{% block content %}
+<div class="content-card">
+<p>Please answer the following survey questions. Your answers will be used for this study only. Individual data will not be exposed. </p>
+
+<div style="margin-bottom: 20px;">
+    <label>{{ form.question_1.label }}</label><br>
+    {{ form.question_1 }}
+</div>
+
+<div style="margin-top: 40px;"></div>
+
+<p> Before this study, how familiar were you with paintings made by...? </p>
+
+<table class="likert-table">
+    <thead>
+        <tr>
+            <th>Artist</th>
+            {% for choice in familiar_choices %}
+            <th>{{ choice }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for field_name, label in familiar_fields %}
+        <tr>
+            <td style="text-align:left;">{{ label }}</td>
+            {% for choice in familiar_choices %}
+            <td>
+                <input type="radio" name="{{ field_name }}" value="{{ choice }}">
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 40px;"></div>
+
+{{ next_button }}
+
+</div>
+{% endblock %}

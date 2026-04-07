@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Questions about the Group and the Slider Task
+{% endblock %}
+
+
+{% block content %}
+<div class="content-card">
+<p>Please indicate how you feel right now about your group and the task assignment you just received.</p>
+
+<table class="likert-table">
+    <thead>
+        <tr>
+            <th>Statement</th>
+            {% for choice in agree_choices %}
+            <th>{{ choice }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for field_name, label in agree_fields %}
+        <tr>
+            <td style="text-align:left;">{{ label }}</td>
+            {% for choice in agree_choices %}
+            <td>
+                <input type="radio" name="{{ field_name }}" value="{{ choice }}">
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{{ formfield_errors 'question_3' }}
+{{ formfield_errors 'question_4' }}
+{{ formfield_errors 'question_5' }}
+{{ formfield_errors 'question_6' }}
+{{ formfield_errors 'question_7' }}
+{{ formfield_errors 'question_8' }}
+{{ formfield_errors 'question_9' }}
+{{ formfield_errors 'question_10' }}
+
+<div style="margin-top: 40px;"></div>
+
+{{ next_button }}
+
+</div>
+{% endblock %}

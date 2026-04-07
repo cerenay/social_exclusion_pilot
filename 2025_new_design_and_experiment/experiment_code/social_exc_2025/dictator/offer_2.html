@@ -1,0 +1,69 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+Round 2
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+
+<p>Please indicate how many EMU you keep for yourself and how many you allocate to the other participant <em>under the two scenarios below</em>.</p>
+<p>You have <strong>{{ endowment }} EMU</strong> to allocate in each scenario.</p>
+
+<div class="section-block">
+    <div class="section-title">Scenario 1</div>
+    <p>The other participant is from your painting group
+        (<span class="{{ 'tag-klee' if own_group == 'Klee' else 'tag-kandinsky' }}">{{ own_group }}</span>)</p>
+
+    <div style="margin-bottom: 15px;">
+        <label><strong>You (EMU)</strong></label><br>
+        <input type="number" name="choice_round_2_1a" id="s1a" min="0" max="{{ endowment }}" value="0"
+               style="width:100px;" oninput="updateSum('s1a','s1b','sum1','warn1')">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label><strong>Other participant (EMU)</strong></label><br>
+        <input type="number" name="choice_round_2_1b" id="s1b" min="0" max="{{ endowment }}" value="0"
+               style="width:100px;" oninput="updateSum('s1a','s1b','sum1','warn1')">
+    </div>
+    <div class="sum-box">
+        Total: <strong><span id="sum1">0</span> / {{ endowment }} EMU</strong>
+        <span id="warn1" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+    </div>
+</div>
+
+<div class="section-block">
+    <div class="section-title">Scenario 2</div>
+    <p>The other participant is from the other painting group
+        (<span class="{{ 'tag-klee' if other_group == 'Klee' else 'tag-kandinsky' }}">{{ other_group }}</span>)</p>
+
+    <div style="margin-bottom: 15px;">
+        <label><strong>You (EMU)</strong></label><br>
+        <input type="number" name="choice_round_2_2a" id="s2a" min="0" max="{{ endowment }}" value="0"
+               style="width:100px;" oninput="updateSum('s2a','s2b','sum2','warn2')">
+    </div>
+    <div style="margin-bottom: 15px;">
+        <label><strong>Other participant (EMU)</strong></label><br>
+        <input type="number" name="choice_round_2_2b" id="s2b" min="0" max="{{ endowment }}" value="0"
+               style="width:100px;" oninput="updateSum('s2a','s2b','sum2','warn2')">
+    </div>
+    <div class="sum-box">
+        Total: <strong><span id="sum2">0</span> / {{ endowment }} EMU</strong>
+        <span id="warn2" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+    </div>
+</div>
+
+{{ next_button }}
+
+</div>
+
+<script>
+function updateSum(aId, bId, sumId, warnId) {
+    const a = parseInt(document.getElementById(aId).value) || 0;
+    const b = parseInt(document.getElementById(bId).value) || 0;
+    const sum = a + b;
+    document.getElementById(sumId).textContent = sum;
+    document.getElementById(warnId).style.display = sum > {{ endowment }} ? 'inline' : 'none';
+}
+</script>
+
+{% endblock %}

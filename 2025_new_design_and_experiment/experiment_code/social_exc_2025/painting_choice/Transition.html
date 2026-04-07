@@ -1,0 +1,22 @@
+{{ extends "global/Page.html" }}
+
+{{ block title }}
+Your Painting Group
+{{ endblock }}
+
+{{ block content }}
+<div class="content-card">
+
+<p>
+Based on your choices, you prefer the paintings by
+<span class="{% if painting_group == 'Klee' %}tag-klee{% else %}tag-kandinsky{% endif %}">{{ painting_group }}</span>.
+</p>
+
+<p>You are assigned to the
+<span class="{% if painting_group == 'Klee' %}tag-klee{% else %}tag-kandinsky{% endif %}">{{ painting_group }}</span> group.
+</p>
+
+{{ next_button }}
+
+</div>
+{{ endblock }}

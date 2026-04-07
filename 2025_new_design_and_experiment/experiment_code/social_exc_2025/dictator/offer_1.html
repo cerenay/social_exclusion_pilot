@@ -1,0 +1,43 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+   Round 1
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+
+<p>Please indicate how many EMU you keep for yourself and how many you allocate to the other participant <em>under the scenario below</em>.</p>
+<p>You have <strong>{{ endowment }} EMU</strong> to allocate.</p>
+
+<div style="margin-bottom: 15px;">
+    <label><strong>You (EMU)</strong></label><br>
+    <input type="number" name="choice_round_1a" id="r1a" min="0" max="{{ endowment }}" value="0"
+           style="width:100px;" oninput="updateSum()">
+</div>
+<div style="margin-bottom: 15px;">
+    <label><strong>Other participant (EMU)</strong></label><br>
+    <input type="number" name="choice_round_1b" id="r1b" min="0" max="{{ endowment }}" value="0"
+           style="width:100px;" oninput="updateSum()">
+</div>
+
+<div class="sum-box">
+    Total: <strong><span id="totalSum">0</span> / {{ endowment }} EMU</strong>
+    <span id="overWarning" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+</div>
+
+{{ next_button }}
+
+</div>
+
+<script>
+function updateSum() {
+    const a = parseInt(document.getElementById('r1a').value) || 0;
+    const b = parseInt(document.getElementById('r1b').value) || 0;
+    const sum = a + b;
+    document.getElementById('totalSum').textContent = sum;
+    document.getElementById('overWarning').style.display = sum > {{ endowment }} ? 'inline' : 'none';
+}
+</script>
+
+{% endblock %}

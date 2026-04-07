@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="content-card">
 
 <p>You have been assigned to the <strong>{{ difficulty }}</strong> version of the slider task.</p>
 
@@ -16,23 +17,24 @@
     {% for s in slider_ranges %}
     <div style="margin-bottom: 30px;">
         <label for="slider{{ s.num }}"><strong>Slider {{ s.num }}</strong></label><br>
-        <input type="range" id="slider{{ s.num }}" min="0" max="100" value="50"
+        <input type="range" id="slider{{ s.num }}" min="0" max="100" value="0"
                style="width: 400px;"
                oninput="updateSlider(this, 'val{{ s.num }}')"
                onchange="lockSlider(this)">
-        <span id="val{{ s.num }}"></span>
+        <span id="val{{ s.num }}" class="slider-value"></span>
         <br>
-        <small>Valid range: {{ s.min_val }}–{{ s.max_val }}</small>
+        <small style="color: var(--text-muted);">Valid range: {{ s.min_val }}–{{ s.max_val }}</small>
         <input type="hidden" name="slider{{ s.num }}" id="hidden{{ s.num }}">
     </div>
     {% endfor %}
 
-    <button class="btn btn-primary" id="nextBtn" onclick="beforeSubmit()" disabled
-            style="opacity: 0.5; cursor: not-allowed;">Next</button>
-    <span id="nextHint" style="margin-left: 10px; color: grey; font-size: 0.9em;">
+    <button class="btn btn-primary" id="nextBtn" onclick="beforeSubmit()" disabled>Next</button>
+    <span id="nextHint" style="margin-left: 10px; color: var(--text-muted); font-size: 0.9em;">
         Please move all 5 sliders before continuing.
     </span>
 </form>
+
+</div>
 
 <script>
     const touched = new Set();
@@ -52,8 +54,6 @@
         const hint = document.getElementById('nextHint');
         if (touched.size >= 5) {
             btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.cursor = 'pointer';
             hint.style.display = 'none';
         }
     }

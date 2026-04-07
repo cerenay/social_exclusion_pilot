@@ -1,9 +1,12 @@
+{% extends "global/Page.html" %}
+
 {% block title %}
     Questions about the Allocation Task
 {% endblock %}
 
 
 {% block content %}
+<div class="content-card">
 <p>Please answer these questions about the allocation task you performed in Part 3 of this study.</p>
 
 <!-- Question 12 -->
@@ -69,6 +72,8 @@
 </div>
 
 {{ next_button }}
+
+</div>
 
 <script>
 const otherBoxes = {

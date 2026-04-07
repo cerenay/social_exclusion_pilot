@@ -1,8 +1,11 @@
+{{ extends "global/Page.html" }}
+
 {{ block title }}
 Reasons for choice
 {{ endblock }}
 
 {{ block content }}
+<div class="content-card">
 
 <p>{{ form.explanation.label }}</p>
 <p><em>You may select more than one option.</em></p>
@@ -26,6 +29,8 @@ Reasons for choice
 </div>
 
 {{ next_button }}
+
+</div>
 
 <script>
 function updateExplanation() {

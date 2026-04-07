@@ -1,0 +1,43 @@
+{% extends "global/Page.html" %}
+
+{% block title %}
+    Your Results
+{% endblock %}
+
+{% block content %}
+<div class="content-card">
+
+<p>You have now completed the slider task. Your results are shown below.</p>
+
+<table class="likert-table" style="margin-bottom: 20px;">
+    <thead>
+        <tr>
+            <th style="text-align:left; min-width:80px;">Slider</th>
+            <th>Your answer</th>
+            <th>Valid range</th>
+            <th>Correct?</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in slider_results %}
+        <tr>
+            <td style="text-align:left;">{{ s.num }}</td>
+            <td>{{ s.value }}</td>
+            <td>{{ s.min_val }}–{{ s.max_val }}</td>
+            <td>
+                {% if s.correct %}<span style="color:var(--green); font-weight:600;">✓</span>{% else %}<span style="color:var(--red); font-weight:600;">✗</span>{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><strong>Number of correct answers: {{ correct_count }} out of 5</strong></p>
+
+<p>For completing Part 2 of the study, participants receive <strong>X EMUs</strong>.</p>
+<p>All participants who complete Part 2 receive the same amount. The amount earned in this part does not depend on which version of the slider task you were assigned to.</p>
+
+{{ next_button }}
+
+</div>
+{% endblock %}

@@ -74,39 +74,53 @@ class Offer(Page):
 
 class offer_1(Page):
     form_model = 'player'
-    form_fields = [
-        'choice_round_1a',
-        'choice_round_1b',
-    ]
+    form_fields = ['choice_round_1a', 'choice_round_1b']
+
     @staticmethod
     def is_displayed(player):
         return player.role() == "allocator"
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(endowment=int(C.ENDOWMENT))
 
 
 class offer_2(Page):
     form_model = 'player'
-    form_fields = [
-        'choice_round_2_1a',
-        'choice_round_2_1b',
-        'choice_round_2_2a',
-        'choice_round_2_2b'
-    ]
+    form_fields = ['choice_round_2_1a', 'choice_round_2_1b',
+                   'choice_round_2_2a', 'choice_round_2_2b']
+
     @staticmethod
     def is_displayed(player):
         return player.role() == "allocator"
+
+    @staticmethod
+    def vars_for_template(player):
+        own_group   = player.participant.vars.get('painting_group', '')
+        other_group = 'Kandinsky' if own_group == 'Klee' else 'Klee'
+        own_color   = 'green' if own_group == 'Klee' else 'red'
+        other_color = 'green' if other_group == 'Klee' else 'red'
+        return dict(
+            endowment   = int(C.ENDOWMENT),
+            own_group   = own_group,
+            other_group = other_group,
+            own_color   = own_color,
+            other_color = other_color,
+        )
 
 
 class offer_3(Page):
     form_model = 'player'
-    form_fields = [
-        'choice_round_3_1a',
-        'choice_round_3_1b',
-        'choice_round_3_2a',
-        'choice_round_3_2b'
-    ]
+    form_fields = ['choice_round_3_1a', 'choice_round_3_1b',
+                   'choice_round_3_2a', 'choice_round_3_2b']
+
     @staticmethod
     def is_displayed(player):
         return player.role() == "allocator"
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(endowment=int(C.ENDOWMENT))
 
 
 

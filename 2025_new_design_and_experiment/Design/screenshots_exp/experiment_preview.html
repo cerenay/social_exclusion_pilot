@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Social Exclusion Experiment – Full Preview</title>
+<style>
+/* ── CSS Variables ── */
+:root {
+  --accent:       #6366F1;
+  --accent-dark:  #4F46E5;
+  --accent-light: rgba(99,102,241,0.12);
+  --bg:           #F4F4F5;
+  --card-bg:      #FFFFFF;
+  --border:       #E4E4E7;
+  --text-main:    #18181B;
+  --text-sub:     #3F3F46;
+  --text-muted:   #71717A;
+  --green:        #16A34A;
+  --red:          #DC2626;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: #E8E8EC;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+  padding: 40px 20px;
+}
+
+/* ── Screen wrapper ── */
+.screen-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6366F1;
+  margin: 48px 0 6px 0;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.screen-label:first-child { margin-top: 0; }
+
+/* ── oTree page shell ── */
+.page-shell {
+  max-width: 760px;
+  margin: 0 auto 8px;
+  background: var(--bg);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+}
+.page-title {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: center;
+  padding: 30px 36px 22px;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+  letter-spacing: -0.01em;
+}
+.page-body {
+  padding: 28px 36px 32px;
+  background: var(--bg);
+}
+
+/* ── Content card ── */
+.content-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 36px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-bottom: 12px;
+}
+.content-card p { color: var(--text-sub); margin-bottom: 14px; }
+
+/* ── Section block ── */
+.section-block {
+  background: #FAFAFA;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+}
+.section-block p { color: var(--text-sub); margin-bottom: 10px; }
+.section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+/* ── Button ── */
+.btn-primary {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 24px;
+  display: inline-block;
+  text-decoration: none;
+}
+.btn-disabled {
+  background: #A1A1AA;
+  border-color: #A1A1AA;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: not-allowed;
+  margin-top: 24px;
+  display: inline-block;
+}
+
+/* ── Inputs ── */
+input[type="number"], input[type="text"], select {
+  border: 1px solid #D4D4D8;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background: #fff;
+  outline: none;
+  width: 100px;
+}
+input[type="radio"], input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* ── Range slider ── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 4px;
+  background: #D4D4D8;
+  outline: none;
+  border: none;
+  vertical-align: middle;
+  padding: 0;
+  width: 400px;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(99,102,241,0.35);
+}
+
+/* ── Likert table ── */
+.likert-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.likert-table th {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 6px;
+  text-align: center;
+  border-bottom: 2px solid var(--border);
+}
+.likert-table th:first-child { text-align: left; min-width: 200px; }
+.likert-table td {
+  padding: 10px 6px;
+  text-align: center;
+  border-bottom: 1px solid #F4F4F5;
+  color: var(--text-sub);
+  font-size: 0.9rem;
+}
+.likert-table td:first-child { text-align: left; padding-left: 0; }
+
+/* ── Sum box ── */
+.sum-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #F4F4F5;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-top: 12px;
+}
+
+/* ── Group tags ── */
+.tag-klee      { color: var(--green); font-weight: 600; }
+.tag-kandinsky { color: var(--red);   font-weight: 600; }
+
+/* ── Slider value ── */
+.slider-value {
+  display: inline-block;
+  min-width: 28px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-left: 10px;
+  font-size: 0.95rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 22px 0;
+}
+small { color: var(--text-muted); font-size: 0.85rem; }
+em { color: var(--text-sub); }
+
+/* ── Divider between apps ── */
+.app-divider {
+  max-width: 760px;
+  margin: 56px auto 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.app-divider span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #52525B;
+  white-space: nowrap;
+}
+.app-divider hr {
+  flex: 1;
+  border-color: #C4C4CC;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APP 1 – painting_choice                              -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="app-divider">
+  <hr><span>painting_choice</span><hr>
+</div>
+
+<!-- Screen 1: Welcome / Consent -->
+<div class="screen-label">Screen 1 · Welcome &amp; Consent</div>
+<div class="page-shell">
+  <h2 class="page-title">Welcome!</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Thank you for participating in this study on decision-making.</p>
+      <p>During this study, you will earn money. How much you earn depends on your decisions, the decisions of other participants, and an element of chance.</p>
+      <p>We will speak in terms of Experimental Monetary Units (EMU) instead of Pounds. Your payoffs will be calculated in terms of EMU and then converted to Pounds at the end of the study, at a rate of 100 EMU = X Pound.</p>
+      <p>The study is divided into 3 parts, and your total earnings will be the sum of your payoffs in each part. At the end of the study, we will ask you to complete a short survey.</p>
+      <p>We appreciate you taking the time to participate in this study. If you have any questions or comments, please contact: XXX.</p>
+      <div style="margin-top:20px;">
+        <label style="font-weight:600;">Do you consent to participate?</label><br><br>
+        <label style="margin-right:20px;"><input type="radio" name="consent" value="accept"> Accept</label>
+        <label><input type="radio" name="consent" value="decline"> Decline</label>
+      </div>
+      <div style="margin-top:16px; padding:12px 16px; background:#f8f9fa; border-left:3px solid #6c757d; border-radius:6px; display:none;">
+        <p style="margin:0;">You have selected not to proceed with this study. We appreciate your consideration!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 2: Intro Part 1 -->
+<div class="screen-label">Screen 2 · Part 1 Introduction</div>
+<div class="page-shell">
+  <h2 class="page-title">Part 1</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>In Part 1 everyone will be shown 5 pairs of paintings by two artists. You will be asked to choose which painting in each pair you prefer. You will then be classified into one of two groups, based on which artist you prefer.</p>
+      <p>After Part 1 is complete, we will provide instructions for the next parts of the experiment.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 3: Painting Choice -->
+<div class="screen-label">Screen 3 · Painting Preferences</div>
+<div class="page-shell">
+  <h2 class="page-title">Painting Preferences</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Now, please choose which painting you prefer by clicking on either A or B from each pair. After everyone submits answers, you will be privately informed of which group you are in.</p>
+      <p>Note that there are no right or wrong answers. Please base your choices solely on your own preferences.</p>
+      <div style="margin-bottom:24px;">
+        <p><strong>Pair 1</strong></p>
+        <div style="display:flex; justify-content:space-around; align-items:center; gap:20px;">
+          <div style="text-align:center;">
+            <div style="width:220px; height:160px; background:#E4E4E7; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:0.85rem; margin-bottom:8px;">Painting A</div>
+            <label><input type="radio" name="pair1" value="A"> A</label>
+          </div>
+          <div style="text-align:center;">
+            <div style="width:220px; height:160px; background:#E4E4E7; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:0.85rem; margin-bottom:8px;">Painting B</div>
+            <label><input type="radio" name="pair1" value="B"> B</label>
+          </div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem;">⋯ Pairs 2–5 follow the same layout ⋯</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 4: Transition -->
+<div class="screen-label">Screen 4 · Group Assignment</div>
+<div class="page-shell">
+  <h2 class="page-title">Your Painting Group</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Based on your choices, you prefer the paintings by <span class="tag-klee">Klee</span>.</p>
+      <p>You are assigned to the <span class="tag-klee">Klee</span> group.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 5: Explanation -->
+<div class="screen-label">Screen 5 · Reasons for Choice</div>
+<div class="page-shell">
+  <h2 class="page-title">Reasons for choice</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Why did you prefer these paintings? <em>You may select more than one option.</em></p>
+      <div style="margin-bottom:20px;">
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> The use of colour</label></div>
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> The composition</label></div>
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> The style</label></div>
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> The subject matter</label></div>
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> The emotional expression</label></div>
+        <div style="margin-bottom:10px;"><label><input type="checkbox"> Other</label>
+          <br><input type="text" placeholder="Please specify..." style="display:none; margin-top:5px; width:300px;">
+        </div>
+      </div>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APP 2 – counting_matrix                              -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="app-divider">
+  <hr><span>counting_matrix</span><hr>
+</div>
+
+<!-- Screen 6: Instructions -->
+<div class="screen-label">Screen 6 · Part 2 Instructions (example: T5 – identity, spectator exclusion)</div>
+<div class="page-shell">
+  <h2 class="page-title">Part 2</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Now we start Part 2 of the study.</p>
+      <p>You will be asked to perform a task that involves moving a slider to a position corresponding to a displayed range of numbers indicated.</p>
+      <p>You will see a screen with 5 sliders: each slider is initially positioned at 0 and can be moved as far as 100. When you move the slider, you will see a number showing its current position. Your task is to position each slider at a number within the indicated range.</p>
+      <p>There are two versions of this task: an <em>easy</em> task and a <em>hard</em> task. The two versions differ only in the size of the number range you need to match on the slider.</p>
+      <p>Another participant, who may or may not belong to your <span class="tag-kandinsky">Kandinsky</span> or <span class="tag-klee">Klee</span> group, will also complete the task. <strong>One of you will be assigned the easy task and the other one will be assigned the hard task.</strong> The tasks are assigned by an <strong>independent participant</strong>, who may or may not belong to your <span class="tag-kandinsky">Kandinsky</span> or <span class="tag-klee">Klee</span> group. The only information this independent participant has is the painting group of each participant.</p>
+      <p>You will receive additional EMUs for completing the task. Both participants must complete the tasks to continue to Part 3.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 7: Practice Slider -->
+<div class="screen-label">Screen 7 · Slider Practice Round</div>
+<div class="page-shell">
+  <h2 class="page-title">Slider Task Practice Round</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>This is a practice round for the slider task before completing the actual task.</p>
+      <p>In this round you can move the slider as many times as you need to become familiar with it. Note that in the actual task, you can only move each slider once.</p>
+      <p>Please position the slider in the range: <strong>40–60</strong>.</p>
+      <div style="margin-bottom:25px;">
+        <label>Practice slider</label><br>
+        <input type="range" min="0" max="100" value="48" style="width:400px;">
+        <span class="slider-value">48</span>
+      </div>
+      <p>Recall that the two versions of the task (easy/hard) differ in the size of the number range you need to position the slider.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 8: MatrixTask (Easy) -->
+<div class="screen-label">Screen 8 · Slider Task (Easy version)</div>
+<div class="page-shell">
+  <h2 class="page-title">Slider Task</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>You have been assigned to the <strong>easy</strong> version of the slider task.</p>
+      <p>Please use the sliders below to indicate your answers. Once you move a slider, your choice will be recorded and cannot be changed.</p>
+      <p>Each slider has its own valid range, shown below it.</p>
+      <div style="margin-bottom:30px;">
+        <label><strong>Slider 1</strong></label><br>
+        <input type="range" min="0" max="100" value="12" style="width:400px;">
+        <span class="slider-value">12</span><br>
+        <small>Valid range: 0–20</small>
+      </div>
+      <div style="margin-bottom:30px;">
+        <label><strong>Slider 2</strong></label><br>
+        <input type="range" min="0" max="100" value="0" style="width:400px;">
+        <span class="slider-value"></span><br>
+        <small>Valid range: 20–40</small>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem;">⋯ Sliders 3–5 follow the same layout ⋯</p>
+      <span class="btn-disabled">Next →</span>
+      <span style="margin-left:10px; color:var(--text-muted); font-size:0.9em;">Please move all 5 sliders before continuing.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 9: Results -->
+<div class="screen-label">Screen 9 · Slider Task Results</div>
+<div class="page-shell">
+  <h2 class="page-title">Your Results</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>You have now completed the slider task. Your results are shown below.</p>
+      <table class="likert-table" style="margin-bottom:20px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; min-width:80px;">Slider</th>
+            <th>Your answer</th>
+            <th>Valid range</th>
+            <th>Correct?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:left;">1</td><td>12</td><td>0–20</td><td><span style="color:var(--green); font-weight:600;">✓</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">2</td><td>35</td><td>20–40</td><td><span style="color:var(--green); font-weight:600;">✓</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">3</td><td>55</td><td>40–60</td><td><span style="color:var(--green); font-weight:600;">✓</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">4</td><td>72</td><td>60–80</td><td><span style="color:var(--green); font-weight:600;">✓</span></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">5</td><td>95</td><td>80–100</td><td><span style="color:var(--green); font-weight:600;">✓</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p><strong>Number of correct answers: 5 out of 5</strong></p>
+      <p>For completing Part 2 of the study, participants receive <strong>X EMUs</strong>.</p>
+      <p>All participants who complete Part 2 receive the same amount. The amount earned in this part does not depend on which version of the slider task you were assigned to.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APP 3 – dictator                                     -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="app-divider">
+  <hr><span>dictator</span><hr>
+</div>
+
+<!-- Screen 10: Introduction Part 3 -->
+<div class="screen-label">Screen 10 · Part 3 Introduction</div>
+<div class="page-shell">
+  <h2 class="page-title">Part 3</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Now we start Part 3. You will be randomly and anonymously paired with a <strong>new participant</strong>.</p>
+      <p>The independent participant who assigned the tasks in Part 2 will not participate in this part of the study.</p>
+      <p>You will be asked to make decisions in 3 rounds. In each round, you will have a certain number of EMU. You will be asked to allocate these EMUs between yourself and the other participant.</p>
+      <p>Each round presents a different decision situation, which we call scenarios.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 11: Round 1 (Offer 1) -->
+<div class="screen-label">Screen 11 · Round 1 – Baseline Allocation</div>
+<div class="page-shell">
+  <h2 class="page-title">Round 1</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please indicate how many EMU you keep for yourself and how many you allocate to the other participant <em>under the scenario below</em>.</p>
+      <p>You have <strong>20 EMU</strong> to allocate.</p>
+      <div style="margin-bottom:15px;">
+        <label><strong>You (EMU)</strong></label><br>
+        <input type="number" name="r1a" min="0" max="20" value="10">
+      </div>
+      <div style="margin-bottom:15px;">
+        <label><strong>Other participant (EMU)</strong></label><br>
+        <input type="number" name="r1b" min="0" max="20" value="10">
+      </div>
+      <div class="sum-box">
+        Total: <strong>20 / 20 EMU</strong>
+      </div>
+      <br>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 12: Round 2 (Offer 2) -->
+<div class="screen-label">Screen 12 · Round 2 – Group-Identity Scenarios</div>
+<div class="page-shell">
+  <h2 class="page-title">Round 2</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please indicate how many EMU you keep for yourself and how many you allocate to the other participant <em>under the two scenarios below</em>.</p>
+      <p>You have <strong>20 EMU</strong> to allocate in each scenario.</p>
+
+      <div class="section-block">
+        <div class="section-title">Scenario 1</div>
+        <p>The other participant is from your painting group (<span class="tag-klee">Klee</span>)</p>
+        <div style="margin-bottom:15px;">
+          <label><strong>You (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div style="margin-bottom:15px;">
+          <label><strong>Other participant (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div class="sum-box">Total: <strong>20 / 20 EMU</strong></div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-title">Scenario 2</div>
+        <p>The other participant is from the other painting group (<span class="tag-kandinsky">Kandinsky</span>)</p>
+        <div style="margin-bottom:15px;">
+          <label><strong>You (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div style="margin-bottom:15px;">
+          <label><strong>Other participant (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div class="sum-box">Total: <strong>20 / 20 EMU</strong></div>
+      </div>
+
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 13: Round 3 (Offer 3) -->
+<div class="screen-label">Screen 13 · Round 3 – Task-Difficulty Scenarios</div>
+<div class="page-shell">
+  <h2 class="page-title">Round 3</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please indicate how many EMU you keep for yourself and how many you allocate to the other participant <em>under the two scenarios below</em>.</p>
+      <p>You have <strong>20 EMU</strong> to allocate in each scenario.</p>
+
+      <div class="section-block">
+        <div class="section-title">Scenario 1</div>
+        <p>The other participant previously completed the <em>easy</em> slider task.</p>
+        <div style="margin-bottom:15px;">
+          <label><strong>You (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div style="margin-bottom:15px;">
+          <label><strong>Other participant (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div class="sum-box">Total: <strong>20 / 20 EMU</strong></div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-title">Scenario 2</div>
+        <p>The other participant previously completed the <em>hard</em> slider task.</p>
+        <div style="margin-bottom:15px;">
+          <label><strong>You (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div style="margin-bottom:15px;">
+          <label><strong>Other participant (EMU)</strong></label><br>
+          <input type="number" min="0" max="20" value="10">
+        </div>
+        <div class="sum-box">Total: <strong>20 / 20 EMU</strong></div>
+      </div>
+
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 14: Dictator Results -->
+<div class="screen-label">Screen 14 · Part 3 Results</div>
+<div class="page-shell">
+  <h2 class="page-title">Your Results</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>In Part 3, round X and scenario (1 or 2) were randomly selected to compute the payoffs.</p>
+      <p>Selected round: <strong>Round 2</strong></p>
+      <p>You decided to send: <strong>10</strong> EMUs</p>
+      <p>You kept: <strong>10</strong> EMUs</p>
+      <p>Your payoff from Part 3 is <strong>10</strong> EMUs</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 15: Total Payoffs -->
+<div class="screen-label">Screen 15 · Total Payoffs &amp; Exchange Rate</div>
+<div class="page-shell">
+  <h2 class="page-title">Total payoffs and exchange rate</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Your payoff from Part 1 is X EMUs.</p>
+      <p>Your payoff from Part 2 is X EMUs.</p>
+      <p>Your payoff from Part 3 is X EMUs.</p>
+      <p>Your total payoff is X EMUs.</p>
+      <p>The exchange rate is £1 = X EMUs.</p>
+      <p>So, your earnings from this experiment are £.</p>
+      <p>The total of your payments will be transferred to you through Prolific.</p>
+      <p>Now you will be asked to complete a survey.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APP 4 – postExp_survey                               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="app-divider">
+  <hr><span>postExp_survey</span><hr>
+</div>
+
+<!-- Screen 16: Survey 1 – Familiarity -->
+<div class="screen-label">Screen 16 · Survey – Familiarity with Artists</div>
+<div class="page-shell">
+  <h2 class="page-title">Final survey</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please answer the following survey questions. Your answers will be used for this study only. Individual data will not be exposed.</p>
+      <div style="margin-bottom:20px;">
+        <label><strong>Question 1 (e.g. how many experiments have you taken part in?)</strong></label><br>
+        <select style="width:200px; margin-top:6px;">
+          <option>0</option><option>1–3</option><option>4–10</option><option>11+</option>
+        </select>
+      </div>
+      <hr>
+      <p>Before this study, how familiar were you with paintings made by…?</p>
+      <table class="likert-table">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Very unfamiliar</th>
+            <th>Unfamiliar</th>
+            <th>Neither</th>
+            <th>Familiar</th>
+            <th>Very familiar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:left;">Klee</td>
+            <td><input type="radio" name="fam_klee" value="1"></td>
+            <td><input type="radio" name="fam_klee" value="2" checked></td>
+            <td><input type="radio" name="fam_klee" value="3"></td>
+            <td><input type="radio" name="fam_klee" value="4"></td>
+            <td><input type="radio" name="fam_klee" value="5"></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Kandinsky</td>
+            <td><input type="radio" name="fam_kan" value="1"></td>
+            <td><input type="radio" name="fam_kan" value="2"></td>
+            <td><input type="radio" name="fam_kan" value="3" checked></td>
+            <td><input type="radio" name="fam_kan" value="4"></td>
+            <td><input type="radio" name="fam_kan" value="5"></td>
+          </tr>
+        </tbody>
+      </table>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 17: Survey 2 – Likert agree/disagree -->
+<div class="screen-label">Screen 17 · Survey – Group &amp; Task Feelings (Agree/Disagree)</div>
+<div class="page-shell">
+  <h2 class="page-title">Questions about the Group and the Slider Task</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please indicate how you feel right now about your group and the task assignment you just received.</p>
+      <table class="likert-table">
+        <thead>
+          <tr>
+            <th>Statement</th>
+            <th>Strongly disagree</th>
+            <th>Disagree</th>
+            <th>Neither</th>
+            <th>Agree</th>
+            <th>Strongly agree</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:left;">I feel proud to be a member of the Klee group.</td>
+            <td><input type="radio" name="q3" value="1"></td>
+            <td><input type="radio" name="q3" value="2"></td>
+            <td><input type="radio" name="q3" value="3" checked></td>
+            <td><input type="radio" name="q3" value="4"></td>
+            <td><input type="radio" name="q3" value="5"></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">I feel that the task assignment was fair.</td>
+            <td><input type="radio" name="q4" value="1"></td>
+            <td><input type="radio" name="q4" value="2" checked></td>
+            <td><input type="radio" name="q4" value="3"></td>
+            <td><input type="radio" name="q4" value="4"></td>
+            <td><input type="radio" name="q4" value="5"></td>
+          </tr>
+          <tr>
+            <td style="text-align:left; color:var(--text-muted); font-size:0.85rem;" colspan="6">⋯ Questions 3–10 follow the same pattern ⋯</td>
+          </tr>
+        </tbody>
+      </table>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 18: Survey 2b – Emotions -->
+<div class="screen-label">Screen 18 · Survey – Emotions (Extent)</div>
+<div class="page-shell">
+  <h2 class="page-title">Questions about the Group and the Slider Task</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Right now, to what extent do you feel each emotion?</p>
+      <table class="likert-table">
+        <thead>
+          <tr>
+            <th>Emotion</th>
+            <th>Not at all</th>
+            <th>To some extent</th>
+            <th>Moderately</th>
+            <th>Very much</th>
+            <th>Extremely</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:left;">Upset</td>
+            <td><input type="radio" name="q_upset" value="1" checked></td>
+            <td><input type="radio" name="q_upset" value="2"></td>
+            <td><input type="radio" name="q_upset" value="3"></td>
+            <td><input type="radio" name="q_upset" value="4"></td>
+            <td><input type="radio" name="q_upset" value="5"></td>
+          </tr>
+          <tr>
+            <td style="text-align:left;">Angry</td>
+            <td><input type="radio" name="q_angry" value="1" checked></td>
+            <td><input type="radio" name="q_angry" value="2"></td>
+            <td><input type="radio" name="q_angry" value="3"></td>
+            <td><input type="radio" name="q_angry" value="4"></td>
+            <td><input type="radio" name="q_angry" value="5"></td>
+          </tr>
+          <tr>
+            <td style="text-align:left; color:var(--text-muted); font-size:0.85rem;" colspan="6">⋯ Sad, Anxious, Frustrated, Discouraged ⋯</td>
+          </tr>
+        </tbody>
+      </table>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 19: Survey 3 – Allocation Questions -->
+<div class="screen-label">Screen 19 · Survey – Questions about the Allocation Task</div>
+<div class="page-shell">
+  <h2 class="page-title">Questions about the Allocation Task</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Please answer these questions about the allocation task you performed in Part 3 of this study.</p>
+      <div style="margin-bottom:20px;">
+        <label><strong>Q12. What influenced your allocation decisions? (select one)</strong></label><br>
+        <div style="margin-top:8px;">
+          <label style="display:block; margin-bottom:6px;"><input type="radio" name="q12" value="1"> The other person's painting group</label>
+          <label style="display:block; margin-bottom:6px;"><input type="radio" name="q12" value="2"> The other person's task difficulty</label>
+          <label style="display:block; margin-bottom:6px;"><input type="radio" name="q12" value="3"> I tried to be fair</label>
+          <label style="display:block; margin-bottom:6px;"><input type="radio" name="q12" value="other"> Other - Please specify:</label>
+          <input type="text" placeholder="Please specify..." style="display:none; width:350px; padding:4px 8px;">
+        </div>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem;">⋯ Questions 13–16b follow the same layout ⋯</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 20: Demographics -->
+<div class="screen-label">Screen 20 · Survey – Demographics</div>
+<div class="page-shell">
+  <h2 class="page-title">Some Questions About You</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <div style="margin-bottom:20px;">
+        <label><strong>Age</strong></label><br>
+        <input type="number" style="width:100px; margin-top:6px;" value="28">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label><strong>Gender</strong></label><br>
+        <div style="margin-top:8px;">
+          <label style="margin-right:16px;"><input type="radio" name="gender" value="M"> Male</label>
+          <label style="margin-right:16px;"><input type="radio" name="gender" value="F" checked> Female</label>
+          <label><input type="radio" name="gender" value="O"> Other</label>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <label><strong>Have you studied economics?</strong></label><br>
+        <div style="margin-top:8px;">
+          <label style="margin-right:16px;"><input type="radio" name="econ" value="Yes"> Yes</label>
+          <label><input type="radio" name="econ" value="No" checked> No</label>
+        </div>
+        <div style="display:none; margin-top:6px;">
+          <input type="text" placeholder="Please specify..." style="width:350px; padding:4px 8px;">
+        </div>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.85rem;">⋯ Background, donation questions follow ⋯</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<!-- Screen 21: End Survey -->
+<div class="screen-label">Screen 21 · Thank You</div>
+<div class="page-shell">
+  <h2 class="page-title">Thank you!</h2>
+  <div class="page-body">
+    <div class="content-card">
+      <p>Thank you for your participation in our study. Please click the blue arrow button to continue to the completion page of the survey, you will be redirected to a new page.</p>
+      <span class="btn-primary">Next →</span>
+    </div>
+  </div>
+</div>
+
+<div style="max-width:760px; margin:48px auto 0; text-align:center; font-size:0.78rem; color:var(--text-muted);">
+  Social Exclusion Experiment · Full Preview · Generated April 2026
+</div>
+
+</body>
+</html>
