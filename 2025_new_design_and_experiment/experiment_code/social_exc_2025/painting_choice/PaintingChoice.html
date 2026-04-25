@@ -15,16 +15,26 @@ After everyone submits answers, you will be privately informed of which group yo
 
 <form method="post">
 
-    {% for i in range(1, 6) %}
+    {% for i, klee_letter in pairs %}
         <div style="margin-bottom: 30px;">
             <p><strong>Pair {{ i }}</strong></p>
             <div style="display: flex; justify-content: space-around; align-items: center;">
                 <label>
-                    <img src="/static/painting_choice/pair{{ i }}_A.jpg" width="250"><br>
+                    {# The image shown on the A side depends on which letter is
+                       mapped to the Klee painting for this pair. #}
+                    {% if klee_letter == 'A' %}
+                        <img src="/static/painting_choice/pair{{ i }}_A.jpg" width="250"><br>
+                    {% else %}
+                        <img src="/static/painting_choice/pair{{ i }}_B.jpg" width="250"><br>
+                    {% endif %}
                     <input type="radio" name="painting_choice_{{ i }}" value="A" required> A
                 </label>
                 <label>
-                    <img src="/static/painting_choice/pair{{ i }}_B.jpg" width="250"><br>
+                    {% if klee_letter == 'A' %}
+                        <img src="/static/painting_choice/pair{{ i }}_B.jpg" width="250"><br>
+                    {% else %}
+                        <img src="/static/painting_choice/pair{{ i }}_A.jpg" width="250"><br>
+                    {% endif %}
                     <input type="radio" name="painting_choice_{{ i }}" value="B" required> B
                 </label>
             </div>

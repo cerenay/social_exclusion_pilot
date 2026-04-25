@@ -29,12 +29,8 @@
 </div>
 
 <div style="margin-bottom: 20px;">
-    <label>{{ form.economics.label }}</label><br>
-    {{ form.economics }}
-    <div id="economics_specify_box" style="display:none; margin-top:6px;">
-        <input type="text" name="economics_specify" id="economics_specify"
-               placeholder="Please specify..." style="width:350px; padding:4px 8px;">
-    </div>
+    <label>{{ form.economics_count.label }}</label><br>
+    {{ form.economics_count }}
 </div>
 
 <div style="margin-bottom: 20px;">
@@ -61,7 +57,6 @@
 
 <script>
 const specifyTriggers = {
-    'economics': { box: 'economics_specify_box', field: 'economics_specify', triggerValue: 'Yes' },
     'background': { box: 'background_specify_box', field: 'background_specify', triggerValue: 'Other' },
     'donation':  { box: 'donation_specify_box',  field: 'donation_specify',  triggerValue: 'Yes' },
 };

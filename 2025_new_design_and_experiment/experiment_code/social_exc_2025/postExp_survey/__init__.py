@@ -24,7 +24,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     question_1 = models.StringField(
-        choices=['Klee', 'Kandisky'],
+        choices=['Klee', 'Kandinsky'],
         widget=widgets.RadioSelect,
         label="Which painting group were you assigned to in Part 1 of the study?")
     question_2a = models.StringField(
@@ -33,8 +33,8 @@ class Player(BasePlayer):
         label="Klee")
     question_2b = models.StringField(
         choices=C.FAMILIAR_CHOICES,
-        widget=widgets.RadioSelect,
-        label="Kandisky")
+        widget=widgets.RadioSelectHorizontal,
+        label="Kandinsky")
 
     question_3 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
                                     label="I felt attached to my own group throughout the study.")
@@ -100,7 +100,7 @@ class Player(BasePlayer):
         label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the difficult task, how would you describe the strategy you used?")
     question_16b_other = models.StringField(blank=True, label="")
 
-    age = models.IntegerField(label='What is your age?', min=13, max=125)
+    age = models.IntegerField(label='What is your age?', min=18, max=99)
     gender = models.StringField(
         choices=[['Male', 'Male'], ['Female', 'Female']],
         label='What is your gender?',
@@ -117,12 +117,15 @@ class Player(BasePlayer):
         label='How many siblings do you have?',
         widget=widgets.RadioSelect,
     )
-    economics = models.StringField(
-        choices=[['Yes', 'Yes - please specify'], ['No', 'No']],
-        label='Have you ever participated in any economics or psychology experimental studies before?',
-        widget=widgets.RadioSelect,
+    # Estimate of how many economics / psychology experiments the participant
+    # has taken part in. 0 means they have not participated in any.
+    economics_count = models.IntegerField(
+        label=('Specify an estimate on how many economics or psychology '
+               'experimental studies you have participated in. '
+               '(Enter 0 if none.)'),
+        min=0,
+        max=1000,
     )
-    economics_specify = models.StringField(blank=True, label="")
     background = models.StringField(
         choices=[['White', 'White'], ['Black', 'Black'], ['Hispanic', 'Hispanic'], ['Asian', 'Asian'], ['Other', 'Other - please specify']],
         label='What do you consider your racial or ethnic background to be?',
@@ -202,7 +205,7 @@ class Postexp_surv3(Page):
 class Demo(Page):
     form_model = 'player'
     form_fields = ['age', 'gender', 'education', 'sibling',
-                   'economics', 'economics_specify',
+                   'economics_count',
                    'background', 'background_specify',
                    'donation', 'donation_specify']
 

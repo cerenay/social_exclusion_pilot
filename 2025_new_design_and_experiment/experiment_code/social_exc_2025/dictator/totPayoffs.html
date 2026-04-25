@@ -7,15 +7,34 @@ Total payoffs and exchange rate
 {% block content %}
 <div class="content-card">
 
-<p> Your payoff from Part 1 is X EMUs. </p>
-<p> Your payoff from Part 2 is X EMUs. </p>
-<p> Your payoff from Part 3 is X EMUs. </p>
-<p> Your total payoff is X EMUs. </p>
-<p> The exchange rate is £1 = X EMUs. </p>
-<p> So, your earnings from this experiment are £.  </p>
-<p> The total of your payments will be transferred to you through Prolific. </p>
+<p>The table below summarises your payoff from each part of the experiment:</p>
 
-<p> Now you will be asked to complete a survey. </p>
+<table class="likert-table" style="width: auto; margin-bottom: 20px;">
+    <thead>
+        <tr>
+            <th style="text-align:left;">Part</th>
+            <th>Payoff (EMU)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for label, amount in payoff_rows %}
+        <tr>
+            <td style="text-align:left;">{{ label }}</td>
+            <td><strong>{{ amount }}</strong></td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td style="text-align:left;"><strong>Total</strong></td>
+            <td><strong>{{ total_payoff }}</strong></td>
+        </tr>
+    </tbody>
+</table>
+
+<p>The exchange rate is <strong>£1 = {{ exchange_rate }} EMU</strong>.</p>
+<p>Your earnings from this experiment are <strong>£{{ earnings_gbp }}</strong>.</p>
+<p>The total of your payments will be transferred to you through Prolific.</p>
+
+<p>Now you will be asked to complete a short survey.</p>
 
 {{ next_button }}
 

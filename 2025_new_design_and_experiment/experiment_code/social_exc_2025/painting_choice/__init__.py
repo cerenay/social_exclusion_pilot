@@ -5,6 +5,7 @@ class C(BaseConstants):
     NAME_IN_URL = 'painting_choice'
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
+    NUM_PAIRS = 5
     PAINTING_CHOICES = [
         ('klee', 'Paul Klee'),
         ('kandinsky', 'Wassily Kandinsky'),
@@ -21,6 +22,16 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
+
+def creating_session(subsession):
+    # For each participant, independently randomize — for every pair — which
+    # letter (A or B) corresponds to the Klee painting. Stored as a 5-character
+    # string like "ABBAB".  This way, answering "A" for every pair does not
+    # automatically place the participant into the Klee (or Kandinsky) group.
+    for p in subsession.get_players():
+        p.klee_letter_map = ''.join(random.choice('AB') for _ in range(C.NUM_PAIRS))
+
+
 class Group(BaseGroup):
     pass
 
@@ -30,6 +41,10 @@ class Player(BasePlayer):
     painting_choice_3 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #3")
     painting_choice_4 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #4")
     painting_choice_5 = models.StringField(choices=['A', 'B'], widget=widgets.RadioSelectHorizontal, label="Pair #5")
+    # 5-character string, one letter per pair, identifying which radio button
+    # (A or B) is the Klee painting for this participant on that pair.
+    # Populated in creating_session().
+    klee_letter_map = models.StringField()
     # Stores semicolon-separated list of selected reasons (multi-select, rendered manually in template)
     explanation = models.StringField(blank=True, label="Before you continue to Part 2, can you briefly describe the reason behind your choice of the paintings?")
     explanation_other_text = models.StringField(blank=True, label="Please specify")
@@ -40,16 +55,24 @@ class Player(BasePlayer):
     )
 
     def count_klee_choices(self):
-        return sum([
-            self.painting_choice_1 == 'A',
-            self.painting_choice_2 == 'A',
-            self.painting_choice_3 == 'A',
-            self.painting_choice_4 == 'A',
-            self.painting_choice_5 == 'A',
-        ])
+        # For each pair, the Klee painting corresponds to the letter stored at
+        # that position in klee_letter_map (per-participant randomization).
+        mapping = self.klee_letter_map or ''
+        choices = [
+            self.painting_choice_1,
+            self.painting_choice_2,
+            self.painting_choice_3,
+            self.painting_choice_4,
+            self.painting_choice_5,
+        ]
+        return sum(
+            choice == mapping[i]
+            for i, choice in enumerate(choices)
+            if i < len(mapping)
+        )
 
     def count_kandinsky_choices(self):
-        return 5 - self.count_klee_choices()
+        return C.NUM_PAIRS - self.count_klee_choices()
 
 
 class Welcome(Page):
@@ -71,7 +94,12 @@ class PaintingChoice(Page):
 
     @staticmethod
     def vars_for_template(player):
-        return {}
+        # Build a list of (pair_index, klee_letter) pairs so the template can
+        # display the Klee painting on either the A or B side, based on this
+        # participant's randomly-assigned mapping.
+        mapping = player.klee_letter_map or 'A' * C.NUM_PAIRS
+        pairs = [(i + 1, mapping[i]) for i in range(C.NUM_PAIRS)]
+        return dict(pairs=pairs)
 
     @staticmethod
     def before_next_page(player, timeout_happened):
