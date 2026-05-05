@@ -27,7 +27,7 @@ Round 2
     </div>
     <div class="sum-box">
         Total: <strong><span id="sum1">0</span> / {{ endowment }} EMU</strong>
-        <span id="warn1" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+        <span id="warn1" style="color:var(--red); display:none;"></span>
     </div>
 </div>
 
@@ -48,7 +48,7 @@ Round 2
     </div>
     <div class="sum-box">
         Total: <strong><span id="sum2">0</span> / {{ endowment }} EMU</strong>
-        <span id="warn2" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+        <span id="warn2" style="color:var(--red); display:none;"></span>
     </div>
 </div>
 
@@ -57,13 +57,42 @@ Round 2
 </div>
 
 <script>
+const ENDOWMENT_R2 = {{ endowment }};
+
 function updateSum(aId, bId, sumId, warnId) {
     const a = parseInt(document.getElementById(aId).value) || 0;
     const b = parseInt(document.getElementById(bId).value) || 0;
     const sum = a + b;
     document.getElementById(sumId).textContent = sum;
-    document.getElementById(warnId).style.display = sum > {{ endowment }} ? 'inline' : 'none';
+
+    const warn = document.getElementById(warnId);
+    if (sum > ENDOWMENT_R2) {
+        warn.textContent = ' ⚠ Total exceeds ' + ENDOWMENT_R2 + ' EMU';
+        warn.style.display = 'inline';
+    } else if (sum < ENDOWMENT_R2) {
+        warn.textContent = ' ⚠ You must allocate the full ' + ENDOWMENT_R2 + ' EMU (currently ' + sum + ')';
+        warn.style.display = 'inline';
+    } else {
+        warn.style.display = 'none';
+    }
+
+    refreshNext();
 }
+
+function refreshNext() {
+    const s1 = (parseInt(document.getElementById('s1a').value) || 0) +
+               (parseInt(document.getElementById('s1b').value) || 0);
+    const s2 = (parseInt(document.getElementById('s2a').value) || 0) +
+               (parseInt(document.getElementById('s2b').value) || 0);
+    const ok = (s1 === ENDOWMENT_R2) && (s2 === ENDOWMENT_R2);
+    const btn = document.querySelector('.otree-btn-next, button[type="submit"]');
+    if (btn) btn.disabled = !ok;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    updateSum('s1a','s1b','sum1','warn1');
+    updateSum('s2a','s2b','sum2','warn2');
+});
 </script>
 
 {% endblock %}

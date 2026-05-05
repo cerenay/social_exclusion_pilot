@@ -23,7 +23,7 @@
 
 <div class="sum-box">
     Total: <strong><span id="totalSum">0</span> / {{ endowment }} EMU</strong>
-    <span id="overWarning" style="color:var(--red); display:none;"> ⚠ Total exceeds {{ endowment }} EMU</span>
+    <span id="allocWarning" style="color:var(--red); display:none;"></span>
 </div>
 
 {{ next_button }}
@@ -31,13 +31,30 @@
 </div>
 
 <script>
+const ENDOWMENT_R1 = {{ endowment }};
+
 function updateSum() {
     const a = parseInt(document.getElementById('r1a').value) || 0;
     const b = parseInt(document.getElementById('r1b').value) || 0;
     const sum = a + b;
     document.getElementById('totalSum').textContent = sum;
-    document.getElementById('overWarning').style.display = sum > {{ endowment }} ? 'inline' : 'none';
+
+    const warn = document.getElementById('allocWarning');
+    if (sum > ENDOWMENT_R1) {
+        warn.textContent = ' ⚠ Total exceeds ' + ENDOWMENT_R1 + ' EMU';
+        warn.style.display = 'inline';
+    } else if (sum < ENDOWMENT_R1) {
+        warn.textContent = ' ⚠ You must allocate the full ' + ENDOWMENT_R1 + ' EMU (currently ' + sum + ')';
+        warn.style.display = 'inline';
+    } else {
+        warn.style.display = 'none';
+    }
+
+    const btn = document.querySelector('.otree-btn-next, button[type="submit"]');
+    if (btn) btn.disabled = (sum !== ENDOWMENT_R1);
 }
+
+document.addEventListener('DOMContentLoaded', updateSum);
 </script>
 
 {% endblock %}

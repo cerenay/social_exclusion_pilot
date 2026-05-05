@@ -87,6 +87,26 @@ class Offer(Page):
 
 
 
+def _allocation_error(values, scenarios):
+    """Return an error string if any scenario's (kept + sent) != ENDOWMENT.
+
+    `scenarios` is a list of (label, kept_field, sent_field) tuples.
+    """
+    endowment = int(C.ENDOWMENT)
+    bad = []
+    for label, a_field, b_field in scenarios:
+        a = values.get(a_field) or 0
+        b = values.get(b_field) or 0
+        if int(a) + int(b) != endowment:
+            bad.append(f"{label} (you {int(a)} + other {int(b)} = {int(a) + int(b)})")
+    if bad:
+        return (
+            f"Your allocation must total exactly {endowment} EMU in each scenario. "
+            f"Please fix: {'; '.join(bad)}."
+        )
+    return None
+
+
 class offer_1(Page):
     form_model = 'player'
     form_fields = ['choice_round_1a', 'choice_round_1b']
@@ -98,6 +118,13 @@ class offer_1(Page):
     @staticmethod
     def vars_for_template(player):
         return dict(endowment=int(C.ENDOWMENT))
+
+    @staticmethod
+    def error_message(player, values):
+        return _allocation_error(
+            values,
+            [("Round 1", 'choice_round_1a', 'choice_round_1b')],
+        )
 
 
 class offer_2(Page):
@@ -123,6 +150,16 @@ class offer_2(Page):
             other_color = other_color,
         )
 
+    @staticmethod
+    def error_message(player, values):
+        return _allocation_error(
+            values,
+            [
+                ("Scenario 1 (in-group)",  'choice_round_2_1a', 'choice_round_2_1b'),
+                ("Scenario 2 (out-group)", 'choice_round_2_2a', 'choice_round_2_2b'),
+            ],
+        )
+
 
 class offer_3(Page):
     form_model = 'player'
@@ -136,6 +173,16 @@ class offer_3(Page):
     @staticmethod
     def vars_for_template(player):
         return dict(endowment=int(C.ENDOWMENT))
+
+    @staticmethod
+    def error_message(player, values):
+        return _allocation_error(
+            values,
+            [
+                ("Scenario 1 (easy task)", 'choice_round_3_1a', 'choice_round_3_1b'),
+                ("Scenario 2 (hard task)", 'choice_round_3_2a', 'choice_round_3_2b'),
+            ],
+        )
 
 
 
