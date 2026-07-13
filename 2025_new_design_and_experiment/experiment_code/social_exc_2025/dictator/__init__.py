@@ -27,10 +27,17 @@ class Group(BaseGroup):
     # Only meaningful for selected_round == 2 or 3; otherwise defaulted to 1.
     selected_scenario = models.IntegerField()
     treatment = models.StringField()  # for potential use later
+    # Strategy method: both participants complete every offer page; one is
+    # randomly designated as the realised allocator at payoff time. Until
+    # set_payoffs runs, this is unset and Player.role() returns "".
+    allocator_id = models.IntegerField()
 
     def set_payoffs(self):
-        allocator = self.get_player_by_role("allocator")
-        recipient = self.get_player_by_role("recipient")
+        # Randomly designate one of the two players as the realised allocator.
+        self.allocator_id = random.choice([1, 2])
+        players = self.get_players()
+        allocator = next(p for p in players if p.id_in_group == self.allocator_id)
+        recipient = next(p for p in players if p.id_in_group != self.allocator_id)
 
         # Randomly pick which round (1, 2, or 3) determines payoffs.
         self.selected_round = random.randint(1, C.ROUNDS)
@@ -70,8 +77,14 @@ class Player(BasePlayer):
     #choice_round_4 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from your group and did easy / hard task")
     #choice_round_5 = models.CurrencyField(min=0, max=C.ENDOWMENT, label="If the recipient is from the other group and did easy / hard task")
 
+    # Roles are assigned only at payoff time (strategy method). Until then both
+    # participants behave identically, so role() returns "". oTree 5.11.x calls
+    # this method with parens, so it must remain a method on Player.
     def role(self):
-        return "allocator" if self.id_in_group == 1 else "recipient"
+        allocator_id = self.group.field_maybe_none('allocator_id')
+        if allocator_id is None:
+            return ""
+        return "allocator" if self.id_in_group == allocator_id else "recipient"
 
 
 # PAGES
@@ -112,10 +125,6 @@ class offer_1(Page):
     form_fields = ['choice_round_1a', 'choice_round_1b']
 
     @staticmethod
-    def is_displayed(player):
-        return player.role() == "allocator"
-
-    @staticmethod
     def vars_for_template(player):
         return dict(endowment=int(C.ENDOWMENT))
 
@@ -131,10 +140,6 @@ class offer_2(Page):
     form_model = 'player'
     form_fields = ['choice_round_2_1a', 'choice_round_2_1b',
                    'choice_round_2_2a', 'choice_round_2_2b']
-
-    @staticmethod
-    def is_displayed(player):
-        return player.role() == "allocator"
 
     @staticmethod
     def vars_for_template(player):
@@ -167,10 +172,6 @@ class offer_3(Page):
                    'choice_round_3_2a', 'choice_round_3_2b']
 
     @staticmethod
-    def is_displayed(player):
-        return player.role() == "allocator"
-
-    @staticmethod
     def vars_for_template(player):
         return dict(endowment=int(C.ENDOWMENT))
 
@@ -187,7 +188,23 @@ class offer_3(Page):
 
 
 class WaitForAll(WaitPage):
-    after_all_players_arrive = Group.set_payoffs
+    @staticmethod
+    def after_all_players_arrive(group):
+        # oTree calls this with the group as the argument; delegate to the
+        # Group method so `self.get_player_by_role(...)` is called on a Group,
+        # not on the WaitPage instance.
+        group.set_payoffs()
+
+
+# Layout of every scenario in the strategy-method matrix.
+# (round_num, scenario_num, context_label, kept_field, sent_field)
+SCENARIO_ROWS = [
+    (1, None, "—",                                'choice_round_1a',   'choice_round_1b'),
+    (2, 1,    "From your painting group",         'choice_round_2_1a', 'choice_round_2_1b'),
+    (2, 2,    "From the other painting group",    'choice_round_2_2a', 'choice_round_2_2b'),
+    (3, 1,    "Performed the easy slider task",   'choice_round_3_1a', 'choice_round_3_1b'),
+    (3, 2,    "Performed the hard slider task",   'choice_round_3_2a', 'choice_round_3_2b'),
+]
 
 
 # Human-readable scenario descriptions used on the Results page so the
@@ -213,11 +230,34 @@ def _get_choice(allocator, selected_round, selected_scenario):
     return kept, sent
 
 
+def _build_decision_matrix(participant_player, selected_round, selected_scenario):
+    """Build the participant's own 5-row decision matrix for the Results page."""
+    rows = []
+    for r, s, context, kept_field, sent_field in SCENARIO_ROWS:
+        is_selected = (
+            r == selected_round
+            and (s == selected_scenario or (r == 1 and s is None))
+        )
+        rows.append(dict(
+            round_num=r,
+            scenario_label=str(s) if s is not None else "—",
+            context=context,
+            kept=int(getattr(participant_player, kept_field)),
+            sent=int(getattr(participant_player, sent_field)),
+            is_selected=is_selected,
+        ))
+    return rows
+
+
 class Results(Page):
     @staticmethod
     def vars_for_template(player):
         group = player.group
-        allocator = group.get_player_by_role("allocator")
+        # Look up the realised allocator by id (set in set_payoffs).
+        allocator = next(
+            p for p in group.get_players()
+            if p.id_in_group == group.allocator_id
+        )
         selected_round = group.selected_round
         selected_scenario = group.selected_scenario
 
@@ -227,6 +267,11 @@ class Results(Page):
         if selected_round in SCENARIO_TEXT:
             scenario_desc = SCENARIO_TEXT[selected_round].get(selected_scenario)
 
+        # Each participant sees their own decision matrix.
+        decision_matrix = _build_decision_matrix(
+            player, selected_round, selected_scenario,
+        )
+
         return dict(
             selected_round=selected_round,
             selected_scenario=selected_scenario,
@@ -235,6 +280,7 @@ class Results(Page):
             kept=kept,
             role=player.role(),
             my_payoff=player.payoff,
+            decision_matrix=decision_matrix,
         )
 
 

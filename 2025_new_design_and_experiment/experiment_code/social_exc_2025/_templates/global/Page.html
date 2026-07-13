@@ -246,13 +246,167 @@ input[type="range"]::-moz-range-thumb {
   font-size: 0.95rem;
 }
 
+/* ── Click-to-place slider ──
+   Used in counting_matrix in place of native <input type="range">. Participants
+   place the marker by clicking once anywhere on the track; in the actual task
+   the track locks after the first click. */
+.click-slider {
+  position: relative;
+  width: 460px;
+  max-width: 100%;
+  margin: 4px 0 6px 0;
+  user-select: none;
+}
+.click-slider-track {
+  position: relative;
+  height: 10px;
+  background: #E4E4E7;
+  border-radius: 5px;
+  cursor: crosshair;
+}
+.click-slider-track.locked {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+.click-slider-thumb {
+  position: absolute;
+  top: -5px;
+  width: 20px;
+  height: 20px;
+  background: var(--accent);
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.click-slider-tick {
+  position: absolute;
+  top: 11px;
+  width: 1px;
+  height: 6px;
+  background: #A1A1AA;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.click-slider-tick-label {
+  position: absolute;
+  top: 18px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.click-slider-readout {
+  display: inline-block;
+  margin-left: 14px;
+  min-width: 56px;
+  font-weight: 600;
+  color: var(--accent);
+  vertical-align: top;
+  font-size: 0.95rem;
+}
+.click-slider-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
 /* ── Error messages ── */
 .alert-danger, .errorlist {
   border-radius: 8px !important;
   font-size: 0.88rem !important;
 }
 ul.errorlist { color: var(--red); list-style: none; padding-left: 0; }
+
+/* ── Persistent participant badges ──
+   Injected by the script in global_scripts. Shows the participant's painting
+   group (once assigned in Part 1) and slider task difficulty (once completed
+   in Part 2) at the top of every subsequent page. */
+.participant-badges {
+  max-width: 760px;
+  margin: 0 auto 14px auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 10px 0 6px 0;
+  background: var(--bg);
+}
+.participant-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.participant-badge-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.7rem;
+}
+.badge-painting-klee      { color: var(--green); border-color: rgba(22,163,74,0.35); background: rgba(22,163,74,0.06); }
+.badge-painting-kandinsky { color: var(--red);   border-color: rgba(220,38,38,0.35); background: rgba(220,38,38,0.06); }
+.badge-task-easy,
+.badge-task-hard          { color: var(--accent); border-color: rgba(99,102,241,0.35); background: rgba(99,102,241,0.06); }
 </style>
 {{ endblock }}
 
-{{ block global_scripts }}{{ endblock }}
+{{ block global_scripts }}
+<script>
+(function () {
+    // Server-rendered values from participant.vars. Empty string until set.
+    var paintingGroup  = "{% if participant.vars.painting_group %}{{ participant.vars.painting_group }}{% endif %}";
+    var taskDifficulty = "{% if participant.vars.task_difficulty %}{{ participant.vars.task_difficulty }}{% endif %}";
+
+    function makeBadge(labelText, valueText, klass) {
+        var span = document.createElement('span');
+        span.className = 'participant-badge ' + klass;
+        var label = document.createElement('span');
+        label.className = 'participant-badge-label';
+        label.textContent = labelText;
+        span.appendChild(label);
+        span.appendChild(document.createTextNode(valueText));
+        return span;
+    }
+
+    function capitalise(s) {
+        return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (!paintingGroup && !taskDifficulty) return;
+
+        var bar = document.createElement('div');
+        bar.className = 'participant-badges';
+
+        if (paintingGroup) {
+            var klass = (paintingGroup === 'Klee')
+                ? 'badge-painting-klee'
+                : 'badge-painting-kandinsky';
+            bar.appendChild(makeBadge('Group', paintingGroup, klass));
+        }
+        if (taskDifficulty) {
+            var diffClass = 'badge-task-' + taskDifficulty.toLowerCase();
+            bar.appendChild(makeBadge('Task', capitalise(taskDifficulty), diffClass));
+        }
+
+        // Insert at the top of the .container so the bar sits above the page
+        // title and content card. Falls back to body if .container is absent.
+        var container = document.querySelector('.container') || document.body;
+        container.insertBefore(bar, container.firstChild);
+    });
+})();
+</script>
+{{ endblock }}

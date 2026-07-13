@@ -1,0 +1,488 @@
+---
+title: "Power & sample-size for the 2 × 2 Social Exclusion experiment"
+author: "Ceren"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    code-fold: true
+    code-tools: true
+    embed-resources: true
+    theme: cosmo
+    fig-width: 9
+    fig-height: 6
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+    echo: true
+    cache: true
+execute:
+  freeze: auto
+---
+
+```{r hidden-setup, include=FALSE}
+# Silent setup: install/load packages, set the CRAN mirror (needed for
+# non-interactive renders), define the two thresholds we use throughout,
+# and pin the two folder paths. Hidden from the rendered document.
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+required <- c("pwr", "readr", "dplyr", "tidyr", "ggplot2", "knitr")
+new <- setdiff(required, rownames(installed.packages()))
+if (length(new) > 0) install.packages(new)
+invisible(lapply(required, library, character.only = TRUE))
+
+alpha <- 0.05
+power <- 0.90
+
+PILOT_DIR  <- "/Users/cerenay/social_exclusion_pilot/processed data and analyses"
+DESIGN_DIR <- "/Users/cerenay/social_exclusion_pilot/2025_new_design_and_experiment/Design"
+```
+
+## Overview
+
+This document estimates the sample size for the new design. I report
+two anchors — our own pilot and Chen & Li(2009)'s identity effects — so we can
+compare both before fixing N for the preregistration.
+
+Two complementary approaches:
+
+- **Analytical power** via `pwr::pwr.f2.test()`. Closed-form; returns one
+  required N per assumed effect size.
+- **Monte Carlo simulation.** A full power curve across sample sizes and
+  effect sizes, so the trade-off is visible rather than a single point.
+
+Thresholds throughout: **α = 0.05, power = 0.90**.
+
+## The design being powered
+
+Between-subjects 2 × 2 factorial:
+
+| Factor        | Level 1               | Level 2                                        |
+|---------------|-----------------------|------------------------------------------------|
+| **Identity** | no identity           | identity (Klee / Kandinsky minimal group)     |
+| **Exclusion** | random (computer)     | spectator (independent participant)            |
+
+The four cells correspond to four of the five treatments in the oTree code
+(`T1`, `T2`, `T4`, `T5`). `T3` (identity × no exclusion) remains in the
+design as a manipulation check but is not part of the 2 × 2 factorial
+powered here.
+
+**Primary test:** the Identity × Exclusion **interaction** on dictator-game
+giving. Outcome: EMU allocated to the recipient.
+
+## What the pilot tells us
+
+The pilot manipulated a single factor — `condition` (treatment = chosen
+exclusion, control = random exclusion) — with no identity component. It
+maps onto only one of the new design's two factors (the exclusion
+mechanism), so its effect provides a *lower bound* for the interaction of
+interest in the new design.
+
+
+```{r load-pilot}
+pilot_treatment <- read_csv2(file.path(PILOT_DIR, "treatment_pilot.csv"))
+pilot_control   <- read_csv2(file.path(PILOT_DIR, "control_pilot.csv"))
+
+pilot <- bind_rows(pilot_treatment, pilot_control) |>
+  mutate(
+    dg   = if_else(role_dg == 1, group_sent, send_proxy),
+    fair = case_when(
+      payoff_beneficiary == 10 ~ "fair",
+      payoff_beneficiary  > 10 ~ "excluder",
+      payoff_beneficiary  < 10 ~ "excluded"
+    )
+  ) |>
+  filter(!is.na(dg))
+
+cat("Usable pilot N:", nrow(pilot),
+    "  (treatment:", sum(pilot$condition == "treatment"),
+    "control:",  sum(pilot$condition == "control"), ")\n")
+```
+
+### Marginal means by condition
+
+```{r marginal-means}
+pilot |>
+  group_by(condition) |>
+  summarise(n = n(),
+            mean = round(mean(dg), 3),
+            sd   = round(sd(dg), 3)) |>
+  knitr::kable()
+```
+
+### Cell means (condition × fair status)
+
+```{r cell-means}
+pilot |>
+  group_by(condition, fair) |>
+  summarise(n = n(),
+            mean = round(mean(dg), 3),
+            sd   = round(sd(dg), 3),
+            .groups = "drop") |>
+  knitr::kable()
+```
+
+### Effect sizes we can extract from the pilot
+
+```{r effect-sizes}
+d_condition <- with(pilot, {
+  tv <- dg[condition == "treatment"]
+  cv <- dg[condition == "control"]
+  n1 <- length(tv); n2 <- length(cv)
+  m1 <- mean(tv);   m2 <- mean(cv)
+  s1 <- sd(tv);     s2 <- sd(cv)
+  ps <- sqrt(((n1 - 1) * s1^2 + (n2 - 1) * s2^2) / (n1 + n2 - 2))
+  (m1 - m2) / ps
+})
+
+aov_cond   <- aov(dg ~ condition, data = pilot)
+ss         <- summary(aov_cond)[[1]][, "Sum Sq"]
+eta2_cond  <- ss[1] / sum(ss)
+f_cond     <- sqrt(eta2_cond / (1 - eta2_cond))
+pilot_sd   <- sd(pilot$dg)
+
+tibble(
+  metric = c("Cohen's d (treatment vs control)",
+             "eta^2 (condition)",
+             "Cohen's f (condition)",
+             "Overall SD of dg (noise anchor for the sims)"),
+  value  = round(c(d_condition, eta2_cond, f_cond, pilot_sd), 4)
+) |>
+  knitr::kable()
+```
+
+The pilot's condition effect is **small** on Cohen's benchmarks
+(`d ≈ 0.21`, `f ≈ 0.11`, with `f = 0.10` the small threshold). This is
+the effect size that drives the pilot-anchored sample sizes reported
+below.
+
+## Analytical power under the pilot anchor
+
+The primary test is the Identity × Exclusion interaction in a 2 × 2
+between-subjects ANOVA, so:
+
+- Numerator df: `u = (a − 1)(b − 1) = 1`
+- Denominator df: `v = N − a·b = N − 4`
+- Total N: `v + 4`, cell n: `N / 4`
+
+The table below sweeps four effect-size scenarios so the sample-size can be read directly against the assumed effect size.
+
+```{r analytical-power}
+power_2x2_interaction <- function(f, alpha = 0.05, power = 0.90) {
+  res <- pwr.f2.test(u = 1, f2 = f^2,
+                     sig.level = alpha, power = power)
+  N_total <- ceiling(res$v + 4)
+  data.frame(
+    f          = f,
+    f_squared  = round(f^2, 5),
+    v_denom_df = ceiling(res$v),
+    N_total    = N_total,
+    n_per_cell = ceiling(N_total / 4)
+  )
+}
+
+scenarios <- data.frame(
+  scenario = c("Pilot-derived (single-factor)",
+               "Small  (Cohen benchmark)",
+               "Small-to-medium",
+               "Medium (Cohen benchmark)"),
+  f        = c(round(f_cond, 3), 0.10, 0.15, 0.25)
+)
+
+primary_results <- do.call(rbind, lapply(seq_len(nrow(scenarios)), function(i) {
+  cbind(scenario = scenarios$scenario[i],
+        power_2x2_interaction(scenarios$f[i], alpha, power))
+}))
+
+knitr::kable(primary_results,
+             caption = "Sample sizes for the 2 × 2 interaction under the pilot anchor (α = 0.05, power = 0.90)")
+```
+
+At the pilot's effect size (`f ≈ 0.11`), ~235 per cell are required for
+90 % power on the interaction. At `f = 0.15` (small-to-medium) this drops
+to ~120 per cell. At `f = 0.25` (medium) it drops further to ~44 per cell.
+
+## Secondary tests
+
+Two supporting analyses are included.
+
+### 5-treatment omnibus ANOVA
+
+If the analysis strategy is an omnibus F across all five treatments, the required N is slightly different.
+
+```{r five-treatment}
+five_treatment <- data.frame(
+  scenario = c("Pilot-derived", "Small", "Small-to-medium", "Medium"),
+  f        = c(round(f_cond, 3), 0.10, 0.15, 0.25)
+)
+five_treatment$n_per_cell <- sapply(five_treatment$f, function(f) {
+  ceiling(pwr.anova.test(k = 5, f = f,
+                         sig.level = alpha, power = power)$n)
+})
+five_treatment$N_total <- five_treatment$n_per_cell * 5
+knitr::kable(five_treatment,
+             caption = "Sample sizes for the omnibus 5-treatment ANOVA")
+```
+
+### Within-subjects paired contrasts
+
+Under the strategy method each participant supplies paired observations
+(Round 2: in-group vs out-group; Round 3: easy vs hard recipient). These
+paired tests require far fewer participants than the between-subjects
+interaction, so they will be well-powered as a by-product of powering the
+interaction. The between-subjects interaction is the binding constraint.
+
+```{r paired-contrasts}
+paired_scenarios <- data.frame(
+  scenario = c("Small  (d = 0.20)", "Small-to-medium (d = 0.30)",
+               "Medium (d = 0.50)"),
+  d        = c(0.20, 0.30, 0.50)
+)
+paired_scenarios$n_needed <- sapply(paired_scenarios$d, function(d) {
+  ceiling(pwr.t.test(d = d, sig.level = alpha, power = power,
+                     type = "paired", alternative = "two.sided")$n)
+})
+knitr::kable(paired_scenarios,
+             caption = "Sample sizes for within-subjects paired contrasts")
+```
+
+## Simulation-based power
+
+For each candidate cell size and each assumed effect size, the routine
+below simulates `n_sims` replicate datasets with a crossover cell-mean
+pattern (so Cohen's f of the pure interaction equals the target exactly),
+fits `aov(y ~ A * B)`, and counts the proportion of simulations in which
+the interaction reaches `p < α`. Noise is Normal with SD anchored to the
+pilot's DG SD, so residual variance is realistic for the outcome that will
+actually be observed.
+
+```{r sim-function}
+simulate_power_2x2 <- function(n_per_cell,
+                               f,
+                               sd     = pilot_sd,
+                               n_sims = 500,
+                               alpha  = 0.05) {
+  delta <- f * sd
+  cell_means <- c(-delta, +delta, +delta, -delta)  # A1B1, A1B2, A2B1, A2B2
+  A  <- factor(rep(c("A1", "A1", "A2", "A2"), each = n_per_cell))
+  B  <- factor(rep(c("B1", "B2", "B1", "B2"), each = n_per_cell))
+  mu <- rep(cell_means, each = n_per_cell)
+  n_sig <- 0L
+  for (i in seq_len(n_sims)) {
+    y   <- mu + rnorm(length(mu), sd = sd)
+    fit <- aov(y ~ A * B)
+    p   <- summary(fit)[[1]]["A:B", "Pr(>F)"]
+    if (!is.na(p) && p < alpha) n_sig <- n_sig + 1L
+  }
+  n_sig / n_sims
+}
+```
+
+```{r sim-run, cache=TRUE}
+set.seed(2026)
+n_grid           <- c(20, 40, 60, 80, 100, 120, 150, 200, 250)
+f_grid           <- c(0.10, 0.15, 0.20, 0.25)
+n_sims_per_point <- 500
+
+sim_grid <- expand.grid(n_per_cell = n_grid, f = f_grid,
+                        KEEP.OUT.ATTRS = FALSE)
+sim_grid$power <- mapply(
+  simulate_power_2x2,
+  n_per_cell = sim_grid$n_per_cell,
+  f          = sim_grid$f,
+  MoreArgs   = list(sd = pilot_sd, n_sims = n_sims_per_point, alpha = alpha)
+)
+sim_grid$N_total <- sim_grid$n_per_cell * 4
+```
+
+### Simulated power table
+
+```{r sim-table}
+sim_wide <- pivot_wider(sim_grid[, c("n_per_cell", "f", "power")],
+                        names_from = f, values_from = power,
+                        names_prefix = "f=")
+knitr::kable(sim_wide,
+             caption = "Simulated power (rows = cell size, cols = Cohen's f)")
+```
+
+### Smallest cell size that reaches 0.90
+
+```{r sim-min}
+target_power <- 0.90
+achieved <- sim_grid |>
+  group_by(f) |>
+  filter(power >= target_power) |>
+  summarise(n_per_cell_min = min(n_per_cell),
+            N_total_min    = min(N_total),
+            .groups = "drop")
+knitr::kable(achieved,
+             caption = sprintf("Smallest n per cell reaching simulated power ≥ %.2f",
+                               target_power))
+```
+
+### Power curve
+
+The full trade-off surface between sample size and effect size.
+
+```{r sim-plot, fig.cap="Simulated power curves for the 2 × 2 interaction. Dashed lines mark power = 0.80 and 0.90."}
+sim_grid$f_label <- paste0("f = ", format(sim_grid$f, nsmall = 2))
+
+plot_power <- ggplot(sim_grid,
+                     aes(x = n_per_cell, y = power,
+                         color = f_label, group = f_label)) +
+  geom_hline(yintercept = c(0.80, 0.90),
+             linetype = "dashed", color = "grey55") +
+  annotate("text", x = min(sim_grid$n_per_cell), y = 0.80,
+           label = "power = 0.80", vjust = -0.4, hjust = 0,
+           size = 3.2, color = "grey45") +
+  annotate("text", x = min(sim_grid$n_per_cell), y = 0.90,
+           label = "power = 0.90", vjust = -0.4, hjust = 0,
+           size = 3.2, color = "grey45") +
+  geom_line(size = 1) +
+  geom_point(size = 2.5) +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
+  scale_x_continuous(breaks = unique(sim_grid$n_per_cell)) +
+  labs(
+    x     = "Sample size per cell",
+    y     = "Simulated power",
+    color = "Effect size"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "right",
+        panel.grid.minor = element_blank())
+
+plot_power
+ggsave(file.path(DESIGN_DIR, "power_curves.png"),
+       plot = plot_power, width = 9, height = 6, dpi = 150)
+```
+
+## Alternative anchor: Chen & Li (2009)
+
+Because our previous pilot is a bit different in terms of identity and exclusion, I also
+anchor on Chen & Li (2009, *AER*, 99: 431–457). This is the canonical
+Klee/Kandinsky paper — our current design implements their
+paradigm directly — so their identity effects are a natural reference for
+the *identity* leg of the new design.
+
+### What Chen & Li reported
+
+- **Other-other allocation task.** Ingroup vs outgroup allocation
+  difference (normalised by endowment) is **32.2 %–38.4 %** across their
+  five rounds, all significant at the 1 % level (Section II results;
+  N = 566 subjects total).
+- **Identity parameter for charity.** `a = 0.467` — participants weight
+  another player's payoff 47 % more heavily when that other player is an
+  ingroup match (Table 2 MLE; N = 1896 observations from 432 treatment
+  subjects).
+- **Identity parameter for envy.** `b = -0.931` — envy toward ingroup
+  matches is 93 % lower than toward outgroup matches.
+- **Dictator-game choices** (Appendix A, Dict 1–5). Player A ingroup vs
+  outgroup choice proportions differ by ~0.12; Player B by ~0.15.
+
+### Translating those to Cohen's f
+
+Two reasonable readings:
+
+- **Behavioural proportion differences.** Cohen's *h* ≈ 0.24–0.32 →
+  Cohen's *f* ≈ **0.12–0.16** for the identity main effect.
+- **Utility-parameter interpretation.** The 47 % charity increase with a
+  ~35 % mean allocation gap → Cohen's *f* ≈ **0.20–0.30**.
+
+One caveat to flag in the preregistration: Chen & Li's numbers describe
+their *identity main effect*, not an interaction with a second factor.
+The interaction in the new design could plausibly be smaller,
+equal, or larger depending on whether identity amplifies the exclusion
+mechanism. The four scenarios below span the plausible range.
+
+### Sample sizes under this anchor
+
+```{r chen-li-power}
+chen_li_scenarios <- data.frame(
+  scenario = c("Chen & Li (behavioural, low)",
+               "Chen & Li (behavioural, mid)",
+               "Chen & Li (utility param, mid)",
+               "Chen & Li (utility param, high)"),
+  f        = c(0.13, 0.16, 0.20, 0.25)
+)
+
+chen_li_results <- do.call(rbind, lapply(seq_len(nrow(chen_li_scenarios)), function(i) {
+  cbind(scenario = chen_li_scenarios$scenario[i],
+        power_2x2_interaction(chen_li_scenarios$f[i], alpha, power))
+}))
+chen_li_results$N_recruit <- ceiling(chen_li_results$N_total / (1 - 0.20))
+
+knitr::kable(
+  chen_li_results,
+  caption = "Sample sizes under the Chen & Li (2009) anchor (α = 0.05, power = 0.90, 20 % attrition buffer)")
+```
+
+### Side-by-side comparison
+
+```{r comparison-side-by-side}
+# primary_results doesn't have N_recruit yet (that column gets added below);
+# add it here so both frames match before we rbind.
+primary_with_buffer <- primary_results
+primary_with_buffer$N_recruit <- ceiling(primary_with_buffer$N_total / (1 - 0.20))
+
+cols_for_comparison <- c("scenario", "f", "N_total", "n_per_cell", "N_recruit")
+comparison <- rbind(
+  cbind(source = "Pilot anchor",     primary_with_buffer[, cols_for_comparison]),
+  cbind(source = "Chen & Li anchor", chen_li_results[,      cols_for_comparison])
+)
+knitr::kable(comparison,
+             caption = "Comparison of pilot-anchored and Chen & Li-anchored sample sizes")
+```
+
+The Chen & Li range clusters around `f = 0.15–0.20`, which sits between
+the pilot-anchored "small" and "medium" scenarios and is materially more
+optimistic than the pilot's own marginal (`f = 0.11`). If Chen & Li's
+identity effects generalise to the interaction in the new design, the
+required sample is ~80–120 per cell rather than ~230–260. The difference
+is large enough that both anchors should be reported explicitly in the
+preregistration.
+
+## Recommendation
+
+The pilot's own effect (`f ≈ 0.11`) sits at the *small* Cohen threshold.
+Powering the 2 × 2 interaction for that effect at 90 % power requires
+approximately **1 000 total participants** analytically, and roughly
+**1 300 to recruit** after a 20 % attrition buffer. This is expensive on
+Prolific.
+
+Chen & Li's identity effects are larger. Depending on the reading,
+Cohen's *f* falls in the **0.15–0.25** range. Taking those as the anchor
+for the interaction gives **475–600 total** at `f = 0.15`, and
+**~175–220 total** at `f = 0.25`.
+
+Given this split, my recommendation for the preregistration:
+
+1. **Primary target: `f = 0.15`** (small-to-medium). ~120 per cell →
+   **~475 total → ~590 to recruit** with a 20 % buffer. Defensible on
+   both anchors: it lies between the pilot's 0.11 and Chen & Li's low
+   end, and matches Chen & Li's behavioural-proportion reading.
+2. **`f = 0.25`** as the smallest effect of substantive theoretical
+   interest. At that value the design is powered comfortably (~44 per
+   cell, ~175 total).
+3. **Plan a two-wave / sequential design** if a first wave indicates the
+   true effect is closer to `f = 0.10` than to `f = 0.15`.
+
+The between-subjects interaction is the binding constraint. The
+within-subjects paired contrasts (in-group vs out-group in Round 2,
+easy vs hard recipient in Round 3) will be well-powered as a by-product.
+
+## Attrition / exclusion buffer
+
+Online samples typically lose 10–30 % to attention checks, dropouts, and
+comprehension failures. The table below applies a **30 %** buffer to the
+pilot-anchored primary results.
+
+```{r buffer}
+buffer_rate <- 0.30
+primary_results$N_recruit <- ceiling(primary_results$N_total / (1 - buffer_rate))
+knitr::kable(
+  primary_results[, c("scenario", "f", "N_total", "N_recruit")],
+  caption = sprintf("Total N with a %d %% attrition buffer applied",
+                    round(100 * buffer_rate)))
+```

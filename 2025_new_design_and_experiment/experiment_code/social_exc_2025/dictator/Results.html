@@ -1,32 +1,55 @@
 {% extends "global/Page.html" %}
 
 {% block title %}
-    Your Results
+    Part 3 Results
 {% endblock %}
 
 {% block content %}
 <div class="content-card">
 
-<p>The following round and scenario were selected to compute the payoffs for Part 3:</p>
+<p>The structure of the allocation task is shown below. Each row corresponds to one round and (where applicable) one scenario. The figures shown are <em>your own</em> allocation decisions across all five rows.</p>
 
-<ul>
-    <li>Selected round: <strong>Round {{ selected_round }}</strong></li>
-    {% if scenario_desc %}
-    <li>Selected scenario: <strong>Scenario {{ selected_scenario }}</strong> &mdash; {{ scenario_desc }}</li>
+<p>One row was randomly selected to determine your Part 3 payoff. The selected row is highlighted.</p>
+
+<table class="likert-table" style="margin-bottom: 24px;">
+    <thead>
+        <tr>
+            <th style="text-align:left;">Round</th>
+            <th>Scenario</th>
+            <th style="text-align:left;">The other participant…</th>
+            <th>You kept</th>
+            <th>You allocated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in decision_matrix %}
+        <tr {% if row.is_selected %}style="background-color: rgba(99,102,241,0.12); font-weight: 600;"{% endif %}>
+            <td style="text-align:left;">{{ row.round_num }}</td>
+            <td>{{ row.scenario_label }}</td>
+            <td style="text-align:left;">{{ row.context }}</td>
+            <td>{{ row.kept }} EMU</td>
+            <td>{{ row.sent }} EMU</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 24px;">
+    The selected row was: <strong>Round {{ selected_round }}{% if scenario_desc %}, Scenario {{ selected_scenario }} ({{ scenario_desc }}){% endif %}</strong>.
+</p>
+
+<div class="section-block">
+    <div class="section-title">Your role in this pair</div>
+    {% if role == 'allocator' %}
+        <p>You were randomly assigned the role of <strong>allocator</strong>. Your decision in the selected row determined the payoffs for both participants.</p>
+        <p>You kept <strong>{{ kept }} EMU</strong> for yourself and allocated <strong>{{ sent }} EMU</strong> to the other participant.</p>
+    {% else %}
+        <p>You were randomly assigned the role of <strong>recipient</strong>. The other participant's decision in the selected row determined the payoffs.</p>
+        <p>The other participant kept <strong>{{ kept }} EMU</strong> for themselves and allocated <strong>{{ sent }} EMU</strong> to you.</p>
     {% endif %}
-</ul>
+</div>
 
-{% if role == 'allocator' %}
-    <p>You were assigned to be Player A (the Allocator).</p>
-    <p>Under this round/scenario, you chose to keep <strong>{{ kept }}</strong> EMU for yourself
-       and allocate <strong>{{ sent }}</strong> EMU to the other participant.</p>
-{% else %}
-    <p>You were assigned to be Player B (the Recipient).</p>
-    <p>Under this round/scenario, the allocator you were paired with chose to allocate
-       <strong>{{ sent }}</strong> EMU to you.</p>
-{% endif %}
-
-<p>Your payoff from Part 3 is <strong>{{ my_payoff }}</strong> EMU.</p>
+<p>Your payoff from Part 3 is <strong>{{ my_payoff }} EMU</strong>.</p>
 
 {{ next_button }}
 

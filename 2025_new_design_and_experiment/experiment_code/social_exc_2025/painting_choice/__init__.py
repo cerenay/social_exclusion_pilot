@@ -30,6 +30,12 @@ def creating_session(subsession):
     # automatically place the participant into the Klee (or Kandinsky) group.
     for p in subsession.get_players():
         p.klee_letter_map = ''.join(random.choice('AB') for _ in range(C.NUM_PAIRS))
+        # Initialise badge vars so the global Page.html template can safely
+        # reference them on every page. oTree's templating raises
+        # UndefinedVariable on missing dict keys, so each key must exist from
+        # the start. Empty string is falsy and produces no badge.
+        p.participant.vars.setdefault('painting_group', '')
+        p.participant.vars.setdefault('task_difficulty', '')
 
 
 class Group(BaseGroup):
@@ -46,7 +52,7 @@ class Player(BasePlayer):
     # Populated in creating_session().
     klee_letter_map = models.StringField()
     # Stores semicolon-separated list of selected reasons (multi-select, rendered manually in template)
-    explanation = models.StringField(blank=True, label="Before you continue to Part 2, can you briefly describe the reason behind your choice of the paintings?")
+    explanation = models.StringField(blank=True, label="Before continuing to Part 2, please briefly indicate the reasons behind your painting choices.")
     explanation_other_text = models.StringField(blank=True, label="Please specify")
     consent = models.StringField(
         choices=[['accept', 'Accept and proceed'], ['decline', 'Do not proceed']],

@@ -8,40 +8,96 @@ Slider Task Practice Round
 {{ block content }}
 <div class="content-card">
 
-<p> This is a practice round for the slider task before completing the actual task. </p>
-<p> In this round you can move the slider as many times as you need to become familiar with it. Note that in the actual task, you can only move each slider once. </p>
+<p>This is a practice round, intended to familiarise you with the slider before the actual task.</p>
+<p>Click once on the track to place the marker at that point. In this practice round you may click as many times as you wish; in the actual task, however, each slider locks after the first click.</p>
 
-<p> Please position the slider in the range: 40-60. </p>
+<p>Please position the marker within the range <strong>40&ndash;60</strong>.</p>
 
 <form method="post" id="sliderForm">
 
-    <!-- Slider 1 -->
     <div style="margin-bottom: 25px;">
-        <label for="slider_exp1">Practice slider</label><br>
-        <input type="range" id="slider_exp1" min="0" max="100" value="0"
-           style="width: 400px;"
-           oninput="updateSlider(this, 'val1')">
-        <span id="val1" class="slider-value">0</span>
-        <input type="hidden" name="slider_exp1" id="hidden_exp1">
+        <label><strong>Practice slider</strong></label><br>
+        <small style="color: var(--text-muted);">Valid range: 40&ndash;60</small>
+
+        <div class="click-slider-row">
+            <div class="click-slider"
+                 data-target="slider_exp1"
+                 data-min="0"
+                 data-max="100"
+                 data-locking="false">
+                <div class="click-slider-track"></div>
+            </div>
+            <span class="click-slider-readout" id="readout_slider_exp1">—</span>
+        </div>
+
+        <input type="hidden" name="slider_exp1" id="hidden_slider_exp1">
     </div>
 
-  <p>  Recall that the two versions of the task (easy/hard) differ in the size of the number range you need to position the slider. </p>
+  <p>Recall that the two versions of the task (easy and hard) differ only in the size of the numerical range within which the marker must be positioned.</p>
 
-<button class="btn btn-primary" onclick="beforeSubmit()">Next</button>
+<button class="btn btn-primary" type="submit">Next</button>
 </form>
 
 </div>
 
 <script>
-    function updateSlider(slider, valueId) {
-        document.getElementById(valueId).textContent = slider.value;
+(function () {
+    function buildTicks(track) {
+        [0, 25, 50, 75, 100].forEach(function (t) {
+            const tick = document.createElement('div');
+            tick.className = 'click-slider-tick';
+            tick.style.left = t + '%';
+            track.appendChild(tick);
+            const label = document.createElement('div');
+            label.className = 'click-slider-tick-label';
+            label.style.left = t + '%';
+            label.textContent = t;
+            track.parentNode.appendChild(label);
+        });
     }
 
-    function beforeSubmit() {
-        let slider = document.getElementById('slider_exp1');
-        let hidden = document.getElementById('hidden_exp1');
-        hidden.value = slider.value;
+    function initClickSlider(container) {
+        const track = container.querySelector('.click-slider-track');
+        const min = parseInt(container.dataset.min, 10);
+        const max = parseInt(container.dataset.max, 10);
+        const targetId = container.dataset.target;
+        const locking = container.dataset.locking === 'true';
+        const readout = document.getElementById('readout_' + targetId);
+        const hidden = document.getElementById('hidden_' + targetId);
+        let locked = false;
+
+        buildTicks(track);
+
+        track.addEventListener('click', function (e) {
+            if (locked) return;
+            const rect = track.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = Math.max(0, Math.min(1, x / rect.width));
+            const value = Math.round(min + pct * (max - min));
+            const visualPct = (value - min) / (max - min);
+
+            let thumb = track.querySelector('.click-slider-thumb');
+            if (!thumb) {
+                thumb = document.createElement('div');
+                thumb.className = 'click-slider-thumb';
+                track.appendChild(thumb);
+            }
+            thumb.style.left = (visualPct * 100) + '%';
+
+            readout.textContent = value;
+            hidden.value = value;
+
+            if (locking) {
+                locked = true;
+                track.classList.add('locked');
+            }
+        });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.click-slider').forEach(initClickSlider);
+    });
+})();
 </script>
 
 {{ endblock }}

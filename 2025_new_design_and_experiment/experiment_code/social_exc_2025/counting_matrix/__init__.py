@@ -92,6 +92,10 @@ class MatrixTask(Page):
         )
         start = player.participant.vars.get('task_start', time.time())
         player.task_duration = round(time.time() - start, 2)
+        # Persist task difficulty to participant.vars so the badge rendered in
+        # the global page header surfaces it on every subsequent page (from the
+        # slider Results page onwards).
+        player.participant.vars['task_difficulty'] = player.task_difficulty
 
 
 class ResultsWaitPage(WaitPage):

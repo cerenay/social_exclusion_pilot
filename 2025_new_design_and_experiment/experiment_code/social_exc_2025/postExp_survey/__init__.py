@@ -39,19 +39,19 @@ class Player(BasePlayer):
     question_3 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
                                     label="I felt attached to my own group throughout the study.")
     question_4 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt left out because of my group.")
+                                    label="I felt excluded because of my group.")
     question_5 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt my group was devalued in this interaction.")
+                                    label="I felt that my group was devalued during this interaction.")
     question_6 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I felt valued by the independent participant/system that assigned the task.")
+                                    label="I felt valued by the independent participant or system that assigned the task.")
     question_7 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="The independent participant assigning the task favoured their own group.")
+                                    label="The independent participant who assigned the task favoured their own group.")
     question_8 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="I was given this task because of my group.")
+                                    label="I was assigned this task because of my group.")
     question_9 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                    label="The decision about my task was unfair.")
+                                    label="The decision regarding my task was unfair.")
     question_10 = models.StringField(choices=C.AGREE_CHOICES, widget=widgets.RadioSelectHorizontal,
-                                     label="The task I was assigned to was easy.")
+                                     label="The task I was assigned was easy.")
 
 
     question_11_upset = models.StringField(choices=C.EMOTION_CHOICES, label="Upset", widget=widgets.RadioSelectHorizontal)
@@ -62,42 +62,42 @@ class Player(BasePlayer):
     question_11_discouraged = models.StringField(choices=C.EMOTION_CHOICES, label="Discouraged", widget=widgets.RadioSelectHorizontal)
 
     question_12 = models.StringField(
-        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
-                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Allocate money equally between us', 'Allocate more money to myself',
+                 'Allocate more money to the other participant', 'Decide randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
-        label="In Part 3 when you were asked to allocate money between yourself and another participant, how would you describe the strategy you used?")
+        label="In Part 3, when allocating money between yourself and the other participant, how would you describe the strategy you used overall?")
     question_12_other = models.StringField(blank=True, label="")
     question_13 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
-        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which group the other participant came from?")
+        label="In Part 3, did the painting group of the other participant influence your allocation decisions?")
     question_14a = models.StringField(
-        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
-                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Allocate money equally between us', 'Allocate more money to myself',
+                 'Allocate more money to the other participant', 'Decide randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
-        label="In Part 3 when you were asked to allocate money between yourself and a participant from your own group, how would you describe the strategy you used?")
+        label="In Part 3, when allocating money between yourself and a participant from your own painting group, how would you describe the strategy you used?")
     question_14a_other = models.StringField(blank=True, label="")
     question_14b = models.StringField(
-        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
-                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Allocate money equally between us', 'Allocate more money to myself',
+                 'Allocate more money to the other participant', 'Decide randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
-        label="In Part 3 when you were asked to allocate money between yourself and a participant from the other group, how would you describe the strategy you used?")
+        label="In Part 3, when allocating money between yourself and a participant from the other painting group, how would you describe the strategy you used?")
     question_14b_other = models.StringField(blank=True, label="")
     question_15 = models.StringField(
         choices=['Yes', 'No'],
         widget=widgets.RadioSelect,
-        label="In Part 3, when you were asked to allocate money between yourself and another participant, did it affect your decision in any way which task the other participant performed?")
+        label="In Part 3, did the slider task performed by the other participant influence your allocation decisions?")
     question_16a = models.StringField(
-        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
-                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Allocate money equally between us', 'Allocate more money to myself',
+                 'Allocate more money to the other participant', 'Decide randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
-        label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the easy task, how would you describe the strategy you used?")
+        label="In Part 3, when allocating money between yourself and a participant who completed the easy slider task, how would you describe the strategy you used?")
     question_16a_other = models.StringField(blank=True, label="")
     question_16b = models.StringField(
-        choices=['Try to allocate money equally between us', 'Try to allocate more money to myself',
-                 'Try to allocate more money to the other participant', 'Randomly', 'Other - Please specify:'],
+        choices=['Allocate money equally between us', 'Allocate more money to myself',
+                 'Allocate more money to the other participant', 'Decide randomly', 'Other - Please specify:'],
         widget=widgets.RadioSelect,
-        label="In Part 3 when you were asked to allocate money between yourself and a participant who performed the difficult task, how would you describe the strategy you used?")
+        label="In Part 3, when allocating money between yourself and a participant who completed the hard slider task, how would you describe the strategy you used?")
     question_16b_other = models.StringField(blank=True, label="")
 
     age = models.IntegerField(label='What is your age?', min=18, max=99)
@@ -120,9 +120,8 @@ class Player(BasePlayer):
     # Estimate of how many economics / psychology experiments the participant
     # has taken part in. 0 means they have not participated in any.
     economics_count = models.IntegerField(
-        label=('Specify an estimate on how many economics or psychology '
-               'experimental studies you have participated in. '
-               '(Enter 0 if none.)'),
+        label=('Approximately how many economics or psychology experimental '
+               'studies have you previously taken part in? (Enter 0 if none.)'),
         min=0,
         max=1000,
     )
@@ -134,7 +133,7 @@ class Player(BasePlayer):
     background_specify = models.StringField(blank=True, label="")
     donation = models.StringField(
         choices=[['Yes', 'Yes - please specify'], ['Amount', 'Amount donated'], ['Hours', 'Number of hours volunteered'], ['No', 'No']],
-        label='In the past twelve months, have you donated money to or done volunteer work for charities or other nonprofit organizations?',
+        label='Within the past twelve months, have you donated money to, or volunteered with, any charity or non-profit organisation?',
         widget=widgets.RadioSelect,
     )
     donation_specify = models.StringField(blank=True, label="")
@@ -162,13 +161,13 @@ class Postexp_surv2(Page):
     def vars_for_template(player):
         agree_fields = [
             ('question_3',  'I felt attached to my own group throughout the study.'),
-            ('question_4',  'I felt left out because of my group.'),
-            ('question_5',  'I felt my group was devalued in this interaction.'),
-            ('question_6',  'I felt valued by the independent participant/system that assigned the task.'),
-            ('question_7',  'The independent participant assigning the task favoured their own group.'),
-            ('question_8',  'I was given this task because of my group.'),
-            ('question_9',  'The decision about my task was unfair.'),
-            ('question_10', 'The task I was assigned to was easy.'),
+            ('question_4',  'I felt excluded because of my group.'),
+            ('question_5',  'I felt that my group was devalued during this interaction.'),
+            ('question_6',  'I felt valued by the independent participant or system that assigned the task.'),
+            ('question_7',  'The independent participant who assigned the task favoured their own group.'),
+            ('question_8',  'I was assigned this task because of my group.'),
+            ('question_9',  'The decision regarding my task was unfair.'),
+            ('question_10', 'The task I was assigned was easy.'),
         ]
         random.shuffle(agree_fields)
         return dict(agree_fields=agree_fields, agree_choices=C.AGREE_CHOICES)

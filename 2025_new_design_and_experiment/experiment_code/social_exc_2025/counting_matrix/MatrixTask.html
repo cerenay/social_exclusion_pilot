@@ -7,64 +7,114 @@
 {% block content %}
 <div class="content-card">
 
-<p>You have been assigned to the <strong>{{ difficulty }}</strong> version of the slider task.</p>
+<p>You have been assigned the <strong>{{ difficulty }}</strong> version of the slider task.</p>
 
-<p>Please use the sliders below to indicate your answers. Once you move a slider, your choice will be recorded and cannot be changed.</p>
-<p>Each slider has its own valid range, shown below it.</p>
+<p>For each slider below, position the marker within the indicated valid range by <strong>clicking once</strong> at the desired point on the track. Each slider locks after the first click and cannot be adjusted thereafter.</p>
 
 <form method="post" id="sliderForm">
 
     {% for s in slider_ranges %}
-    <div style="margin-bottom: 30px;">
-        <label for="slider{{ s.num }}"><strong>Slider {{ s.num }}</strong></label><br>
-        <input type="range" id="slider{{ s.num }}" min="0" max="100" value="0"
-               style="width: 400px;"
-               oninput="updateSlider(this, 'val{{ s.num }}')"
-               onchange="lockSlider(this)">
-        <span id="val{{ s.num }}" class="slider-value"></span>
-        <br>
-        <small style="color: var(--text-muted);">Valid range: {{ s.min_val }}–{{ s.max_val }}</small>
-        <input type="hidden" name="slider{{ s.num }}" id="hidden{{ s.num }}">
+    <div style="margin-bottom: 28px;">
+        <label><strong>Slider {{ s.num }}</strong></label><br>
+        <small style="color: var(--text-muted);">Valid range: {{ s.min_val }}&ndash;{{ s.max_val }}</small>
+
+        <div class="click-slider-row">
+            <div class="click-slider"
+                 data-target="slider{{ s.num }}"
+                 data-min="0"
+                 data-max="100"
+                 data-locking="true">
+                <div class="click-slider-track"></div>
+            </div>
+            <span class="click-slider-readout" id="readout_slider{{ s.num }}">—</span>
+        </div>
+
+        <input type="hidden" name="slider{{ s.num }}" id="hidden_slider{{ s.num }}">
     </div>
     {% endfor %}
 
-    <button class="btn btn-primary" id="nextBtn" onclick="beforeSubmit()" disabled>Next</button>
+    <button class="btn btn-primary" id="nextBtn" type="submit" disabled>Next</button>
     <span id="nextHint" style="margin-left: 10px; color: var(--text-muted); font-size: 0.9em;">
-        Please move all 5 sliders before continuing.
+        Please place all five sliders before continuing.
     </span>
 </form>
 
 </div>
 
 <script>
-    const touched = new Set();
+(function () {
+    const placedTargets = new Set();
+    const TOTAL_SLIDERS = {{ slider_ranges|length }};
 
-    function updateSlider(slider, valueId) {
-        document.getElementById(valueId).textContent = slider.value;
-        touched.add(slider.id);
-        checkAllTouched();
+    function buildTicks(track, min, max) {
+        const ticks = [0, 25, 50, 75, 100];
+        ticks.forEach(function (t) {
+            const tick = document.createElement('div');
+            tick.className = 'click-slider-tick';
+            tick.style.left = t + '%';
+            track.appendChild(tick);
+            const label = document.createElement('div');
+            label.className = 'click-slider-tick-label';
+            label.style.left = t + '%';
+            label.textContent = t;
+            track.parentNode.appendChild(label);
+        });
     }
 
-    function lockSlider(slider) {
-        slider.disabled = true;
+    function initClickSlider(container) {
+        const track = container.querySelector('.click-slider-track');
+        const min = parseInt(container.dataset.min, 10);
+        const max = parseInt(container.dataset.max, 10);
+        const targetId = container.dataset.target;
+        const locking = container.dataset.locking === 'true';
+        const readout = document.getElementById('readout_' + targetId);
+        const hidden = document.getElementById('hidden_' + targetId);
+        let locked = false;
+
+        buildTicks(track, min, max);
+
+        track.addEventListener('click', function (e) {
+            if (locked) return;
+            const rect = track.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = Math.max(0, Math.min(1, x / rect.width));
+            const value = Math.round(min + pct * (max - min));
+            const visualPct = (value - min) / (max - min);
+
+            let thumb = track.querySelector('.click-slider-thumb');
+            if (!thumb) {
+                thumb = document.createElement('div');
+                thumb.className = 'click-slider-thumb';
+                track.appendChild(thumb);
+            }
+            thumb.style.left = (visualPct * 100) + '%';
+
+            readout.textContent = value;
+            hidden.value = value;
+
+            if (locking) {
+                locked = true;
+                track.classList.add('locked');
+            }
+
+            placedTargets.add(targetId);
+            refreshNext();
+        });
     }
 
-    function checkAllTouched() {
+    function refreshNext() {
         const btn = document.getElementById('nextBtn');
         const hint = document.getElementById('nextHint');
-        if (touched.size >= 5) {
+        if (placedTargets.size >= TOTAL_SLIDERS) {
             btn.disabled = false;
             hint.style.display = 'none';
         }
     }
 
-    function beforeSubmit() {
-        for (let i = 1; i <= 5; i++) {
-            let slider = document.getElementById('slider' + i);
-            let hidden = document.getElementById('hidden' + i);
-            if (slider) hidden.value = slider.value;
-        }
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.click-slider').forEach(initClickSlider);
+    });
+})();
 </script>
 
 {% endblock %}
